@@ -42,8 +42,8 @@ data class AppColors(
 
 private val LightWePickColors = AppColors(
     primary = Color(0xFF238AFF),        // Logo'daki parlak mavi (üstteki kart)
-    primaryVariant = Color(0xFF90C5FF), // Logo'daki açık mavi (alttaki kart)
-    secondary = Color(0xFF03DAC6),     // İkinci renk olarak yeşil
+    primaryVariant = Color(0xFF96c3fe), // Logo'daki açık mavi (alttaki kart)
+    secondary = Color(0xFF670098),     // İkinci renk olarak yeşil
     onSecondary = Color(0xFF000000),   // Yeşil üzeri
     background = Color(0xFFf5f5f5),     // Logo arkaplanı (beyaza yakın, #F8F9FA)
     surface = Color(0xFFFFFFFF),        // Saf beyaz yüzeyler
@@ -55,10 +55,10 @@ private val LightWePickColors = AppColors(
 // DarkTheme renk şeması
 private val DarkWePickColors = AppColors(
     primary = Color(0xFF238AFF),        // Logo'daki parlak mavi (değişmeden)
-    primaryVariant = Color(0xFF4885C7), // Açık maviye daha koyu alternatif (#4885C7)
-    secondary = Color(0xFF03DAC6),     // İkinci renk olarak yeşil (değişmeden)
+    primaryVariant = Color(0xFF96c3fe), // Açık maviye daha koyu alternatif (#4885C7)
+    secondary = Color(0xFF670098),     // İkinci renk olarak yeşil (değişmeden)
     onSecondary = Color(0xFFFFFFFF),   // Yeşil üzeri beyaz
-    background = Color(0xFF2f2f2f),     // Koyu arkaplan
+    background = Color(0xFF1a1c2e),     // Koyu arkaplan
     surface = Color(0xFF000000),        // Koyu yüzeyler
     onPrimary = Color(0xFF222222),      // Mavi üzeri koyu yazı (isteğe bağlı)
     onBackground = Color(0xFFF8F9FA),   // Koyu tema için açık yazı
