@@ -4,26 +4,30 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bekircaglar.wepick.presentation.screens.home.HomeScreen
-import com.bekircaglar.wepick.presentation.screens.detail.DetailScreen
+import com.bekircaglar.wepick.presentation.screens.category.CategoryScreen
+import com.bekircaglar.wepick.presentation.screens.launch.LaunchScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = Screens.LAUNCH) {
         composable(
-            route = Screens.HOME,
+            route = Screens.LAUNCH,
         ) {
-            HomeScreen(navController)
+            LaunchScreen(navController)
         }
+
         composable(
-            route = Screens.DETAIL,
+            route = Screens.CATEGORY,
         ) {
-            DetailScreen(navController)
+            CategoryScreen(navController)
         }
+
+
     }
 }
 
 object Screens {
-    const val HOME = "home"
-    const val DETAIL = "detail"
+    const val LAUNCH = "launch"
+    const val CATEGORY = "category"
+
 }
