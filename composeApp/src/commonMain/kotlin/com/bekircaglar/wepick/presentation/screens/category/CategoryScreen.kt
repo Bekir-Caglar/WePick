@@ -144,9 +144,7 @@ fun CategoryScreen(navController: NavHostController) {
         ) {
             Button(
                 onClick = {
-                    navController.navigate(Screens.LAUNCH) {
-                        popUpTo(Screens.CATEGORY) { inclusive = true }
-                    }
+                    navController.popBackStack()
                 },
                 enabled = navController.previousBackStackEntry != null,
                 modifier = Modifier
@@ -177,7 +175,7 @@ fun CategoryScreen(navController: NavHostController) {
             }
 
             Button(
-                onClick = { /* Odaya Katıl */ },
+                onClick = { navController.navigate(route = Screens.CREATE_ROOM) },
                 enabled = selectedCategory != null,
                 modifier = Modifier
                     .weight(1f)
