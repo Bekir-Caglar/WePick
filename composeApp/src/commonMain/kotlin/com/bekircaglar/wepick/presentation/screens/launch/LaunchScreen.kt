@@ -250,7 +250,7 @@ fun LaunchScreen(navController: NavHostController) {
                     ) {
 
                         Button(
-                            onClick = { /* Odaya Katıl */ },
+                            onClick = { navController.navigate(route = Screens.JOIN_ROOM) },
                             enabled = nickname.isNotBlank(),
                             modifier = Modifier
                                 .fillMaxWidth()
