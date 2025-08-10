@@ -47,13 +47,22 @@ import wepick.composeapp.generated.resources.logo
 fun JoinRoomScreen(navController: NavHostController) {
 
 
-    ContentUI()
-
+    ContentUI(
+        onBackPressed = {
+            navController.popBackStack()
+        },
+        onJoinRoom = { roomCode ->
+            navController.navigate(Screens.CREATE_ROOM)
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ContentUI() {
+private fun ContentUI(
+    onBackPressed: () -> Unit = {  },
+    onJoinRoom: (String) -> Unit = {  }
+) {
     var codeValues by remember { mutableStateOf(List(5) { "" }) }
     val focusRequesters = remember { List(5) { FocusRequester() } }
     var isButtonEnabled by remember { mutableStateOf(false) }
@@ -74,15 +83,13 @@ private fun ContentUI() {
                 title = { },
                 navigationIcon = {
                     IconButton(
-                        onClick = {
-                            // Navigate back to the previous screen
-                        },
+                        onClick = onBackPressed,
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_left),
                             contentDescription = "Exit Room",
                             tint = WePickTheme.colors.onBackground,
-                            modifier = Modifier.size(24.dp),
+                            modifier = Modifier.size(20.dp),
                         )
                     }
                 }

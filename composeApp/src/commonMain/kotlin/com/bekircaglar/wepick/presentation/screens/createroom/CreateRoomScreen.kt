@@ -57,6 +57,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_arrow_left
+import wepick.composeapp.generated.resources.ic_exit
 import wepick.composeapp.generated.resources.ic_menu
 import wepick.composeapp.generated.resources.ic_plus
 import wepick.composeapp.generated.resources.logo
@@ -69,6 +70,9 @@ fun CreateRoomScreen(navController: NavHostController) {
     ContentUi(
         onBackClick = {
             navController.popBackStack()
+        },
+        onStartClicked = {
+            navController.navigate(Screens.SELECTION)
         }
     )
 }
@@ -83,6 +87,7 @@ data class User(
 @Composable
 private fun ContentUi(
     onBackClick: () -> Unit,
+    onStartClicked: () -> Unit = { /* No-op */ }
 ) {
     val animalEmojis = listOf(
         "🐱",
@@ -144,7 +149,7 @@ private fun ContentUi(
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = WePickTheme.colors.background,
+                    containerColor = WePickTheme.colors.surface.copy(0.2f),
                     titleContentColor = WePickTheme.colors.primary,
                     navigationIconContentColor = WePickTheme.colors.primary
                 ),
@@ -158,27 +163,28 @@ private fun ContentUi(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = onBackClick
+                        onClick = {}
                     ) {
                         Icon(
-                            painter = painterResource(Res.drawable.ic_arrow_left),
-                            contentDescription = "Exit Room",
-                            modifier = Modifier.size(24.dp),
+                            painter = painterResource(Res.drawable.ic_menu),
+                            contentDescription = "menu",
+                            modifier = Modifier.size(20.dp),
                             tint = WePickTheme.colors.onBackground,
                         )
                     }
                 },
                 actions = {
                     IconButton(
-                        onClick = {}
+                        onClick = onBackClick
                     ) {
                         Icon(
-                            painter = painterResource(Res.drawable.ic_menu),
-                            contentDescription = "menu",
-                            modifier = Modifier.size(24.dp),
+                            painter = painterResource(Res.drawable.ic_exit),
+                            contentDescription = "Exit Room",
+                            modifier = Modifier.size(20.dp),
                             tint = WePickTheme.colors.onBackground,
                         )
                     }
+
 
                 }
             )
@@ -202,6 +208,8 @@ private fun ContentUi(
                 .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(modifier = Modifier.height(16.dp))
+
             RoomCodeHeader()
 
             LazyVerticalGrid(
@@ -313,7 +321,7 @@ private fun ContentUi(
 
 
             Button(
-                onClick = { },
+                onClick = onStartClicked,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
