@@ -9,10 +9,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.painterResource
 import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.ic_qr
 import wepick.composeapp.generated.resources.ic_secret_code
 
 @Composable
@@ -68,24 +72,18 @@ fun RoomCodeHeader(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Card(
+        TextButton(
+            onClick = {},
             modifier = Modifier
-                .padding(8.dp)
-                .padding(end = 8.dp),
-            shape = RoundedCornerShape(8.dp),
-            onClick = { },
-            colors = CardDefaults.cardColors().copy(
-                containerColor = Color.Transparent
-            )
+                .padding(end = 8.dp)
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "WLYCY",
                     fontWeight = Bold,
                     fontSize = 16.sp,
-                    color = WePickTheme.colors.primary,
                 )
             }
         }

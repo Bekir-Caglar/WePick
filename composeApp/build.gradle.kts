@@ -29,9 +29,15 @@ kotlin {
     }
 
     sourceSets {
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+
+        }
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
+
         }
         commonMain.dependencies {
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta03")
@@ -46,8 +52,13 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.koin.core)
             implementation(libs.koin.composeVM)
-
-
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.coil.compose)
+            implementation(libs.coil)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

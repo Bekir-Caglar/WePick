@@ -4,22 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 
+val dislike1 = Color(0xFFff655f)
+val dislike2 = Color(0xFFfe3c71)
+
+val like1 = Color(0xFF6dedd9)
+val like2 = Color(0xFF7be3b5)
+
+val back1 = Color(0xFFf0d378)
+val back2 = Color(0xFFeec560)
+
+val superLike1 = Color(0xFFaf7bdc)
+val superLike2 = Color(0xFF9649d4)
 
 
-object WePickColorsLegacyColors {
-    val white = Color(0xFFFFFFFF)
-    val black = Color(0xFF000000)
-    val primary = Color(0xFF51C4D3)
-    val surfaceGray = Color(0xFFf5f5f5)
-    val darkPrimary = Color(0xFF126E82)
-    val gray = Color(0xFF979797)
-    val orange = Color(0xFFfb7433)
-    val darkBlue = Color(0xFF132C33)
-    val lightBlue = Color(0xFFebf0f4)
-    val navyBlue = Color(0xFF171c2e)
-    val darkGray = Color(0xFF4B4B4B)
-    val yellow = Color(0xFFFFB800)
-    val lightGray = Color(0xFFE0DFDF)
-    val lighterGray = Color(0xFFECECEC)
-    val darkGreen = Color(0xFF2E7D32)
-}
+

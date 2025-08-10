@@ -8,6 +8,7 @@ import com.bekircaglar.wepick.presentation.screens.category.CategoryScreen
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomScreen
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinRoomScreen
 import com.bekircaglar.wepick.presentation.screens.launch.LaunchScreen
+import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -27,16 +28,20 @@ fun AppNavHost(navController: NavHostController) {
         composable(
             route = Screens.CREATE_ROOM,
         ) {
-            CreateRoomScreen(navController) // Uncomment when CreateRoomScreen is implemented
+            CreateRoomScreen(navController)
         }
 
         composable(
             route = Screens.JOIN_ROOM,
         ) {
-            JoinRoomScreen(navController) // Uncomment when JoinRoomScreen is implemented
+            JoinRoomScreen(navController)
         }
 
-
+        composable(
+            route = Screens.SELECTION,
+        ) {
+            SelectionScreen(navController)
+        }
     }
 }
 
@@ -46,5 +51,5 @@ object Screens {
     const val CREATE_ROOM = "create_room"
 
     const val JOIN_ROOM = "join_room"
-
+    const val SELECTION = "selection"
 }
