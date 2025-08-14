@@ -1,4 +1,4 @@
-package com.bekircaglar.wepick.presentation.screens.category.components
+package com.bekircaglar.wepick.presentation.screens.categoryscreen.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -8,21 +8,17 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bekircaglar.wepick.domain.model.CategoryModel
 import com.bekircaglar.wepick.theme.WePickTheme
-import wepick.composeapp.generated.resources.Res
 
 
 @Composable
@@ -43,7 +39,7 @@ fun CategoryItem(
             .aspectRatio(4f / 3f)
             .height(100.dp)
             .then(borderModifier),
-        onClick = { onCategorySelected(category.id) },
+        onClick = { category.id?.let { onCategorySelected(it) } },
         colors = CardDefaults.cardColors(
             containerColor = WePickTheme.colors.primaryVariant.copy(
                 0.4f
@@ -56,12 +52,12 @@ fun CategoryItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = category.emoji,
+                text = category.emoji ?: "❓",
                 fontSize = 40.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = category.name,
+                text = category.categoryType?.value ?: "Unknown Category",
                 style = MaterialTheme.typography.titleMedium,
                 color = WePickTheme.colors.onBackground,
             )

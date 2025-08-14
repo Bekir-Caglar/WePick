@@ -7,13 +7,15 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinx.serialization)
+    id("com.google.gms.google-services")
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -40,8 +42,6 @@ kotlin {
 
         }
         commonMain.dependencies {
-            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta03")
-
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -59,6 +59,9 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.coil.compose)
             implementation(libs.coil)
+            implementation(libs.kotlinx.serialization.json)
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta03")
+            implementation("dev.gitlive:firebase-database:2.1.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -88,8 +91,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

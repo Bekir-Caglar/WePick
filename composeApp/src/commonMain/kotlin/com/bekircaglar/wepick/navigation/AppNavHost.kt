@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.bekircaglar.wepick.presentation.screens.category.CategoryScreen
+import androidx.navigation.toRoute
+import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryScreen
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomScreen
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinRoomScreen
 import com.bekircaglar.wepick.presentation.screens.launch.LaunchScreen
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionScreen
+import kotlinx.serialization.Serializable
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -25,10 +27,12 @@ fun AppNavHost(navController: NavHostController) {
             CategoryScreen(navController)
         }
 
-        composable(
-            route = Screens.CREATE_ROOM,
-        ) {
-            CreateRoomScreen(navController)
+        composable<RoomCode>() {
+            val roomCode: RoomCode = it.toRoute()
+            CreateRoomScreen(
+                navController = navController,
+                roomCode = roomCode.roomCode
+            )
         }
 
         composable(
@@ -43,6 +47,12 @@ fun AppNavHost(navController: NavHostController) {
             SelectionScreen(navController)
         }
     }
+}
+
+@Serializable
+data class RoomCode(
+    val roomCode: String,
+) {
 }
 
 object Screens {

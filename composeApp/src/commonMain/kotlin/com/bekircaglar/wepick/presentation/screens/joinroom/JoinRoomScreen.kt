@@ -30,29 +30,49 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.navigation.RoomCode
 import com.bekircaglar.wepick.navigation.Screens
+import com.bekircaglar.wepick.presentation.screens.launch.LaunchScreen
+import com.bekircaglar.wepick.presentation.screens.launch.LaunchViewModel
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_arrow_left
 import wepick.composeapp.generated.resources.ic_info
-import wepick.composeapp.generated.resources.ic_link
-import wepick.composeapp.generated.resources.ic_menu
 import wepick.composeapp.generated.resources.ic_qr
 import wepick.composeapp.generated.resources.logo
 
 @Composable
 fun JoinRoomScreen(navController: NavHostController) {
 
+    val viewModel: JoinViewModel = koinViewModel()
+    val isUserJoined by viewModel.isUserJoined.collectAsStateWithLifecycle()
+    var joinedRoomCode by remember { mutableStateOf("") }
+
+    LaunchedEffect(isUserJoined) {
+        if (isUserJoined == true && joinedRoomCode.isNotEmpty()) {
+            navController.navigate(RoomCode(joinedRoomCode))
+        }
+
+    }
 
     ContentUI(
         onBackPressed = {
-            navController.popBackStack()
+            navController.popBackStack(Screens.LAUNCH, inclusive = false)
         },
         onJoinRoom = { roomCode ->
-            navController.navigate(Screens.CREATE_ROOM)
+            joinedRoomCode = roomCode
+            UserSession.id?.let {
+                viewModel.joinRoom(
+                    roomCode = roomCode,
+                    userId = it
+                )
+            }
         }
     )
 }
@@ -60,8 +80,8 @@ fun JoinRoomScreen(navController: NavHostController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ContentUI(
-    onBackPressed: () -> Unit = {  },
-    onJoinRoom: (String) -> Unit = {  }
+    onBackPressed: () -> Unit = { },
+    onJoinRoom: (String) -> Unit = { }
 ) {
     var codeValues by remember { mutableStateOf(List(5) { "" }) }
     val focusRequesters = remember { List(5) { FocusRequester() } }
@@ -147,7 +167,8 @@ private fun ContentUI(
                         onKeyEvent = { keyEvent ->
                             if (keyEvent.key == Key.Backspace &&
                                 codeValues[index].isEmpty() &&
-                                index > 0) {
+                                index > 0
+                            ) {
                                 focusRequesters[index - 1].requestFocus()
                                 true
                             } else {
@@ -162,7 +183,6 @@ private fun ContentUI(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Bilgi metni
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -185,6 +205,7 @@ private fun ContentUI(
             Button(
                 onClick = {
                     val finalCode = codeValues.joinToString("")
+                    onJoinRoom(finalCode)
 
                 },
                 enabled = isButtonEnabled,
@@ -216,8 +237,7 @@ private fun ContentUI(
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(
-                onClick = {
-                }
+                onClick = {}
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically

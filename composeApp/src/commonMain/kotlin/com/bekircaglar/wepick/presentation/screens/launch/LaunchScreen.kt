@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,20 +44,24 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.bekircaglar.wepick.data.UserSession
 import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.header
 import wepick.composeapp.generated.resources.ic_rotate_right
 import wepick.composeapp.generated.resources.logo
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 @Composable
 fun LaunchScreen(navController: NavHostController) {
-    var nickname by rememberSaveable { mutableStateOf("") }
-
+    val viewModel: LaunchViewModel = koinViewModel()
     val animalEmojis = listOf(
         "🐱",
         "🐶",
@@ -99,7 +104,26 @@ fun LaunchScreen(navController: NavHostController) {
         "🦗",
         "🐌"
     )
-    var currentEmoji by rememberSaveable { mutableStateOf(animalEmojis.random()) }
+    var nickname by rememberSaveable { mutableStateOf(UserSession.nickname ?: "") }
+    var currentEmoji by rememberSaveable {
+        mutableStateOf(
+            UserSession.emoji ?: animalEmojis.random()
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        if (UserSession.id == null) {
+            UserSession.id = "${Clock.System.now().toEpochMilliseconds()}-${(0..9999).random()}"
+        }
+    }
+
+    LaunchedEffect(nickname) {
+        UserSession.nickname = nickname
+    }
+    LaunchedEffect(currentEmoji) {
+        UserSession.emoji = currentEmoji
+    }
+
     Scaffold(
         contentColor = WePickTheme.colors.onBackground,
         containerColor = WePickTheme.colors.background
@@ -148,17 +172,6 @@ fun LaunchScreen(navController: NavHostController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    // Uygulama Logosu
-                    Image(
-                        painter = painterResource(Res.drawable.logo),
-                        contentDescription = "App Logo",
-                        modifier = Modifier
-                            .size(80.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
                     Text(
                         text = "Ne seçeceğinizi tartışmayı bırakın! WePick ile birlikte en iyi seçimi kolayca yapın!",
                         fontSize = 18.sp,
@@ -250,7 +263,11 @@ fun LaunchScreen(navController: NavHostController) {
                     ) {
 
                         Button(
-                            onClick = { navController.navigate(route = Screens.JOIN_ROOM) },
+                            onClick = {
+                                navController.navigate(route = Screens.JOIN_ROOM)
+                                viewModel.setUser()
+
+                            },
                             enabled = nickname.isNotBlank(),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -280,7 +297,10 @@ fun LaunchScreen(navController: NavHostController) {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Button(
-                            onClick = { navController.navigate(route = Screens.CATEGORY) },
+                            onClick = {
+                                navController.navigate(route = Screens.CATEGORY)
+                                viewModel.setUser()
+                            },
                             enabled = nickname.isNotBlank(),
                             modifier = Modifier
                                 .fillMaxWidth()

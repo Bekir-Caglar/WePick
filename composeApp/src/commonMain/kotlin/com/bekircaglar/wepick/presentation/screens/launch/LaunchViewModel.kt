@@ -1,12 +1,24 @@
 package com.bekircaglar.wepick.presentation.screens.launch
 
-import com.bekircaglar.wepick.domain.usecase.GetUserUseCase
-import com.bekircaglar.wepick.data.repository.User
 import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.State
+import androidx.lifecycle.viewModelScope
+import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.domain.model.User
+import com.bekircaglar.wepick.domain.usecase.launch.GetUsersByIdListUseCase
+import com.bekircaglar.wepick.domain.usecase.launch.SetUserUseCase
+import kotlinx.coroutines.launch
 
-class LaunchViewModel(private val getUserUseCase: GetUserUseCase) : ViewModel() {
-    private val _user = mutableStateOf(getUserUseCase.execute())
-    val user: State<User> = _user
+class LaunchViewModel(
+    private val setUserUseCase: SetUserUseCase,
+) : ViewModel() {
+
+    fun setUser() = viewModelScope.launch {
+        val user = User(
+            id = UserSession.id,
+            name = UserSession.nickname,
+            emoji = UserSession.emoji,
+        )
+        setUserUseCase(user).collect {
+        }
+    }
 }
