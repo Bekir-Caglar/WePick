@@ -62,6 +62,10 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta03")
             implementation("dev.gitlive:firebase-database:2.1.0")
+
+            implementation("androidx.datastore:datastore:1.1.7")
+            // The Preferences DataStore library
+            implementation("androidx.datastore:datastore-preferences:1.1.7")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

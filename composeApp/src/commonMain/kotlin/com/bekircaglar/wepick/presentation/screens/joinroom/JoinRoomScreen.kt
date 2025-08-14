@@ -8,9 +8,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,9 +37,9 @@ import androidx.navigation.NavHostController
 import com.bekircaglar.wepick.data.UserSession
 import com.bekircaglar.wepick.navigation.RoomCode
 import com.bekircaglar.wepick.navigation.Screens
-import com.bekircaglar.wepick.presentation.screens.launch.LaunchScreen
-import com.bekircaglar.wepick.presentation.screens.launch.LaunchViewModel
 import com.bekircaglar.wepick.theme.WePickTheme
+import com.bekircaglar.wepick.utils.QueryState
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -49,9 +51,9 @@ import wepick.composeapp.generated.resources.logo
 
 @Composable
 fun JoinRoomScreen(navController: NavHostController) {
-
     val viewModel: JoinViewModel = koinViewModel()
     val isUserJoined by viewModel.isUserJoined.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
     var joinedRoomCode by remember { mutableStateOf("") }
 
     LaunchedEffect(isUserJoined) {
@@ -67,11 +69,14 @@ fun JoinRoomScreen(navController: NavHostController) {
         },
         onJoinRoom = { roomCode ->
             joinedRoomCode = roomCode
-            UserSession.id?.let {
-                viewModel.joinRoom(
-                    roomCode = roomCode,
-                    userId = it
-                )
+            scope.launch {
+                val userId = UserSession.getId()
+                userId?.let {
+                    viewModel.joinRoom(
+                        roomCode = roomCode,
+                        userId = it
+                    )
+                }
             }
         }
     )
