@@ -21,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +34,9 @@ import wepick.composeapp.generated.resources.ic_secret_code
 
 @Composable
 fun RoomCodeHeader(
+    roomCode: String,
 ) {
+    val clipboardManager = LocalClipboardManager.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,7 +77,9 @@ fun RoomCodeHeader(
         Spacer(modifier = Modifier.weight(1f))
 
         TextButton(
-            onClick = {},
+            onClick = {
+                clipboardManager.setText(AnnotatedString(roomCode))
+            },
             modifier = Modifier
                 .padding(end = 8.dp)
         ) {
@@ -81,7 +87,7 @@ fun RoomCodeHeader(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "WLYCY",
+                    text = roomCode,
                     fontWeight = Bold,
                     fontSize = 16.sp,
                 )

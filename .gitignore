@@ -19,7 +19,7 @@ captures
 
 # Created by https://www.toptal.com/developers/gitignore/api/firebase,android,androidstudio,kotlin,swift,swiftpackagemanager,swiftpm,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=firebase,android,androidstudio,kotlin,swift,swiftpackagemanager,swiftpm,git
-
+GoogleService-Info.plist
 ### Android ###
 # Gradle files
 .gradle/
