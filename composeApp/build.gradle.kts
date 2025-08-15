@@ -66,8 +66,9 @@ kotlin {
             implementation("dev.gitlive:firebase-database:2.1.0")
 
             implementation("androidx.datastore:datastore:1.1.7")
-            // The Preferences DataStore library
             implementation("androidx.datastore:datastore-preferences:1.1.7")
+            implementation("network.chaintech:qr-kit:3.0.7")
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

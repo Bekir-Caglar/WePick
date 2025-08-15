@@ -103,6 +103,12 @@ fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
     LaunchedEffect(roomCode) {
         if (room == null) {
             viewModel.getRoom(roomCode = roomCode)
+            UserSession.getId()?.let {
+                viewModel.joinRoom(
+                    roomCode = roomCode,
+                    userId = it,
+                )
+            }
         }
     }
 
@@ -207,9 +213,7 @@ private fun ContentUi(
         if (showBottomSheet) {
             InviteFriendsBottomSheet(
                 roomCode = roomCode,
-                shareLink = "https://yourapp.com/join/$roomCode",
                 onDismiss = { showBottomSheet = false },
-                qrCodePainter = painterResource(resource = Res.drawable.qr_code)
             )
         }
 

@@ -8,7 +8,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -20,21 +23,35 @@ import androidx.compose.ui.unit.sp
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import qrgenerator.qrkitpainter.PatternType
+import qrgenerator.qrkitpainter.QrBallType
+import qrgenerator.qrkitpainter.QrFrameType
+import qrgenerator.qrkitpainter.QrKitBrush
+import qrgenerator.qrkitpainter.QrKitColors
+import qrgenerator.qrkitpainter.QrKitLogo
+import qrgenerator.qrkitpainter.QrKitShapes
+import qrgenerator.qrkitpainter.QrPixelType
+import qrgenerator.qrkitpainter.customBrush
+import qrgenerator.qrkitpainter.getSelectedFrameShape
+import qrgenerator.qrkitpainter.getSelectedPattern
+import qrgenerator.qrkitpainter.getSelectedPixel
+import qrgenerator.qrkitpainter.getSelectedQrBall
+import qrgenerator.qrkitpainter.rememberQrKitPainter
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_copy
 import wepick.composeapp.generated.resources.ic_link
 import wepick.composeapp.generated.resources.ic_qr
 import wepick.composeapp.generated.resources.ic_x
+import wepick.composeapp.generated.resources.logo
 import wepick.composeapp.generated.resources.qr_code
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InviteFriendsBottomSheet(
     roomCode: String,
-    shareLink: String,
     onDismiss: () -> Unit,
-    qrCodePainter: Painter // QR kod için painter - gerçek uygulamada QR kod generate edilecek
 ) {
+    val shareLink = "we-pick://join?code=$roomCode"
     val clipboardManager = LocalClipboardManager.current
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
@@ -88,10 +105,18 @@ fun InviteFriendsBottomSheet(
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
+
+                val painter = rememberQrKitPainter(data = shareLink)
+
                 Image(
-                    painter = qrCodePainter,
-                    contentDescription = "QR Kod",
-                    modifier = Modifier.size(180.dp)
+                    painter = painter,
+                    contentDescription = "QR Kodu",
+                    modifier = Modifier
+                        .size(200.dp)
+                        .background(Color.White, shape = RoundedCornerShape(12.dp))
+                        .padding(8.dp),
+                    colorFilter = ColorFilter.tint(Color.Black),
+                    alignment = Alignment.Center
                 )
             }
 
