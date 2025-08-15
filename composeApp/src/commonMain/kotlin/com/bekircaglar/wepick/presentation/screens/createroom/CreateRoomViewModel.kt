@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.model.User
+import com.bekircaglar.wepick.domain.usecase.join.JoinRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.launch.GetUsersByIdListUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ExitRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class CreateRoomViewModel(
     private val getRoomUseCase: GetRoomUseCase,
     private val exitRoomUseCase: ExitRoomUseCase,
-    private val getUsersByIdListUseCase : GetUsersByIdListUseCase
+    private val getUsersByIdListUseCase : GetUsersByIdListUseCase,
+    private val joinRoomUseCase: JoinRoomUseCase
 ) : ViewModel() {
 
     private val _room = MutableStateFlow<QueryState<RoomModel>?>(null)
@@ -37,6 +39,31 @@ class CreateRoomViewModel(
             }
             if (response.isSuccess){
                 getUserListByUserId()
+            }
+        }
+    }
+
+    fun joinRoom( roomCode: String, userId: String) = viewModelScope.launch {
+        joinRoomUseCase(
+            roomCode = roomCode,
+            userId = userId
+        ).collect { response ->
+            when (response) {
+                is QueryState.Loading -> {
+                    // Handle loading state if needed
+                }
+
+                is QueryState.Success -> {
+                    getUserListByUserId()
+                }
+
+                is QueryState.Error -> {
+                    // Handle error state if needed
+                }
+
+                is QueryState.Idle -> {
+                    // Handle idle state if needed
+                }
             }
         }
     }

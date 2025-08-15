@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.bekircaglar.wepick.data.UserSession
@@ -43,6 +44,9 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import qrscanner.CameraLens
+import qrscanner.OverlayShape
+import qrscanner.QrScanner
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_arrow_left
 import wepick.composeapp.generated.resources.ic_info
@@ -91,10 +95,52 @@ private fun ContentUI(
     var codeValues by remember { mutableStateOf(List(5) { "" }) }
     val focusRequesters = remember { List(5) { FocusRequester() } }
     var isButtonEnabled by remember { mutableStateOf(false) }
+    var qrScanClicked by remember { mutableStateOf(false) }
 
     LaunchedEffect(codeValues) {
         isButtonEnabled = codeValues.all { it.isNotEmpty() }
     }
+
+    if (qrScanClicked)
+        QrScanner(
+            flashlightOn = false,
+            cameraLens = CameraLens.Back,
+            openImagePicker = false,
+            onCompletion = { roomLink ->
+                qrScanClicked = false
+                if (roomLink.isNotEmpty()) {
+                    val code = roomLink.takeLast(5)
+                    if (code.length == 5) {
+                        codeValues = code.toList().map { it.toString() }
+                        onJoinRoom(code)
+                    }
+                }
+            },
+            imagePickerHandler = {},
+            onFailure = { error ->
+                // Handle error
+            },
+            overlayShape = OverlayShape.Square,
+            overlayColor = Color.Black.copy(0.7F),
+            overlayBorderColor = Color.White,
+            permissionDeniedView = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.5f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Kamera izni reddedildi",
+                        color = Color.White,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            },
+            modifier = Modifier.fillMaxSize().zIndex(2f),
+        )
+
 
     Scaffold(
         containerColor = WePickTheme.colors.background,
@@ -242,7 +288,9 @@ private fun ContentUI(
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(
-                onClick = {}
+                onClick = {
+                    qrScanClicked = true
+                }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically

@@ -2,8 +2,10 @@ package com.bekircaglar.wepick.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryScreen
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomScreen
@@ -27,7 +29,13 @@ fun AppNavHost(navController: NavHostController) {
             CategoryScreen(navController)
         }
 
-        composable<RoomCode>() {
+        composable<RoomCode>(
+            deepLinks = listOf(
+                navDeepLink<RoomCode>(basePath = "we-pick://join") {
+                    uriPattern = "we-pick://join?code={roomCode}"
+                }
+            )
+        ) {
             val roomCode: RoomCode = it.toRoute()
             CreateRoomScreen(
                 navController = navController,

@@ -1,5 +1,6 @@
 import SwiftUI
 import FirebaseCore
+import ComposeApp
 
 
 @main
@@ -21,11 +22,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(
         _ app: UIApplication,
-        open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+        open uri: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
     ) -> Bool {
+        
+        ExternalUriHandler.shared.onNewUri(uri: uri.absoluteString)
 
-        return false
+        return true
     }
+
 
 
 }
