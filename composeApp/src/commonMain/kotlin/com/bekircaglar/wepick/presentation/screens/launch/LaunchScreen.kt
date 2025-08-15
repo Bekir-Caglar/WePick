@@ -30,8 +30,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,8 +50,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.model.UserSessionData
 import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
@@ -62,6 +67,13 @@ import kotlin.time.ExperimentalTime
 @Composable
 fun LaunchScreen(navController: NavHostController) {
     val viewModel: LaunchViewModel = koinViewModel()
+    val scope = rememberCoroutineScope()
+
+    // UserSession flow'unu collect ediyoruz
+    val userSessionState by UserSession.userSessionFlow.collectAsState(
+        initial = UserSessionData()
+    )
+
     val animalEmojis = listOf(
         "🐱",
         "🐶",
@@ -104,24 +116,51 @@ fun LaunchScreen(navController: NavHostController) {
         "🦗",
         "🐌"
     )
-    var nickname by rememberSaveable { mutableStateOf(UserSession.nickname ?: "") }
-    var currentEmoji by rememberSaveable {
-        mutableStateOf(
-            UserSession.emoji ?: animalEmojis.random()
-        )
+
+    // State'leri başlangıçta boş bırakıp sonra UserSession'dan dolduruyoruz
+    var nickname by rememberSaveable { mutableStateOf("") }
+    var currentEmoji by rememberSaveable { mutableStateOf("") }
+    var isInitialized by remember { mutableStateOf(false) }
+
+    // UserSession'dan veri yükleme - sadece bir kez
+    LaunchedEffect(Unit) {
+        // UserSession'ı initialize et (ID garantili olarak oluştur)
+        val initializedSession = UserSession.initializeUser()
+
+        // Nickname varsa yükle
+        initializedSession.nickname?.let { savedNickname ->
+            if (savedNickname.isNotEmpty() && nickname.isEmpty()) {
+                nickname = savedNickname
+            }
+        }
+
+        // Emoji varsa yükle, yoksa random seç ve kaydet
+        if (!initializedSession.emoji.isNullOrEmpty()) {
+            currentEmoji = initializedSession.emoji!!
+        } else if (currentEmoji.isEmpty()) {
+            currentEmoji = animalEmojis.random()
+            UserSession.updateUserEmoji(currentEmoji)
+        }
+
+        isInitialized = true
     }
 
-    LaunchedEffect(Unit) {
-        if (UserSession.id == null) {
-            UserSession.id = "${Clock.System.now().toEpochMilliseconds()}-${(0..9999).random()}"
+    // Nickname değiştiğinde UserSession'ı güncelle
+    LaunchedEffect(nickname) {
+        if (isInitialized && nickname.isNotEmpty()) {
+            scope.launch {
+                UserSession.updateUserNickname(nickname)
+            }
         }
     }
 
-    LaunchedEffect(nickname) {
-        UserSession.nickname = nickname
-    }
+    // Emoji değiştiğinde UserSession'ı güncelle
     LaunchedEffect(currentEmoji) {
-        UserSession.emoji = currentEmoji
+        if (isInitialized && currentEmoji.isNotEmpty()) {
+            scope.launch {
+                UserSession.updateUserEmoji(currentEmoji)
+            }
+        }
     }
 
     Scaffold(
@@ -195,7 +234,7 @@ fun LaunchScreen(navController: NavHostController) {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = currentEmoji,
+                                text = currentEmoji ?: "?",
                                 fontSize = 48.sp,
                                 modifier = Modifier
                             )
@@ -226,7 +265,7 @@ fun LaunchScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     OutlinedTextField(
-                        value = nickname,
+                        value = nickname ?: "",
                         onValueChange = { nickname = it },
                         label = { Text("Takma adın") },
                         placeholder = {
@@ -266,7 +305,6 @@ fun LaunchScreen(navController: NavHostController) {
                             onClick = {
                                 navController.navigate(route = Screens.JOIN_ROOM)
                                 viewModel.setUser()
-
                             },
                             enabled = nickname.isNotBlank(),
                             modifier = Modifier
@@ -328,7 +366,6 @@ fun LaunchScreen(navController: NavHostController) {
                                 ),
                             )
                         }
-
                     }
                 }
             }

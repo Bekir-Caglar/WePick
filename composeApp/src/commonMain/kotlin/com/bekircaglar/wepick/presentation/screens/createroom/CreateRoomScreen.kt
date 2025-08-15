@@ -35,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -62,6 +63,7 @@ import com.bekircaglar.wepick.theme.WePickTheme
 import com.bekircaglar.wepick.utils.HandleBackPress
 import com.bekircaglar.wepick.utils.QueryState
 import com.bekircaglar.wepick.utils.data
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -76,51 +78,62 @@ import wepick.composeapp.generated.resources.qr_code
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
-
     val viewModel: CreateRoomViewModel = koinViewModel()
     val room by viewModel.room.collectAsStateWithLifecycle()
     val isUserExit by viewModel.isUserExit.collectAsStateWithLifecycle()
     val listOfUsers by viewModel.roomUsers.collectAsStateWithLifecycle()
     val platform = getPlatform()
+    val scope = rememberCoroutineScope()
+
 
     LaunchedEffect(isUserExit) {
         if (isUserExit) {
-            UserSession.id?.let { userId ->
-                navController.navigate(Screens.LAUNCH) {
-                    popUpTo(0)
-                    launchSingleTop = true
+            scope.launch {
+                val userId = UserSession.getId()
+                userId?.let {
+                    navController.navigate(Screens.LAUNCH) {
+                        popUpTo(0)
+                        launchSingleTop = true
+                    }
                 }
             }
         }
     }
+
     LaunchedEffect(roomCode) {
         if (room == null) {
             viewModel.getRoom(roomCode = roomCode)
         }
     }
-    if ( platform.name == "Android" ) {
+
+    if (platform.name == "Android") {
         HandleBackPress {
-            UserSession.id?.let {
-                room?.data?.id?.let { roomId ->
-                    viewModel.exitRoom(
-                        roomId = roomId,
-                        userId = it
-                    )
+            scope.launch {
+                val userId = UserSession.getId()
+                userId?.let {
+                    room?.data?.id?.let { roomId ->
+                        viewModel.exitRoom(
+                            roomId = roomId,
+                            userId = it
+                        )
+                    }
                 }
             }
         }
-
     }
 
     ContentUi(
         roomCode = roomCode,
         onBackClick = {
-            UserSession.id?.let {
-                room?.data?.id?.let { roomId ->
-                    viewModel.exitRoom(
-                        roomId = roomId,
-                        userId = it
-                    )
+            scope.launch {
+                val userId = UserSession.getId()
+                userId?.let {
+                    room?.data?.id?.let { roomId ->
+                        viewModel.exitRoom(
+                            roomId = roomId,
+                            userId = it
+                        )
+                    }
                 }
             }
         },

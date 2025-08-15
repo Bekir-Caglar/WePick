@@ -49,18 +49,20 @@ class CategoryRepositoryImp(
         try {
             val roomId = databaseReference.child("rooms").push().key
                 ?: throw Exception("Failed to create room")
+
+            val userSession = UserSession.getCurrentUserSession()
             val roomData = RoomModel(
                 id = roomId,
-                name = "${UserSession.nickname}'s Room ",
+                name = "${userSession.nickname}'s Room ",
                 roomCategory = categoryId,
-                ownerId = UserSession.id,
-                members = listOf(UserSession.id ?: ""),
+                ownerId = userSession.id,
+                members = listOf(userSession.id ?: ""),
                 roomCode = roomCode,
             )
             databaseReference.child("rooms").child(roomId).setValue(roomData)
             emit(QueryState.Success(roomCode))
         } catch (e: Exception) {
-            emit(QueryState.Error(e.message ?: "An error occurred while creating the room"))
+            emit(QueryState.Error(e.message ?: "Unknown error"))
         }
 
     }
