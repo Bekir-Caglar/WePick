@@ -61,6 +61,8 @@ kotlin {
             implementation(libs.coil)
             implementation(libs.kotlinx.serialization.json)
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta03")
+            implementation("dev.gitlive:firebase-common:2.1.0")
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.8.0"))
             implementation("dev.gitlive:firebase-database:2.1.0")
 
             implementation("androidx.datastore:datastore:1.1.7")
