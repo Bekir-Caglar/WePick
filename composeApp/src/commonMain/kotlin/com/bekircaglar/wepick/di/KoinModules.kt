@@ -15,8 +15,10 @@ import com.bekircaglar.wepick.domain.usecase.category.GetCategoryListUseCase
 import com.bekircaglar.wepick.domain.usecase.join.JoinRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.launch.GetUsersByIdListUseCase
 import com.bekircaglar.wepick.domain.usecase.launch.SetUserUseCase
+import com.bekircaglar.wepick.domain.usecase.room.CheckUserInRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ExitRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
+import com.bekircaglar.wepick.domain.usecase.room.ObserveRoomMemersUseCase
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryViewModel
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomViewModel
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinViewModel
@@ -56,6 +58,8 @@ class AppModule {
 
         singleOf(::FirebaseStatusRepository)
 
+        factoryOf(::CheckUserInRoomUseCase)
+        factoryOf(::ObserveRoomMemersUseCase)
         factoryOf(::JoinRoomUseCase)
         factoryOf(::GetUsersByIdListUseCase)
         factoryOf(::SetUserUseCase)

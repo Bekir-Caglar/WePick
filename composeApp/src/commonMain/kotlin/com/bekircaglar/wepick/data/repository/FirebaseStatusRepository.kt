@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.bekircaglar.wepick.data.repository
 
+import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.model.User
 import com.bekircaglar.wepick.utils.UserStatus
 import dev.gitlive.firebase.database.*
@@ -11,35 +14,63 @@ import kotlin.time.ExperimentalTime
 class FirebaseStatusRepository(
     private val database: DatabaseReference
 ) {
-    private val presenceRef = database.child("presence")
-    
+    private val presenceRef = database.child("users")
+    private val roomsRef = database.child("rooms")
+
     suspend fun updateUserStatus(userId: String, presence: User) {
         try {
             presenceRef.child(userId).setValue(presence)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             println("Error updating user status: ${e.message}")
         }
     }
-    
+
     suspend fun removeUserStatus(userId: String) {
         try {
             presenceRef.child(userId).removeValue()
+            removeUserFromAllRooms(userId)
         } catch (e: Exception) {
             println("Error removing user status: ${e.message}")
         }
     }
-    
+
+    private suspend fun removeUserFromAllRooms(userId: String) {
+        try {
+            val roomsSnapshot = roomsRef.valueEvents.first()
+            roomsSnapshot.children.forEach { roomSnapshot ->
+                roomSnapshot.key?.let { roomId ->
+                    val membersRef = roomsRef.child(roomId).child("members").valueEvents.first()
+                    if (membersRef.children.any { it.value == userId }) {
+                        val updatedMembers = membersRef.children
+                            .map { it.value<String>() }
+                            .filter { it != userId }
+                        roomsRef.child(roomId).child("members").setValue(updatedMembers)
+                    } else {
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            println("Error removing user from rooms: ${e.message}")
+        }
+    }
+
     fun observeUserStatus(userId: String): Flow<User?> = flow {
         presenceRef.child(userId).valueEvents.collect { snapshot ->
             try {
                 val presence = snapshot.value<User>()
+                println("User presence: $presence")
+                if (presence.status == UserStatus.OFFLINE) {
+                    removeUserFromAllRooms(userId)
+                }
                 emit(presence)
             } catch (e: Exception) {
                 emit(null)
             }
         }
     }
-    
+
     fun observeAllUsers(): Flow<Map<String, User>> = flow {
         presenceRef.valueEvents.collect { snapshot ->
             try {
@@ -57,7 +88,7 @@ class FirebaseStatusRepository(
             }
         }
     }
-    
+
     @OptIn(ExperimentalTime::class)
     suspend fun setupDisconnectionHandler(user: User) {
         try {

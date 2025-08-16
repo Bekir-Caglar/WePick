@@ -8,5 +8,8 @@ interface RoomRepository {
 
     suspend fun getRoom(roomCode: String): Flow<QueryState<RoomModel>>
     suspend fun exitRoom(roomId: String, userId: String): Flow<QueryState<Boolean>>
+    suspend fun observeRoomMembersOnlineStatus(roomId: String): Flow<QueryState<Unit>>
+
+    suspend fun checkUserInRoom(roomCode: String, userId: String): Flow<QueryState<Boolean>>
 
 }

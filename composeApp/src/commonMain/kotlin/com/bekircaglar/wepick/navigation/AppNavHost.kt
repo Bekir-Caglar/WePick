@@ -60,8 +60,7 @@ fun AppNavHost(navController: NavHostController) {
 @Serializable
 data class RoomCode(
     val roomCode: String,
-) {
-}
+) {}
 
 object Screens {
     const val LAUNCH = "launch"

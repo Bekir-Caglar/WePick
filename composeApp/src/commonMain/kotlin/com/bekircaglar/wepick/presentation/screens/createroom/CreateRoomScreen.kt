@@ -46,9 +46,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.bekircaglar.wepick.Platform
@@ -84,7 +86,7 @@ fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
     val listOfUsers by viewModel.roomUsers.collectAsStateWithLifecycle()
     val platform = getPlatform()
     val scope = rememberCoroutineScope()
-
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(isUserExit) {
         if (isUserExit) {
@@ -327,8 +329,10 @@ private fun ContentUi(
                                 }
                                 Text(
                                     text = user.name ?: "",
-                                    fontSize = 18.sp,
+                                    fontSize = 16.sp,
                                     color = WePickTheme.colors.onBackground,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                             }
                     }

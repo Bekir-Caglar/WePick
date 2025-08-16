@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_qr
 import wepick.composeapp.generated.resources.ic_secret_code
@@ -71,7 +72,7 @@ fun RoomCodeHeader(
             color = WePickTheme.colors.onBackground.copy(0.8f),
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(10f)
+                .weight(12f)
         )
 
         Spacer(modifier = Modifier.weight(1f))

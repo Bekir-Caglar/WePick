@@ -69,7 +69,6 @@ fun LaunchScreen(navController: NavHostController) {
     val viewModel: LaunchViewModel = koinViewModel()
     val scope = rememberCoroutineScope()
 
-    // UserSession flow'unu collect ediyoruz
     val userSessionState by UserSession.userSessionFlow.collectAsState(
         initial = User()
     )
@@ -114,29 +113,33 @@ fun LaunchScreen(navController: NavHostController) {
         "🐝",
         "🐞",
         "🦗",
-        "🐌"
+        "🐌",
+        "🦟",
+        "🐢",
+        "🐍",
+        "🦎",
+        "🐊",
+        "🐳",
+        "🐋",
+
+
     )
 
-    // State'leri başlangıçta boş bırakıp sonra UserSession'dan dolduruyoruz
     var nickname by rememberSaveable { mutableStateOf("") }
     var currentEmoji by rememberSaveable { mutableStateOf("") }
     var isInitialized by remember { mutableStateOf(false) }
 
-    // UserSession'dan veri yükleme - sadece bir kez
     LaunchedEffect(Unit) {
-        // UserSession'ı initialize et (ID garantili olarak oluştur)
         val initializedSession = UserSession.initializeUser()
 
-        // Nickname varsa yükle
         initializedSession.name?.let { savedNickname ->
             if (savedNickname.isNotEmpty() && nickname.isEmpty()) {
                 nickname = savedNickname
             }
         }
 
-        // Emoji varsa yükle, yoksa random seç ve kaydet
         if (!initializedSession.emoji.isNullOrEmpty()) {
-            currentEmoji = initializedSession.emoji!!
+            currentEmoji = initializedSession.emoji
         } else if (currentEmoji.isEmpty()) {
             currentEmoji = animalEmojis.random()
             UserSession.updateUserEmoji(currentEmoji)
@@ -145,7 +148,6 @@ fun LaunchScreen(navController: NavHostController) {
         isInitialized = true
     }
 
-    // Nickname değiştiğinde UserSession'ı güncelle
     LaunchedEffect(nickname) {
         if (isInitialized && nickname.isNotEmpty()) {
             scope.launch {
@@ -154,7 +156,6 @@ fun LaunchScreen(navController: NavHostController) {
         }
     }
 
-    // Emoji değiştiğinde UserSession'ı güncelle
     LaunchedEffect(currentEmoji) {
         if (isInitialized && currentEmoji.isNotEmpty()) {
             scope.launch {
@@ -234,7 +235,7 @@ fun LaunchScreen(navController: NavHostController) {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = currentEmoji ?: "?",
+                                text = currentEmoji,
                                 fontSize = 48.sp,
                                 modifier = Modifier
                             )
@@ -265,8 +266,11 @@ fun LaunchScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     OutlinedTextField(
-                        value = nickname ?: "",
-                        onValueChange = { nickname = it },
+                        value = nickname,
+                        onValueChange = {
+                            if (it.length <= 15)
+                                nickname = it
+                        },
                         label = { Text("Takma adın") },
                         placeholder = {
                             Text(
