@@ -39,6 +39,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation("androidx.lifecycle:lifecycle-process:2.9.2")
+            implementation("androidx.lifecycle:lifecycle-common:2.9.2")
 
         }
         commonMain.dependencies {

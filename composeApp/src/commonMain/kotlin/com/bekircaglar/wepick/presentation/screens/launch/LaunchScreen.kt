@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bekircaglar.wepick.data.UserSession
-import com.bekircaglar.wepick.data.model.UserSessionData
+import com.bekircaglar.wepick.domain.model.User
 import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme
 import kotlinx.coroutines.launch
@@ -71,7 +71,7 @@ fun LaunchScreen(navController: NavHostController) {
 
     // UserSession flow'unu collect ediyoruz
     val userSessionState by UserSession.userSessionFlow.collectAsState(
-        initial = UserSessionData()
+        initial = User()
     )
 
     val animalEmojis = listOf(
@@ -128,7 +128,7 @@ fun LaunchScreen(navController: NavHostController) {
         val initializedSession = UserSession.initializeUser()
 
         // Nickname varsa yükle
-        initializedSession.nickname?.let { savedNickname ->
+        initializedSession.name?.let { savedNickname ->
             if (savedNickname.isNotEmpty() && nickname.isEmpty()) {
                 nickname = savedNickname
             }
