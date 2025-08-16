@@ -33,10 +33,8 @@ fun App() {
             val navController = rememberNavController()
             val statusManagerFactory: StatusManagerFactory = koinInject<StatusManagerFactory>()
             val scope = rememberCoroutineScope()
-
             var statusManager by remember { mutableStateOf<UserStatusManager?>(null) }
 
-            // UserStatusManager'ı initialize et
             LaunchedEffect(UserSession) {
                 try {
                     val currentUser = UserSession.getCurrentUserSession()// veya userSession.userId
@@ -44,33 +42,23 @@ fun App() {
                         val manager = statusManagerFactory.create()
                         manager.initialize(currentUser)
                         statusManager = manager
-                        println("✅ UserStatusManager initialized for user: $currentUser")
                     }
                 } catch (e: Exception) {
-                    println("❌ Failed to initialize UserStatusManager: ${e.message}")
                 }
             }
 
-            // Cleanup when app is disposed
             DisposableEffect(Unit) {
-                // Sets up the listener to call `NavController.navigate()`
-                // for the composable that has a matching `navDeepLink` listed
                 ExternalUriHandler.listener = { uri ->
                     navController.navigate(NavUri(uri))
                 }
-
-                // Removes the listener when the composable is no longer active
                 onDispose {
                     ExternalUriHandler.listener = null
 
-                    // StatusManager'ı cleanup et
                     scope.launch {
                         try {
                             statusManager?.cleanup()
                             statusManager = null
-                            println("🔴 UserStatusManager cleaned up")
                         } catch (e: Exception) {
-                            println("❌ Error cleaning up UserStatusManager: ${e.message}")
                         }
                     }
                 }
