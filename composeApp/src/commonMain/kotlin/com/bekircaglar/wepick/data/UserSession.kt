@@ -2,7 +2,7 @@ package com.bekircaglar.wepick.data
 
 import com.bekircaglar.wepick.data.datastore.createDataStore
 import com.bekircaglar.wepick.data.manager.UserSessionManager
-import com.bekircaglar.wepick.data.model.UserSessionData
+import com.bekircaglar.wepick.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlin.time.Clock
@@ -12,14 +12,14 @@ object UserSession {
     private val dataStore = createDataStore()
     private val userSessionManager = UserSessionManager(dataStore)
 
-    val userSessionFlow: Flow<UserSessionData> = userSessionManager.userSession
+    val userSessionFlow: Flow<User> = userSessionManager.userSession
 
-    suspend fun getCurrentUserSession(): UserSessionData {
+    suspend fun getCurrentUserSession(): User {
         return userSessionManager.userSession.first()
     }
 
     @OptIn(ExperimentalTime::class)
-    suspend fun initializeUser(): UserSessionData {
+    suspend fun initializeUser(): User {
         val currentSession = getCurrentUserSession()
         if (currentSession.id.isNullOrEmpty()) {
             val newId = "${Clock.System.now().toEpochMilliseconds()}-${(0..9999).random()}"
@@ -41,12 +41,12 @@ object UserSession {
         userSessionManager.updateUserEmoji(emoji)
     }
 
-    suspend fun updateUserSession(userSessionData: UserSessionData) {
+    suspend fun updateUserSession(userSessionData: User) {
         userSessionManager.updateUserSession(userSessionData)
     }
 
     suspend fun updateUserSession(id: String?, nickname: String?, emoji: String?) {
-        userSessionManager.updateUserSession(UserSessionData(id, nickname, emoji))
+        userSessionManager.updateUserSession(User(id, nickname, emoji))
     }
 
     suspend fun clearUserSession() {
@@ -55,7 +55,7 @@ object UserSession {
 
     // Backward compatibility için getter metodları
     suspend fun getId(): String? = getCurrentUserSession().id
-    suspend fun getNickname(): String? = getCurrentUserSession().nickname
+    suspend fun getNickname(): String? = getCurrentUserSession().name
     suspend fun getEmoji(): String? = getCurrentUserSession().emoji
 }
 

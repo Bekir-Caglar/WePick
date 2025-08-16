@@ -15,7 +15,7 @@ class LaunchViewModel(
         val userSession = UserSession.getCurrentUserSession()
         val user = User(
             id = userSession.id,
-            name = userSession.nickname,
+            name = userSession.name,
             emoji = userSession.emoji,
         )
         setUserUseCase(user).collect {

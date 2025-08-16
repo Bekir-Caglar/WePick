@@ -1,6 +1,8 @@
 package com.bekircaglar.wepick.di
 
+import com.bekircaglar.wepick.data.UserSession
 import com.bekircaglar.wepick.data.repository.CategoryRepositoryImp
+import com.bekircaglar.wepick.data.repository.FirebaseStatusRepository
 import com.bekircaglar.wepick.data.repository.JoinRepositoryImp
 import com.bekircaglar.wepick.data.repository.LaunchRepositoryImp
 import com.bekircaglar.wepick.data.repository.RoomRepositoryImp
@@ -19,6 +21,8 @@ import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryViewMo
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomViewModel
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinViewModel
 import com.bekircaglar.wepick.presentation.screens.launch.LaunchViewModel
+import com.bekircaglar.wepick.utils.StatusManagerFactory
+import com.bekircaglar.wepick.utils.createStatusManagerFactory
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.database
 import org.koin.core.module.dsl.bind
@@ -30,6 +34,9 @@ import org.koin.dsl.module
 class AppModule {
     val appModule = module {
         single { Firebase.database.reference() }
+
+        single<StatusManagerFactory> { createStatusManagerFactory() }
+
 
         singleOf(::CategoryRepositoryImp) {
             bind<CategoryRepository>()
@@ -46,6 +53,8 @@ class AppModule {
         singleOf(::JoinRepositoryImp){
             bind<JoinRepository>()
         }
+
+        singleOf(::FirebaseStatusRepository)
 
         factoryOf(::JoinRoomUseCase)
         factoryOf(::GetUsersByIdListUseCase)

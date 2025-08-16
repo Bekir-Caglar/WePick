@@ -53,7 +53,7 @@ class CategoryRepositoryImp(
             val userSession = UserSession.getCurrentUserSession()
             val roomData = RoomModel(
                 id = roomId,
-                name = "${userSession.nickname}'s Room ",
+                name = "${userSession.name}'s Room ",
                 roomCategory = categoryId,
                 ownerId = userSession.id,
                 members = listOf(userSession.id ?: ""),
