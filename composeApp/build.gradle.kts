@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.File
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -33,7 +34,6 @@ kotlin {
     sourceSets {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-
         }
         androidMain.dependencies {
             implementation(compose.preview)
@@ -41,7 +41,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation("androidx.lifecycle:lifecycle-process:2.9.2")
             implementation("androidx.lifecycle:lifecycle-common:2.9.2")
-
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -66,11 +65,9 @@ kotlin {
             implementation("dev.gitlive:firebase-common:2.1.0")
             implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.8.0"))
             implementation("dev.gitlive:firebase-database:2.1.0")
-
             implementation("androidx.datastore:datastore:1.1.7")
             implementation("androidx.datastore:datastore-preferences:1.1.7")
             implementation("network.chaintech:qr-kit:3.0.7")
-
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -96,7 +93,8 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
         }
     }
     compileOptions {

@@ -36,7 +36,7 @@ class FirebaseStatusRepository(
         }
     }
 
-    private suspend fun removeUserFromAllRooms(userId: String) {
+    suspend fun removeUserFromAllRooms(userId: String) {
         try {
             val roomsSnapshot = roomsRef.valueEvents.first()
             roomsSnapshot.children.forEach { roomSnapshot ->
@@ -46,7 +46,12 @@ class FirebaseStatusRepository(
                         val updatedMembers = membersRef.children
                             .map { it.value<String>() }
                             .filter { it != userId }
-                        roomsRef.child(roomId).child("members").setValue(updatedMembers)
+
+                        if (updatedMembers.isEmpty()) {
+                            roomsRef.child(roomId).removeValue()
+                        } else {
+                            roomsRef.child(roomId).child("members").setValue(updatedMembers)
+                        }
                     } else {
                     }
                 }

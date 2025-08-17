@@ -19,6 +19,8 @@ import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import com.bekircaglar.wepick.data.repository.FirebaseStatusRepository
 import com.bekircaglar.wepick.utils.UserStatusManager
 
 @Composable
@@ -34,6 +36,18 @@ fun App() {
             val statusManagerFactory: StatusManagerFactory = koinInject<StatusManagerFactory>()
             val scope = rememberCoroutineScope()
             var statusManager by remember { mutableStateOf<UserStatusManager?>(null) }
+
+            val firebaseStatusRepository = koinInject<FirebaseStatusRepository>()
+            var isInitialized by rememberSaveable { mutableStateOf(false) }
+
+            LaunchedEffect(isInitialized) {
+                if (!isInitialized) {
+                    UserSession.getCurrentUserSession().id?.let {
+                        firebaseStatusRepository.removeUserFromAllRooms(it)
+                    }
+                    isInitialized = true
+                }
+            }
 
             LaunchedEffect(UserSession) {
                 try {
