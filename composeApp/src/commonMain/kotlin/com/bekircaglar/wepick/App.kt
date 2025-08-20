@@ -11,7 +11,7 @@ import androidx.navigation.NavUri
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.di.AppModule
 import com.bekircaglar.wepick.navigation.AppNavHost
 import com.bekircaglar.wepick.utils.StatusManagerFactory
@@ -31,23 +31,14 @@ fun App() {
             modules(AppModule().appModule)
         }
     ) {
+        val statusManagerFactory: StatusManagerFactory = koinInject<StatusManagerFactory>()
         WePickTheme {
             val navController = rememberNavController()
-            val statusManagerFactory: StatusManagerFactory = koinInject<StatusManagerFactory>()
+
             val scope = rememberCoroutineScope()
             var statusManager by remember { mutableStateOf<UserStatusManager?>(null) }
 
-            val firebaseStatusRepository = koinInject<FirebaseStatusRepository>()
-            var isInitialized by rememberSaveable { mutableStateOf(false) }
 
-            LaunchedEffect(isInitialized) {
-                if (!isInitialized) {
-                    UserSession.getCurrentUserSession().id?.let {
-                        firebaseStatusRepository.removeUserFromAllRooms(it)
-                    }
-                    isInitialized = true
-                }
-            }
 
             LaunchedEffect(UserSession) {
                 try {

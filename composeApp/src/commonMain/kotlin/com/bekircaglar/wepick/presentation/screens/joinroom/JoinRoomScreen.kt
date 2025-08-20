@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.navigation.RoomCode
 import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme

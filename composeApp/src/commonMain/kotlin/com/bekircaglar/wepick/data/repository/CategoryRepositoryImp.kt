@@ -1,6 +1,6 @@
 package com.bekircaglar.wepick.data.repository
 
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.domain.model.CategoryModel
 import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.repository.CategoryRepository
@@ -51,21 +51,27 @@ class CategoryRepositoryImp(
                 ?: throw Exception("Failed to create room")
 
             val userSession = UserSession.getCurrentUserSession()
-            val roomData = RoomModel(
-                id = roomId,
-                name = "${userSession.name}'s Room ",
-                roomCategory = categoryId,
-                ownerId = userSession.id,
-                members = listOf(userSession.id ?: ""),
-                roomCode = roomCode,
-            )
-            databaseReference.child("rooms").child(roomId).setValue(roomData)
-            emit(QueryState.Success(roomCode))
+            if (userSession.id != null) {
+                val roomData = RoomModel(
+                    id = roomId,
+                    name = "${userSession.name}'s Room ",
+                    roomCategory = categoryId,
+                    ownerId = userSession.id,
+                    members = listOf(userSession.id),
+                    readyMembers = listOf(userSession.id),
+                    roomCode = roomCode,
+                )
+                databaseReference.child("rooms").child(roomId).setValue(roomData)
+                emit(QueryState.Success(roomCode))
+            } else {
+                emit(QueryState.Error("User session is not available"))
+            }
+
         } catch (e: Exception) {
             emit(QueryState.Error(e.message ?: "Unknown error"))
         }
-
     }
+
     private suspend fun deleteClosedRooms() {
         try {
             val roomsRef = databaseReference.child("rooms")

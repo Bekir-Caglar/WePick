@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -35,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -45,16 +47,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.bekircaglar.wepick.Platform
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
+import com.bekircaglar.wepick.di.AppModule
 import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.model.User
 import com.bekircaglar.wepick.getPlatform
@@ -69,8 +75,10 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.context.startKoin
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_exit
+import wepick.composeapp.generated.resources.ic_king
 import wepick.composeapp.generated.resources.ic_menu
 import wepick.composeapp.generated.resources.ic_plus
 import wepick.composeapp.generated.resources.logo
@@ -84,9 +92,14 @@ fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
     val room by viewModel.room.collectAsStateWithLifecycle()
     val isUserExit by viewModel.isUserExit.collectAsStateWithLifecycle()
     val listOfUsers by viewModel.roomUsers.collectAsStateWithLifecycle()
+    val allUsersReady by viewModel.allUsersReady.collectAsStateWithLifecycle()
     val platform = getPlatform()
+    var isOwner by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(room) {
+        isOwner = UserSession.getId() == room?.data?.ownerId
+    }
 
     LaunchedEffect(isUserExit) {
         if (isUserExit) {
@@ -148,7 +161,14 @@ fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
         onStartClicked = {
             navController.navigate(Screens.SELECTION)
         },
+        setUsersReadyStatus = { isReady ->
+            viewModel.setUsersReadyStatus(
+                isReady = isReady
+            )
+        },
         room = room,
+        isOwner = isOwner,
+        allUsersReady = allUsersReady,
         listOfUsers = listOfUsers
     )
 }
@@ -159,6 +179,9 @@ private fun ContentUi(
     listOfUsers: List<User>,
     room: QueryState<RoomModel>?,
     roomCode: String,
+    isOwner: Boolean = false,
+    allUsersReady: Boolean = false,
+    setUsersReadyStatus: (Boolean) -> Unit = { /* No-op */ },
     onBackClick: () -> Unit,
     onStartClicked: () -> Unit = { /* No-op */ }
 ) {
@@ -212,6 +235,8 @@ private fun ContentUi(
         }
     ) { padding ->
 
+        var isReady by remember { mutableStateOf(false) }
+
         if (showBottomSheet) {
             InviteFriendsBottomSheet(
                 roomCode = roomCode,
@@ -242,12 +267,29 @@ private fun ContentUi(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 columns = Adaptive(minSize = 120.dp)
             ) {
-                items(listOf(listOfUsers.firstOrNull { it.name == "inviteButon" } ?: User(
-                    id = "invite",
-                    name = "inviteButon",
-                    emoji = null
-                )) + listOfUsers.filter { it.name != "inviteButon" }) { user ->
+                items(
+                    listOf(
+                        listOfUsers.firstOrNull { it.name == "inviteButon" } ?: User(
+                            id = "invite",
+                            name = "inviteButon",
+                            emoji = null
+                        )
+                    ) + listOfUsers.filter { it.name != "inviteButon" }
+                ) { user ->
                     val isInviteButton = user.name == "inviteButon"
+                    val isOwnerUser = user.id == room?.data?.ownerId
+                    val isReady = room?.data?.readyMembers?.contains(user.id) == true
+
+                    // Arka plan rengi: owner hariç, ready durumuna göre
+                    val backgroundColor = when {
+                        isInviteButton -> WePickTheme.colors.primary
+                        else -> WePickTheme.colors.primaryVariant.copy(0.4f)
+                    }
+                    val readyColor = when {
+                        isReady -> Color(0xFF4CAF50).copy(alpha = 0.2f) // yeşil hafif saydam
+                        else -> Color(0xFFF44336).copy(alpha = 0.2f)
+                    }
+
                     Card(
                         modifier = Modifier
                             .aspectRatio(1f)
@@ -257,16 +299,13 @@ private fun ContentUi(
                             if (isInviteButton) {
                                 showBottomSheet = true
                             }
-
                         },
                         colors = CardDefaults.cardColors(
-                            containerColor = if (isInviteButton) WePickTheme.colors.primary else WePickTheme.colors.primaryVariant.copy(
-                                0.4f
-                            )
+                            containerColor = backgroundColor
                         ),
                         shape = RoundedCornerShape(16.dp)
                     ) {
-                        if (isInviteButton)
+                        if (isInviteButton) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -274,7 +313,6 @@ private fun ContentUi(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-
                                 Box(
                                     modifier = Modifier
                                         .padding(12.dp)
@@ -286,21 +324,17 @@ private fun ContentUi(
                                     Image(
                                         painter = painterResource(Res.drawable.ic_plus),
                                         contentDescription = "Invite User",
-                                        modifier = Modifier
-                                            .size(30.dp)
-                                            .clip(CircleShape),
+                                        modifier = Modifier.size(30.dp),
                                         colorFilter = ColorFilter.tint(WePickTheme.colors.onPrimary)
-
                                     )
                                 }
-
                                 Text(
                                     text = "Davet Et",
                                     fontSize = 18.sp,
                                     color = Color.White,
                                 )
                             }
-                        else
+                        } else {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -308,10 +342,20 @@ private fun ContentUi(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-
-                                Box(
-                                    contentAlignment = Alignment.Center
-                                ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    if (isOwnerUser) {
+                                        Text(
+                                            text = "👑",
+                                            fontSize = 24.sp,
+                                            modifier = Modifier
+                                                .align(Alignment.TopEnd)
+                                                .graphicsLayer(rotationZ = 35f)
+                                                .offset(
+                                                    x = (-7).dp,
+                                                    y = (12).dp
+                                                ).zIndex(2f),
+                                        )
+                                    }
                                     Box(
                                         modifier = Modifier
                                             .padding(12.dp)
@@ -323,7 +367,6 @@ private fun ContentUi(
                                         Text(
                                             text = user.emoji ?: "",
                                             fontSize = 36.sp,
-                                            modifier = Modifier
                                         )
                                     }
                                 }
@@ -332,9 +375,18 @@ private fun ContentUi(
                                     fontSize = 16.sp,
                                     color = WePickTheme.colors.onBackground,
                                     maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
+                                    textAlign = TextAlign.Center,
+                                    overflow = TextOverflow.Ellipsis,
+                                    modifier = Modifier
+                                        .background(
+                                            if (!isOwnerUser) readyColor else Color.Transparent,
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .padding(horizontal = 8.dp)
+
                                 )
                             }
+                        }
                     }
                 }
             }
@@ -343,7 +395,15 @@ private fun ContentUi(
 
 
             Button(
-                onClick = onStartClicked,
+                onClick = {
+                    if (isOwner) {
+                        onStartClicked()
+                    } else {
+                        isReady = !isReady
+                        setUsersReadyStatus(isReady)
+                    }
+                },
+                enabled = if (isOwner) allUsersReady else true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
@@ -363,7 +423,7 @@ private fun ContentUi(
                 )
             ) {
                 Text(
-                    text = "Oylamayı Başlat",
+                    text = if (isOwner) "Oylamayı Başlat" else if (isReady) "Hazır Değil" else "Hazır",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.SemiBold
                     ),

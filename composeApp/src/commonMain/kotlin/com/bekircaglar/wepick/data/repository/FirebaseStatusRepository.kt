@@ -42,17 +42,36 @@ class FirebaseStatusRepository(
             roomsSnapshot.children.forEach { roomSnapshot ->
                 roomSnapshot.key?.let { roomId ->
                     val membersRef = roomsRef.child(roomId).child("members").valueEvents.first()
+                    val ownerRef = database.child("rooms").child(roomId).child("ownerId")
+                    val readyMembersRef = roomsRef.child(roomId).child("readyMembers")
+
                     if (membersRef.children.any { it.value == userId }) {
                         val updatedMembers = membersRef.children
                             .map { it.value<String>() }
                             .filter { it != userId }
 
+                        val currentReadyMembers = readyMembersRef.valueEvents.first().children
+                            .map { it.value<String>() }
+                            .filter { it != userId }
+                            .toMutableSet()
+
+                        val currentOwnerId =
+                            roomsRef.child(roomId).valueEvents.first().child("ownerId")
+                                .value<String>()
+
                         if (updatedMembers.isEmpty()) {
                             roomsRef.child(roomId).removeValue()
                         } else {
+                            if (userId == currentOwnerId && updatedMembers.isNotEmpty()) {
+                                val newOwnerId = updatedMembers.first()
+                                ownerRef.setValue(newOwnerId)
+                                currentReadyMembers.add(newOwnerId)
+                            }
+                            readyMembersRef.setValue(currentReadyMembers)
                             roomsRef.child(roomId).child("members").setValue(updatedMembers)
                         }
                     } else {
+                        println("User $userId not found in room $roomId members.")
                     }
                 }
             }
