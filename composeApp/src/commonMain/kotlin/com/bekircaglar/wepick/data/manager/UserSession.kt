@@ -1,7 +1,6 @@
-package com.bekircaglar.wepick.data
+package com.bekircaglar.wepick.data.manager
 
 import com.bekircaglar.wepick.data.datastore.createDataStore
-import com.bekircaglar.wepick.data.manager.UserSessionManager
 import com.bekircaglar.wepick.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -58,4 +57,3 @@ object UserSession {
     suspend fun getNickname(): String? = getCurrentUserSession().name
     suspend fun getEmoji(): String? = getCurrentUserSession().emoji
 }
-

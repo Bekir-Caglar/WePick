@@ -1,6 +1,6 @@
 package com.bekircaglar.wepick.di
 
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.data.repository.CategoryRepositoryImp
 import com.bekircaglar.wepick.data.repository.FirebaseStatusRepository
 import com.bekircaglar.wepick.data.repository.JoinRepositoryImp
@@ -19,6 +19,7 @@ import com.bekircaglar.wepick.domain.usecase.room.CheckUserInRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ExitRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ObserveRoomMemersUseCase
+import com.bekircaglar.wepick.domain.usecase.room.SetUserReadyStatusUseCase
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryViewModel
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomViewModel
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinViewModel
@@ -58,6 +59,7 @@ class AppModule {
 
         singleOf(::FirebaseStatusRepository)
 
+        factoryOf(::SetUserReadyStatusUseCase)
         factoryOf(::CheckUserInRoomUseCase)
         factoryOf(::ObserveRoomMemersUseCase)
         factoryOf(::JoinRoomUseCase)

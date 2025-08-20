@@ -11,7 +11,7 @@ import androidx.navigation.NavUri
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.di.AppModule
 import com.bekircaglar.wepick.navigation.AppNavHost
 import com.bekircaglar.wepick.utils.StatusManagerFactory
@@ -19,6 +19,8 @@ import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import com.bekircaglar.wepick.data.repository.FirebaseStatusRepository
 import com.bekircaglar.wepick.utils.UserStatusManager
 
 @Composable
@@ -29,11 +31,14 @@ fun App() {
             modules(AppModule().appModule)
         }
     ) {
+        val statusManagerFactory: StatusManagerFactory = koinInject<StatusManagerFactory>()
         WePickTheme {
             val navController = rememberNavController()
-            val statusManagerFactory: StatusManagerFactory = koinInject<StatusManagerFactory>()
+
             val scope = rememberCoroutineScope()
             var statusManager by remember { mutableStateOf<UserStatusManager?>(null) }
+
+
 
             LaunchedEffect(UserSession) {
                 try {

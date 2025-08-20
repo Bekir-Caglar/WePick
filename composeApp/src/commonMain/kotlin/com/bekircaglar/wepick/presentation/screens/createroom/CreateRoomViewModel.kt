@@ -2,7 +2,7 @@ package com.bekircaglar.wepick.presentation.screens.createroom
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.model.User
 import com.bekircaglar.wepick.domain.usecase.join.JoinRoomUseCase
@@ -11,6 +11,7 @@ import com.bekircaglar.wepick.domain.usecase.room.CheckUserInRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ExitRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ObserveRoomMemersUseCase
+import com.bekircaglar.wepick.domain.usecase.room.SetUserReadyStatusUseCase
 import com.bekircaglar.wepick.utils.QueryState
 import com.bekircaglar.wepick.utils.data
 import com.bekircaglar.wepick.utils.isSuccess
@@ -25,7 +26,8 @@ class CreateRoomViewModel(
     private val getUsersByIdListUseCase: GetUsersByIdListUseCase,
     private val joinRoomUseCase: JoinRoomUseCase,
     private val observeRoomMemersUseCase: ObserveRoomMemersUseCase,
-    private val checkUserInRoomUseCase: CheckUserInRoomUseCase
+    private val checkUserInRoomUseCase: CheckUserInRoomUseCase,
+    private val setUserReadyStatusUseCase: SetUserReadyStatusUseCase
 ) : ViewModel() {
 
     private val _room = MutableStateFlow<QueryState<RoomModel>?>(null)
@@ -36,10 +38,42 @@ class CreateRoomViewModel(
 
     private val _isUserExit = MutableStateFlow<Boolean>(false)
     val isUserExit = _isUserExit.asStateFlow()
+    private val _allUsersReady = MutableStateFlow<Boolean>(false)
+    val allUsersReady = _allUsersReady.asStateFlow()
 
 
     fun startObservingRoomMembers(roomId: String) = viewModelScope.launch {
         observeRoomMemersUseCase(roomId = roomId).collect {
+        }
+    }
+
+    fun setUsersReadyStatus(isReady: Boolean ) = viewModelScope.launch {
+        _room.value?.data?.id?.let { roomId ->
+            UserSession.getId()?.let { userId ->
+                setUserReadyStatusUseCase(
+                    roomId = roomId,
+                    userId = userId,
+                    isReady = isReady
+                ).collect { response ->
+                    when (response) {
+                        is QueryState.Loading -> {
+                            // Handle loading state if needed
+                        }
+
+                        is QueryState.Success -> {
+                        }
+
+                        is QueryState.Error -> {
+                            // Handle error state if needed
+                        }
+
+                        is QueryState.Idle -> {
+                            // Handle idle state if needed
+                        }
+                    }
+                }
+            }
+
         }
     }
 
@@ -49,6 +83,7 @@ class CreateRoomViewModel(
                 response
             }
             if (response.isSuccess) {
+                _allUsersReady.update { response.data?.readyMembers?.size == response.data?.members?.size }
                 response.data?.id?.let { startObservingRoomMembers(roomId = it) }
                 UserSession.getId()?.let {
                     checkUserInRoom(

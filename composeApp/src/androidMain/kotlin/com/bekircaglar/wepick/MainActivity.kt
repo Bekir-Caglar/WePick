@@ -15,7 +15,6 @@ class MainActivity : ComponentActivity() {
 
         handleIntent(intent)
 
-        println("onCreate called with action: ${intent.action} and data: ${intent.data}")
 
         setContent {
             App()
@@ -25,7 +24,6 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         handleIntent(intent)
-        println("onNewIntent called with action: ${intent.action} and data: ${intent.data}")
     }
 
     private fun handleIntent(intent: Intent) {
@@ -34,7 +32,6 @@ class MainActivity : ComponentActivity() {
                 intent.data?.toString()?.let { uri ->
                     ExternalUriHandler.onNewUri(uri)
                 }
-                println("Intent received with action: ${intent.action} and data: ${intent.data}")
             }
         }
     }

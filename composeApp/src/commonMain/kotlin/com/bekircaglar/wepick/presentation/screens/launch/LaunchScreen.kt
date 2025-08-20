@@ -49,7 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.bekircaglar.wepick.data.UserSession
+import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.domain.model.User
 import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme
@@ -69,9 +69,6 @@ fun LaunchScreen(navController: NavHostController) {
     val viewModel: LaunchViewModel = koinViewModel()
     val scope = rememberCoroutineScope()
 
-    val userSessionState by UserSession.userSessionFlow.collectAsState(
-        initial = User()
-    )
 
     val animalEmojis = listOf(
         "🐱",

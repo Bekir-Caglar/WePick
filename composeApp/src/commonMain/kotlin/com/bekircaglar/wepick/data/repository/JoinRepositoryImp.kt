@@ -44,11 +44,6 @@ class JoinRepositoryImp(
                 val room = it.children.map { it.value<RoomModel>() }.firstOrNull { room ->
                     room.roomCode == roomCode
                 }
-                if (room != null) {
-                    val membersRef =
-                        databaseReference.child("rooms").child(room.id ?: "").child("members")
-                    val participants = room.members
-                    val updatedMembers = participants + userId
 
                     membersRef.setValue(updatedMembers)
                     emit(QueryState.Success(true))

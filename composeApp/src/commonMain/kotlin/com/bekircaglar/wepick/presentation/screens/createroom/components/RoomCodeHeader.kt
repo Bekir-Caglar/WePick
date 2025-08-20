@@ -68,11 +68,11 @@ fun RoomCodeHeader(
         Text(
             text = "Oda kodunu paylaşarak arkadaşını davet et",
             fontWeight = Bold,
-            fontSize = 16.sp,
+            fontSize = 15.sp,
             color = WePickTheme.colors.onBackground.copy(0.8f),
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(12f)
+                .weight(15f)
         )
 
         Spacer(modifier = Modifier.weight(1f))
