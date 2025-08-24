@@ -6,9 +6,10 @@ import com.bekircaglar.wepick.utils.Response
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
-    suspend fun getCategories(): Flow<QueryState<List<CategoryModel>>>
-
-    suspend fun createRoom(categoryId: String): Flow<QueryState<String>>
+    suspend fun createRoom(
+        categoryId: String,
+        subCategories: List<String>
+    ): Flow<QueryState<String>>
 
 
 }

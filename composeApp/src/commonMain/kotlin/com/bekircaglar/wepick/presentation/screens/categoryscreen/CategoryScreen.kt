@@ -40,7 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.bekircaglar.wepick.domain.model.CategoryModel
+import com.bekircaglar.wepick.navigation.InnerCategory
 import com.bekircaglar.wepick.navigation.RoomCode
+import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.components.CategoryItem
 import com.bekircaglar.wepick.theme.WePickTheme
 import com.bekircaglar.wepick.utils.data
@@ -76,8 +78,8 @@ fun CategoryScreen(navController: NavHostController) {
         },
         onBack = { navController.popBackStack() },
         onContinue = {
-            selectedCategory?.id?.let {
-                viewModel.createRoom(it)
+            if (selectedCategory?.id != null && selectedCategory != null) {
+                navController.navigate(InnerCategory(selectedCategory!!.id!!))
             }
         },
         canContinue = selectedCategory != null

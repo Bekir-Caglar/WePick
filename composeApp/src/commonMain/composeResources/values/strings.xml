@@ -24,4 +24,19 @@
     <string name="category_music">Musical</string>
     <string name="select_your_favorite_categories">Choose your favorite movie categories</string>
     <string name="next">Next</string>
+    <string name="category_fastfood">Fast Food</string>
+    <string name="category_italian">Italian</string>
+    <string name="category_chinese">Chinese</string>
+    <string name="category_mexican">Mexican</string>
+    <string name="category_indian">Indian</string>
+    <string name="category_japanese">Japanese</string>
+    <string name="category_mediterranean">Mediterranean</string>
+    <string name="category_vegetarian">Vegetarian</string>
+    <string name="category_seafood">Seafood</string>
+    <string name="category_desserts">Desserts</string>
+    <string name="category_bbq">BBQ</string>
+    <string name="category_salads">Salads</string>
+    <string name="category_soups">Soups</string>
+    <string name="category_breakfast">Breakfast</string>
+    <string name="category_pizza">Pizza</string>
 </resources>

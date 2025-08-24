@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WePick</string>
+    <string name="category_action">Aksiyon</string>
+    <string name="category_adventure">Macera</string>
+    <string name="category_animation">Animasyon</string>
+    <string name="category_biography">Biyografi</string>
+    <string name="category_comedy">Komedi</string>
+    <string name="category_crime">Suç</string>
+    <string name="category_documentary">Belgesel</string>
+    <string name="category_drama">Dram</string>
+    <string name="category_family">Aile</string>
+    <string name="category_fantasy">Fantastik</string>
+    <string name="category_film_noir">Film Noir</string>
+    <string name="category_history">Tarih</string>
+    <string name="category_horror">Korku</string>
+    <string name="category_musical">Müzikal</string>
+    <string name="category_mystery">Gizem</string>
+    <string name="category_romance">Romantik</string>
+    <string name="category_sci_fi">Bilim Kurgu</string>
+    <string name="category_sport">Spor</string>
+    <string name="category_thriller">Gerilim</string>
+    <string name="category_war">Savaş</string>
+    <string name="category_western">Western</string>
+    <string name="category_music">Müzikal</string>
+    <string name="select_your_favorite_categories">Favori film katagorilerini seç</string>
+    <string name="next">Devam</string>
+    <string name="category_fastfood">Fast Food</string>
+    <string name="category_italian">İtalyan</string>
+    <string name="category_chinese">Çin</string>
+    <string name="category_mexican">Meksika</string>
+    <string name="category_indian">Hint</string>
+    <string name="category_japanese">Japon</string>
+    <string name="category_mediterranean">Akdeniz</string>
+    <string name="category_vegetarian">Vejetaryen</string>
+    <string name="category_seafood">Deniz Ürünleri</string>
+    <string name="category_desserts">Tatlılar</string>
+    <string name="category_bbq">Mangal</string>
+    <string name="category_salads">Salatalar</string>
+    <string name="category_soups">Çorbalar</string>
+    <string name="category_breakfast">Kahvaltı</string>
+    <string name="category_pizza">Pizza</string>
+</resources>

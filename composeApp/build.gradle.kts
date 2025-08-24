@@ -56,6 +56,7 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.serialization)
+            implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.3")
             implementation(libs.ktor.client.logging)
             implementation(libs.coil.network.ktor)
             implementation(libs.coil.compose)
