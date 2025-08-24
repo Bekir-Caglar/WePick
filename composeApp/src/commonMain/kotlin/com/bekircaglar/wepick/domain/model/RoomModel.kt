@@ -8,8 +8,10 @@ import kotlin.time.ExperimentalTime
 data class RoomModel @OptIn(ExperimentalTime::class) constructor(
     val id: String? = "",
     val name: String? = "",
+    val gameStatus: Boolean = false,
     val roomCategory: String? = "",
     val ownerId: String? = "",
+    val subCategories: List<String> = emptyList(),
     val members: List<String> = emptyList(),
     val readyMembers: List<String> = emptyList(),
     val roomCode: String? = "",

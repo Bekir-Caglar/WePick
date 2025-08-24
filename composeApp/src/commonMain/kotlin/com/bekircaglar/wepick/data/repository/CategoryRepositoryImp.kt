@@ -24,25 +24,10 @@ class CategoryRepositoryImp(
         }
     }
 
-    override suspend fun getCategories(): Flow<QueryState<List<CategoryModel>>> = flow {
-        emit(QueryState.Loading)
-        try {
-            databaseReference.child("categories").valueEvents.collect {
-                val categories = it.children.mapNotNull { snapshot ->
-                    snapshot.value<CategoryModel?>()
-                }
-                if (categories.isNotEmpty()) {
-                    emit(QueryState.Success(categories))
-                } else {
-                    emit(QueryState.Error("No categories found"))
-                }
-            }
-        } catch (e: Exception) {
-            emit(QueryState.Error(e.message ?: "An error occurred"))
-        }
-    }
-
-    override suspend fun createRoom(categoryId: String): Flow<QueryState<String>> = flow {
+    override suspend fun createRoom(
+        categoryId: String,
+        subCategories: List<String>
+    ): Flow<QueryState<String>> = flow {
         emit(QueryState.Loading)
         val roomCode = (1..5).map { ('A'..'Z').random() }.joinToString("")
 
@@ -56,6 +41,7 @@ class CategoryRepositoryImp(
                     id = roomId,
                     name = "${userSession.name}'s Room ",
                     roomCategory = categoryId,
+                    subCategories = subCategories,
                     ownerId = userSession.id,
                     members = listOf(userSession.id),
                     readyMembers = listOf(userSession.id),

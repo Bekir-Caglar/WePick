@@ -169,7 +169,7 @@ fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
         room = room,
         isOwner = isOwner,
         allUsersReady = allUsersReady,
-        listOfUsers = listOfUsers
+        listOfUsers = listOfUsers,
     )
 }
 
@@ -181,9 +181,9 @@ private fun ContentUi(
     roomCode: String,
     isOwner: Boolean = false,
     allUsersReady: Boolean = false,
-    setUsersReadyStatus: (Boolean) -> Unit = { /* No-op */ },
+    setUsersReadyStatus: (Boolean) -> Unit = { },
     onBackClick: () -> Unit,
-    onStartClicked: () -> Unit = { /* No-op */ }
+    onStartClicked: () -> Unit = { }
 ) {
 
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
@@ -280,7 +280,6 @@ private fun ContentUi(
                     val isOwnerUser = user.id == room?.data?.ownerId
                     val isReady = room?.data?.readyMembers?.contains(user.id) == true
 
-                    // Arka plan rengi: owner hariç, ready durumuna göre
                     val backgroundColor = when {
                         isInviteButton -> WePickTheme.colors.primary
                         else -> WePickTheme.colors.primaryVariant.copy(0.4f)

@@ -11,7 +11,6 @@ import com.bekircaglar.wepick.domain.repository.JoinRepository
 import com.bekircaglar.wepick.domain.repository.LaunchRepository
 import com.bekircaglar.wepick.domain.repository.RoomRepository
 import com.bekircaglar.wepick.domain.usecase.category.CreateRoomUseCase
-import com.bekircaglar.wepick.domain.usecase.category.GetCategoryListUseCase
 import com.bekircaglar.wepick.domain.usecase.join.JoinRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.launch.GetUsersByIdListUseCase
 import com.bekircaglar.wepick.domain.usecase.launch.SetUserUseCase
@@ -66,7 +65,6 @@ class AppModule {
         factoryOf(::GetUsersByIdListUseCase)
         factoryOf(::SetUserUseCase)
         factoryOf(::CreateRoomUseCase)
-        factoryOf(::GetCategoryListUseCase)
         factoryOf(::GetRoomUseCase)
         factoryOf(::ExitRoomUseCase)
 

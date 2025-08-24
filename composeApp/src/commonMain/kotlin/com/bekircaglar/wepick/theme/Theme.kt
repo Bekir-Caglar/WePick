@@ -31,6 +31,7 @@ data class WePickColors(
 data class AppColors(
     val primary: Color,
     val primaryVariant: Color,
+    val lightPrimaryVariant: Color,
     val secondary: Color,
     val onSecondary: Color,
     val background: Color,
@@ -43,6 +44,7 @@ data class AppColors(
 private val LightWePickColors = AppColors(
     primary = Color(0xFF238AFF),        // Logo'daki parlak mavi (üstteki kart)
     primaryVariant = Color(0xFF96c3fe), // Logo'daki açık mavi (alttaki kart)
+    lightPrimaryVariant = Color(0xFFcee0f9), // Daha açık mavi (#B3D7FF)
     secondary = Color(0xFF670098),     // İkinci renk olarak yeşil
     onSecondary = Color(0xFF000000),   // Yeşil üzeri
     background = Color(0xFFf5f5f5),     // Logo arkaplanı (beyaza yakın, #F8F9FA)
@@ -56,6 +58,7 @@ private val LightWePickColors = AppColors(
 private val DarkWePickColors = AppColors(
     primary = Color(0xFF238AFF),        // Logo'daki parlak mavi (değişmeden)
     primaryVariant = Color(0xFF96c3fe), // Açık maviye daha koyu alternatif (#4885C7)
+    lightPrimaryVariant = Color(0xFFcee0f9), // Daha açık mavi (#B3D7FF)
     secondary = Color(0xFF670098),     // İkinci renk olarak yeşil (değişmeden)
     onSecondary = Color(0xFFFFFFFF),   // Yeşil üzeri beyaz
     background = Color(0xFF1a1c2e),     // Koyu arkaplan

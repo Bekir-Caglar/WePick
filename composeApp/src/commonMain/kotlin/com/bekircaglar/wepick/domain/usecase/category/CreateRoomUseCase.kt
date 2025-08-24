@@ -6,5 +6,6 @@ import com.bekircaglar.wepick.domain.repository.CategoryRepository
 class CreateRoomUseCase(
     private val categoryRepository: CategoryRepository
 ) {
-    suspend operator fun invoke(categoryId: String) = categoryRepository.createRoom(categoryId)
+    suspend operator fun invoke(categoryId: String, subCategories: List<String>) =
+        categoryRepository.createRoom(categoryId, subCategories)
 }

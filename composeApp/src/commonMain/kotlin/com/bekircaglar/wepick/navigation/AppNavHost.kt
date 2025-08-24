@@ -2,13 +2,13 @@ package com.bekircaglar.wepick.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryScreen
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomScreen
+import com.bekircaglar.wepick.presentation.screens.innercategory.InnerCategoryScreen
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinRoomScreen
 import com.bekircaglar.wepick.presentation.screens.launch.LaunchScreen
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionScreen
@@ -54,6 +54,12 @@ fun AppNavHost(navController: NavHostController) {
         ) {
             SelectionScreen(navController)
         }
+
+        composable<InnerCategory> {
+            val categoryId: InnerCategory = it.toRoute()
+
+            InnerCategoryScreen(navController, categoryId.categoryId)
+        }
     }
 }
 
@@ -62,11 +68,16 @@ data class RoomCode(
     val roomCode: String,
 ) {}
 
+@Serializable
+data class InnerCategory(
+    val categoryId: String,
+)
+
 object Screens {
     const val LAUNCH = "launch"
     const val CATEGORY = "category"
+    const val INNER_CATEGORY = "inner_category"
     const val CREATE_ROOM = "create_room"
-
     const val JOIN_ROOM = "join_room"
     const val SELECTION = "selection"
 }
