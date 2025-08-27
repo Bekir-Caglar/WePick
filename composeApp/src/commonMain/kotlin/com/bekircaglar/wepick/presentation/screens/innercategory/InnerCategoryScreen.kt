@@ -26,7 +26,6 @@ import com.bekircaglar.wepick.domain.model.CategoryType
 import com.bekircaglar.wepick.domain.model.FoodCategory
 import com.bekircaglar.wepick.domain.model.MovieCategory
 import com.bekircaglar.wepick.navigation.RoomCode
-import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryViewModel
 import com.bekircaglar.wepick.theme.WePickTheme
 import com.bekircaglar.wepick.utils.data
@@ -37,9 +36,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_arrow_left
-import wepick.composeapp.generated.resources.ic_exit
 import wepick.composeapp.generated.resources.ic_info
-import wepick.composeapp.generated.resources.ic_menu
 import wepick.composeapp.generated.resources.logo
 import wepick.composeapp.generated.resources.select_your_favorite_categories
 
@@ -55,7 +52,7 @@ interface CategoryProvider<T : CategoryItem> {
 
 class MovieCategoryProvider : CategoryProvider<MovieCategory> {
     override fun getCategories(): List<MovieCategory> = MovieCategory.entries
-    override fun getCategoryType(): CategoryType = CategoryType.ENTERTAINMENT
+    override fun getCategoryType(): CategoryType = CategoryType.MOVIE
 }
 
 class FoodCategoryProvider : CategoryProvider<FoodCategory> {
@@ -66,7 +63,7 @@ class FoodCategoryProvider : CategoryProvider<FoodCategory> {
 object CategoryProviderFactory {
     fun <T : CategoryItem> getProvider(categoryType: CategoryType): CategoryProvider<T>? {
         return when (categoryType) {
-            CategoryType.ENTERTAINMENT -> MovieCategoryProvider() as? CategoryProvider<T>
+            CategoryType.MOVIE -> MovieCategoryProvider() as? CategoryProvider<T>
             CategoryType.FOOD -> FoodCategoryProvider() as? CategoryProvider<T>
             else -> null
         }
@@ -84,9 +81,9 @@ fun InnerCategoryScreen(navHostController: NavHostController, categoryId: String
 
     val categoryItems = remember(category?.categoryType) {
         when (category?.categoryType) {
-            CategoryType.ENTERTAINMENT -> {
+            CategoryType.MOVIE -> {
                 val provider =
-                    CategoryProviderFactory.getProvider<MovieCategory>(CategoryType.ENTERTAINMENT)
+                    CategoryProviderFactory.getProvider<MovieCategory>(CategoryType.MOVIE)
                 provider?.getCategories() ?: emptyList()
             }
 

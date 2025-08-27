@@ -11,5 +11,6 @@ interface RoomRepository {
     suspend fun observeRoomMembersOnlineStatus(roomId: String): Flow<QueryState<Unit>>
     suspend fun checkUserInRoom(roomCode: String, userId: String): Flow<QueryState<Boolean>>
     suspend fun setUserReadyStatus(roomId: String, userId: String, isReady: Boolean): Flow<QueryState<Unit>>
+    suspend fun startGame(roomId: String): Flow<QueryState<Unit>>
 
 }

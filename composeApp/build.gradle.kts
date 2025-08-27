@@ -69,6 +69,11 @@ kotlin {
             implementation("androidx.datastore:datastore:1.1.7")
             implementation("androidx.datastore:datastore-preferences:1.1.7")
             implementation("network.chaintech:qr-kit:3.0.7")
+            implementation(libs.compottie)
+            implementation(libs.compottie.dot)
+            implementation(libs.compottie.network)
+            implementation(libs.compottie.resources)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

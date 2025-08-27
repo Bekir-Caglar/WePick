@@ -1,26 +1,25 @@
 package com.bekircaglar.wepick.presentation.screens.selectionscreen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -31,96 +30,270 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.bekircaglar.wepick.domain.model.Movie
 import com.bekircaglar.wepick.navigation.Screens
+import com.bekircaglar.wepick.presentation.screens.selectionscreen.components.ActionButtons
+import com.bekircaglar.wepick.presentation.screens.selectionscreen.components.AnimatedMatchLogoDialog
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.components.MovieSwipeCard
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.components.SwipeCard
 import com.bekircaglar.wepick.theme.WePickTheme
-import com.bekircaglar.wepick.theme.back1
-import com.bekircaglar.wepick.theme.back2
-import com.bekircaglar.wepick.theme.dislike1
-import com.bekircaglar.wepick.theme.dislike2
-import com.bekircaglar.wepick.theme.like1
-import com.bekircaglar.wepick.theme.like2
-import com.bekircaglar.wepick.theme.superLike1
-import com.bekircaglar.wepick.theme.superLike2
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
+import io.github.alexzhirkevich.compottie.rememberLottieComposition
+import io.github.alexzhirkevich.compottie.rememberLottiePainter
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_exit
-import wepick.composeapp.generated.resources.ic_hearth_filled
-import wepick.composeapp.generated.resources.ic_lighning_filled
 import wepick.composeapp.generated.resources.ic_menu
-import wepick.composeapp.generated.resources.ic_rotate_left
-import wepick.composeapp.generated.resources.ic_x
+import wepick.composeapp.generated.resources.ic_rotate_right
 
 @Composable
-fun SelectionScreen(navHostController: NavHostController) {
-    var sampleMovies by remember { mutableStateOf<List<Movie>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(true) }
+fun SelectionScreen(navHostController: NavHostController, roomCode: String) {
+    val viewModel: SelectionViewModel = koinViewModel()
+    val roomData by viewModel.roomData.collectAsStateWithLifecycle()
+    val isInitialLoading by viewModel.isInitialLoading.collectAsStateWithLifecycle()
+    val isLoadingMore by viewModel.isLoadingMore.collectAsStateWithLifecycle()
+    val selectionItemList by viewModel.selectionItemList.collectAsStateWithLifecycle()
+    val hasMorePages by viewModel.hasMorePages.collectAsStateWithLifecycle()
+    val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle()
+    val matchId by viewModel.matchFound.collectAsStateWithLifecycle()
+    var showDialog by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
+    var isCountdownFinished by remember { mutableStateOf(false) }
 
-
-    if (isLoading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Filmler yükleniyor...")
+    LaunchedEffect(roomCode) {
+        if (roomCode.isNotEmpty()) {
+            viewModel.getRoom(roomCode = roomCode)
         }
-    } else {
-        ContentUI(
-            items = sampleMovies,
-            onLoadNewMovie = {},
-            onNavigationBack = {
-                navHostController.navigate(route = Screens.LAUNCH) {
-                    popUpTo(Screens.SELECTION) {
-                        inclusive = true
-                    }
-                }
-            },
-            onLike = { item ->
-                println("Liked: ${item.title}")
-            },
-            onDislike = { item ->
-                println("Disliked: ${item.title}")
+    }
+
+    LaunchedEffect(matchId) {
+        matchId?.let { matchedMovieId ->
+            showDialog = true
+        }
+    }
+    if (showDialog) {
+        AnimatedMatchLogoDialog(onDismissRequest = {
+            showDialog = false
+        })
+    }
+
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(
+                    message = message,
+                    duration = SnackbarDuration.Short
+                )
             }
+            viewModel.clearError()
+        }
+    }
+
+    if (!isCountdownFinished) {
+        CountDownContent(
+            onFinished = { isCountdownFinished = true }
         )
+        return
+    }
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { _ ->
+        when {
+            isInitialLoading -> {
+                LoadingContent()
+            }
+
+            selectionItemList.isEmpty() && !isInitialLoading -> {
+                EmptyContent(
+                    onRefresh = { viewModel.refreshMovies() }
+                )
+            }
+
+            else -> {
+                ContentUI(
+                    items = selectionItemList,
+                    isLoadingMore = isLoadingMore,
+                    hasMorePages = hasMorePages,
+                    onLoadNewMovie = {
+                        if (viewModel.shouldShowLoadMoreButton()) {
+                            viewModel.loadMoreMovies()
+                        }
+                    },
+                    onNavigationBack = {
+                        navHostController.navigate(route = Screens.LAUNCH) {
+                            popUpTo(Screens.SELECTION) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                    onLike = { item ->
+                        when (item) {
+                            is SelectionItem.MovieItem -> {
+                                if (roomData?.id != null && item.data?.imdbID != null && roomData != null) {
+                                    viewModel.likeSelectionItem(
+                                        roomId = roomData!!.id!!,
+                                        likedItemId = item.data.imdbID
+                                    )
+                                }
+                            }
+                        }
+                    },
+                    onDislike = { item ->
+                        when (item) {
+                            is SelectionItem.MovieItem -> {
+                                if (roomData?.id != null && item.data?.imdbID != null && roomData != null) {
+                                    viewModel.dislikeSelectionItem(
+                                        roomId = roomData!!.id!!,
+                                        likedItemId = item.data.imdbID
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CountDownContent(
+    onFinished: (() -> Unit)? = null
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(WePickTheme.colors.background),
+        contentAlignment = Alignment.Center
+    ) {
+        val composition by rememberLottieComposition {
+            LottieCompositionSpec.JsonString(
+                Res.readBytes("files/countdown.json").decodeToString()
+            )
+        }
+        val progress by animateLottieCompositionAsState(
+            composition = composition,
+            iterations = 1,
+            isPlaying = true,
+            speed = 1.0f,
+            restartOnPlay = false
+        )
+
+        LaunchedEffect(progress) {
+            if (progress >= 1f) {
+                onFinished?.invoke()
+            }
+        }
+
+        Image(
+            painter = rememberLottiePainter(
+                composition = composition,
+                iterations = 1,
+            ),
+            modifier = Modifier.size(250.dp),
+            contentDescription = "Lottie animation"
+        )
+    }
+}
+
+@Composable
+private fun LoadingContent() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(WePickTheme.colors.background),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(
+                color = WePickTheme.colors.primary,
+                modifier = Modifier.size(48.dp)
+            )
+            Spacer(modifier = Modifier.padding(8.dp))
+            Text(
+                text = "Filmler yükleniyor...",
+                style = MaterialTheme.typography.bodyLarge,
+                color = WePickTheme.colors.onBackground
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmptyContent(
+    onRefresh: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(WePickTheme.colors.background),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Henüz film bulunamadı",
+                style = MaterialTheme.typography.headlineMedium,
+                color = WePickTheme.colors.onBackground,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.padding(8.dp))
+            Text(
+                text = "Yeni filmler için yenile butonuna basın",
+                style = MaterialTheme.typography.bodyMedium,
+                color = WePickTheme.colors.onBackground.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.padding(16.dp))
+            IconButton(
+                onClick = onRefresh,
+                colors = IconButtonDefaults.iconButtonColors().copy(
+                    containerColor = WePickTheme.colors.primary,
+                    contentColor = WePickTheme.colors.onPrimary
+                )
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_rotate_right),
+                    contentDescription = "Refresh",
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ContentUI(
-    items: List<Movie>,
+    items: List<SelectionItem>,
+    isLoadingMore: Boolean,
+    hasMorePages: Boolean,
     onLoadNewMovie: () -> Unit,
     onNavigationBack: () -> Unit,
-    onLike: (Movie) -> Unit,
-    onDislike: (Movie) -> Unit,
+    onLike: (SelectionItem) -> Unit,
+    onDislike: (SelectionItem) -> Unit,
 ) {
     var currentIndex by remember { mutableIntStateOf(0) }
     var triggerSwipe by remember { mutableStateOf<SwipeDirection?>(null) }
 
-    // Kullanıcı son 3 filme geldiğinde yeni film yükle
-    LaunchedEffect(currentIndex) {
-        if (currentIndex >= items.size - 3) {
+    LaunchedEffect(currentIndex, items.size, hasMorePages) {
+        if (currentIndex >= items.size - 5 && hasMorePages && !isLoadingMore) {
             onLoadNewMovie()
         }
     }
@@ -133,7 +306,7 @@ private fun ContentUI(
                     containerColor = WePickTheme.colors.surface.copy(0.2f),
                     titleContentColor = WePickTheme.colors.onBackground
                 ),
-                title = { },
+                title = {},
                 navigationIcon = {
                     IconButton(
                         onClick = {},
@@ -211,285 +384,97 @@ private fun ContentUI(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                if (currentIndex < items.size) {
-                    if (currentIndex + 1 < items.size) {
-                        MovieSwipeCard(movie = items[currentIndex + 1])
+                when {
+                    currentIndex < items.size -> {
+                        // Show next card in background if available
+                        if (currentIndex + 1 < items.size) {
+                            SelectionItemCard(item = items[currentIndex + 1])
+                        }
+
+                        key(currentIndex) {
+                            SwipeCard(
+                                triggerSwipe = triggerSwipe,
+                                onSwipeLeft = {
+                                    onDislike(items[currentIndex])
+                                    currentIndex++
+                                    triggerSwipe = null
+                                },
+                                onSwipeRight = {
+                                    onLike(items[currentIndex])
+                                    currentIndex++
+                                    triggerSwipe = null
+                                },
+                                content = {
+                                    SelectionItemCard(item = items[currentIndex])
+                                }
+                            )
+                        }
                     }
 
-                    key(currentIndex) {
-                        SwipeCard(
-                            triggerSwipe = triggerSwipe,
-                            onSwipeLeft = {
-                                onDislike(items[currentIndex])
-                                currentIndex++
-                                triggerSwipe = null
-                            },
-                            onSwipeRight = {
-                                onLike(items[currentIndex])
-                                currentIndex++
-                                triggerSwipe = null
-                            },
-                            content = {
-                                MovieSwipeCard(movie = items[currentIndex])
+                    hasMorePages && isLoadingMore -> {
+                        // Show loading while fetching more (only if no items left)
+                        if (items.isEmpty()) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                CircularProgressIndicator(
+                                    color = WePickTheme.colors.primary,
+                                    modifier = Modifier.size(48.dp)
+                                )
+                                Spacer(modifier = Modifier.padding(8.dp))
+                                Text(
+                                    text = "Yeni filmler yükleniyor...",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = WePickTheme.colors.onBackground,
+                                    textAlign = TextAlign.Center
+                                )
                             }
-                        )
+                        } else {
+                            // Show end message while background loading
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "Filmler hazırlanıyor...",
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    color = WePickTheme.colors.onBackground,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
                     }
-                } else {
-                    Text(
-                        text = "No more movies",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = WePickTheme.colors.onBackground,
-                        textAlign = TextAlign.Center
-                    )
+
+                    else -> {
+                        // No more items available
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Tüm filmler gösterildi!",
+                                style = MaterialTheme.typography.headlineMedium,
+                                color = WePickTheme.colors.onBackground,
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            Text(
+                                text = "Yeni filmler için yenile butonuna basabilirsiniz",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = WePickTheme.colors.onBackground.copy(alpha = 0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-
-
 @Composable
-private fun ActionButtons(
-    onDislike: () -> Unit,
-    onLike: () -> Unit,
-    onRewind: () -> Unit,
-    onBoost: () -> Unit,
-
-    ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 40.dp)
-    ) {
-        // Rewind button
-        FloatingActionButton(
-            onClick = onRewind,
-            modifier = Modifier
-                .size(40.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(back1, back2),
-                        startX = 0f,
-                        endX = 80f
-                    ),
-                    shape = CircleShape
-                ),
-            containerColor = Color.Transparent,
-            contentColor = Color(0xFF999999),
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_rotate_left),
-                contentDescription = "Rewind",
-                modifier = Modifier.size(20.dp),
-                tint = Color.White
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Dislike button
-        FloatingActionButton(
-            onClick = onDislike,
-            modifier = Modifier
-                .size(56.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(dislike1, dislike2),
-                        startX = 0f,
-                        endX = 80f
-                    ),
-                    shape = CircleShape
-                ),
-            containerColor = Color.Transparent,
-            contentColor = Color(0xFFFF4458),
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_x),
-                contentDescription = "Dislike",
-                modifier = Modifier.size(24.dp),
-                tint = Color.White
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // Like button
-        FloatingActionButton(
-            onClick = onLike,
-            modifier = Modifier
-                .size(56.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(like1, like2),
-                        startX = 0f,
-                        endX = 80f
-                    ),
-                    shape = CircleShape
-                ),
-            containerColor = Color.Transparent,
-            contentColor = Color(0xFF42DCA3),
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_hearth_filled),
-                contentDescription = "Like",
-                modifier = Modifier.size(40.dp),
-                tint = Color.White
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Boost button
-        FloatingActionButton(
-            onClick = onBoost,
-            modifier = Modifier
-                .size(40.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(superLike1, superLike2),
-                        startX = 0f,
-                        endX = 80f
-                    ),
-                    shape = CircleShape
-                ),
-            containerColor = Color.Transparent,
-            contentColor = Color.White,
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_lighning_filled),
-                contentDescription = "Boost",
-                modifier = Modifier.size(24.dp),
-                tint = Color.White
-            )
-        }
-    }
-}
-
-@Composable
-private fun ActionButtonsOutlined(
-    onDislike: () -> Unit,
-    onLike: () -> Unit
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 48.dp)
-    ) {
-        // Rewind button
-        FloatingActionButton(
-            onClick = { /* Geri alma işlemi */ },
-            modifier = Modifier
-                .size(40.dp)
-                .background(
-                    color = WePickTheme.colors.background,
-                    shape = CircleShape
-                )
-                .border(
-                    width = 2.dp,
-                    color = back1,
-                    shape = CircleShape
-                ),
-            containerColor = WePickTheme.colors.background,
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_rotate_left),
-                contentDescription = "Rewind",
-                modifier = Modifier.size(20.dp),
-                tint = back2
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Dislike button
-        FloatingActionButton(
-            onClick = onDislike,
-            modifier = Modifier
-                .size(56.dp)
-                .background(
-                    color = WePickTheme.colors.background,
-                    shape = CircleShape
-                )
-                .border(
-                    width = 2.dp,
-                    color = dislike1,
-                    shape = CircleShape
-                ),
-            containerColor = WePickTheme.colors.background,
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_x),
-                contentDescription = "Dislike",
-                modifier = Modifier.size(24.dp),
-                tint = dislike2
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // Like button
-        FloatingActionButton(
-            onClick = onLike,
-            modifier = Modifier
-                .size(56.dp)
-                .background(
-                    color = WePickTheme.colors.background,
-                    shape = CircleShape
-                )
-                .border(
-                    width = 2.dp,
-                    color = like1,
-                    shape = CircleShape
-                ),
-            containerColor = WePickTheme.colors.background,
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_hearth_filled),
-                contentDescription = "Like",
-                modifier = Modifier.size(40.dp),
-                tint = like2
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Boost button
-        FloatingActionButton(
-            onClick = { /* Boost işlemi */ },
-            modifier = Modifier
-                .size(40.dp)
-                .background(
-                    color = WePickTheme.colors.background,
-                    shape = CircleShape
-                )
-                .border(
-                    width = 2.dp,
-                    color = superLike1,
-                    shape = CircleShape
-                ),
-            containerColor = WePickTheme.colors.background,
-            shape = CircleShape,
-            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.ic_lighning_filled),
-                contentDescription = "Boost",
-                modifier = Modifier.size(24.dp),
-                tint = superLike2
-            )
+private fun SelectionItemCard(item: SelectionItem) {
+    when (item) {
+        is SelectionItem.MovieItem -> {
+            item.data?.let { MovieSwipeCard(movie = it) }
         }
     }
 }

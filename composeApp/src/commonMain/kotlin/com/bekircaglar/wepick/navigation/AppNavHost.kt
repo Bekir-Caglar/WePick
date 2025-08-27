@@ -49,10 +49,9 @@ fun AppNavHost(navController: NavHostController) {
             JoinRoomScreen(navController)
         }
 
-        composable(
-            route = Screens.SELECTION,
-        ) {
-            SelectionScreen(navController)
+        composable<Selection> {
+            val selection: Selection = it.toRoute()
+            SelectionScreen(navController, selection.roomCode)
         }
 
         composable<InnerCategory> {
@@ -71,6 +70,11 @@ data class RoomCode(
 @Serializable
 data class InnerCategory(
     val categoryId: String,
+)
+
+@Serializable
+data class Selection(
+    val roomCode: String,
 )
 
 object Screens {

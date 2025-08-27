@@ -36,21 +36,18 @@ fun SwipeCard(
     var dismissDirection by remember { mutableStateOf<String?>(null) }
     val density = LocalDensity.current.density
 
-    // Programatik swipe tetikleme - önce offset'i değiştir, sonra dismiss et
     LaunchedEffect(triggerSwipe) {
         if (triggerSwipe != null && !isDismissed) {
             when (triggerSwipe) {
                 SwipeDirection.LEFT -> {
-                    // Önce sola kaydır
                     offset = -swipeThreshold * 1.5f
-                    delay(150) // Daha uzun bekleme
+                    delay(150)
                     isDismissed = true
                     dismissDirection = "left"
                 }
                 SwipeDirection.RIGHT -> {
-                    // Önce sağa kaydır
                     offset = swipeThreshold * 1.5f
-                    delay(150) // Daha uzun bekleme
+                    delay(150)
                     isDismissed = true
                     dismissDirection = "right"
                 }
