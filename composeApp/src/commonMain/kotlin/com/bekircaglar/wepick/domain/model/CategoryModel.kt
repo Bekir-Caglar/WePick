@@ -33,7 +33,7 @@ object categoryList {
         ),
         CategoryModel(
             id = "4",
-            categoryType = CategoryType.ENTERTAINMENT,
+            categoryType = CategoryType.MOVIE,
             emoji = "\uD83C\uDFAC",
             description = "Movies, TV shows, and more"
         ),
@@ -81,7 +81,7 @@ enum class CategoryType(val value: String) {
     FOOD("Food"),
     TRAVEL("Travel"),
     SHOPPING("Shopping"),
-    ENTERTAINMENT("Entertainment"),
+    MOVIE("Movie"),
     SPORTS("Sports"),
     TECHNOLOGY("Technology"),
     HEALTH("Health"),

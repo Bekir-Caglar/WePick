@@ -30,8 +30,8 @@ import wepick.composeapp.generated.resources.category_western
 
 @Serializable
 enum class MovieCategory(
-    @Transient override val titleRes: StringResource,
-    @Transient override val id: String
+    override val titleRes: StringResource,
+    override val id: String
 ) : CategoryItem {
     ACTION(Res.string.category_action, "action"),
     COMEDY(Res.string.category_comedy, "comedy"),
@@ -55,9 +55,13 @@ enum class MovieCategory(
     SCI_FI(Res.string.category_sci_fi, "sci_fi"),
 }
 
+fun movieCategoryFromId(name: String): MovieCategory? {
+    return MovieCategory.entries.find { it.name.equals(name, ignoreCase = true) }
+}
+
 @Serializable
 data class MovieDB(
     val title: String,
     val imdbId: String,
-    val categories: List<MovieCategory>
+    val categories: List<String>
 )

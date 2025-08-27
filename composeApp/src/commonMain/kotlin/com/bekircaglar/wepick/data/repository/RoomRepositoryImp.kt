@@ -156,6 +156,18 @@ class RoomRepositoryImp(
         }
     }
 
+    override suspend fun startGame(roomId: String): Flow<QueryState<Unit>> = flow {
+        emit(QueryState.Loading)
+        try {
+            val roomRef = databaseReference.child("rooms").child(roomId)
+            roomRef.child("gameStatus").setValue(true)
+
+            emit(QueryState.Success(Unit))
+        } catch (e: Exception) {
+            emit(QueryState.Error(e.message))
+        }
+    }
+
     private suspend fun removeOfflineMemberFromRoom(roomId: String, userId: String) {
         try {
             val roomRef = databaseReference.child("rooms").child(roomId)
@@ -203,7 +215,8 @@ class RoomRepositoryImp(
             if (roomRef.exists) {
                 val membersRef = databaseReference.child("rooms").child(roomId).child("members")
                 val ownerRef = databaseReference.child("rooms").child(roomId).child("ownerId")
-                val readyMembersRef = databaseReference.child("rooms").child(roomId).child("readyMembers")
+                val readyMembersRef =
+                    databaseReference.child("rooms").child(roomId).child("readyMembers")
                 val participants =
                     roomRef.child("members").children.associate { it.value to it.value<String>() }.values
                 val updatedMembers = participants.filter { it != userId }

@@ -12,6 +12,7 @@ import com.bekircaglar.wepick.domain.usecase.room.ExitRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ObserveRoomMemersUseCase
 import com.bekircaglar.wepick.domain.usecase.room.SetUserReadyStatusUseCase
+import com.bekircaglar.wepick.domain.usecase.room.StartGameUseCase
 import com.bekircaglar.wepick.utils.QueryState
 import com.bekircaglar.wepick.utils.data
 import com.bekircaglar.wepick.utils.isSuccess
@@ -27,7 +28,8 @@ class CreateRoomViewModel(
     private val joinRoomUseCase: JoinRoomUseCase,
     private val observeRoomMemersUseCase: ObserveRoomMemersUseCase,
     private val checkUserInRoomUseCase: CheckUserInRoomUseCase,
-    private val setUserReadyStatusUseCase: SetUserReadyStatusUseCase
+    private val setUserReadyStatusUseCase: SetUserReadyStatusUseCase,
+    private val startGameUseCase: StartGameUseCase
 ) : ViewModel() {
 
     private val _room = MutableStateFlow<QueryState<RoomModel>?>(null)
@@ -41,13 +43,39 @@ class CreateRoomViewModel(
     private val _allUsersReady = MutableStateFlow<Boolean>(false)
     val allUsersReady = _allUsersReady.asStateFlow()
 
+    private val _isGameStarted = MutableStateFlow<Boolean>(false)
+    val isGameStarted = _isGameStarted.asStateFlow()
+
 
     fun startObservingRoomMembers(roomId: String) = viewModelScope.launch {
         observeRoomMemersUseCase(roomId = roomId).collect {
         }
     }
 
-    fun setUsersReadyStatus(isReady: Boolean ) = viewModelScope.launch {
+    fun startGame(roomId: String) = viewModelScope.launch {
+        startGameUseCase(roomId = roomId).collect { response ->
+            when (response) {
+                is QueryState.Loading -> {
+                    // Handle loading state if needed
+                }
+
+                is QueryState.Success -> {
+                    _isGameStarted.update { true }
+                }
+
+                is QueryState.Error -> {
+                    // Handle error state if needed
+                }
+
+                is QueryState.Idle -> {
+                    // Handle idle state if needed
+                }
+            }
+        }
+
+    }
+
+    fun setUsersReadyStatus(isReady: Boolean) = viewModelScope.launch {
         _room.value?.data?.id?.let { roomId ->
             UserSession.getId()?.let { userId ->
                 setUserReadyStatusUseCase(

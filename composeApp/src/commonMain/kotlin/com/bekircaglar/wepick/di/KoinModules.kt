@@ -6,10 +6,13 @@ import com.bekircaglar.wepick.data.repository.FirebaseStatusRepository
 import com.bekircaglar.wepick.data.repository.JoinRepositoryImp
 import com.bekircaglar.wepick.data.repository.LaunchRepositoryImp
 import com.bekircaglar.wepick.data.repository.RoomRepositoryImp
+import com.bekircaglar.wepick.data.repository.SelectionRepositoryImp
 import com.bekircaglar.wepick.domain.repository.CategoryRepository
 import com.bekircaglar.wepick.domain.repository.JoinRepository
 import com.bekircaglar.wepick.domain.repository.LaunchRepository
 import com.bekircaglar.wepick.domain.repository.RoomRepository
+import com.bekircaglar.wepick.domain.repository.SelectionRepository
+import com.bekircaglar.wepick.domain.service.OmdbApiService
 import com.bekircaglar.wepick.domain.usecase.category.CreateRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.join.JoinRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.launch.GetUsersByIdListUseCase
@@ -19,10 +22,15 @@ import com.bekircaglar.wepick.domain.usecase.room.ExitRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ObserveRoomMemersUseCase
 import com.bekircaglar.wepick.domain.usecase.room.SetUserReadyStatusUseCase
+import com.bekircaglar.wepick.domain.usecase.room.StartGameUseCase
+import com.bekircaglar.wepick.domain.usecase.selection.GetMovieListUseCase
+import com.bekircaglar.wepick.domain.usecase.selection.LikeSelectionItemUseCase
+import com.bekircaglar.wepick.domain.usecase.selection.ObserveMatchUseCase
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryViewModel
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomViewModel
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinViewModel
 import com.bekircaglar.wepick.presentation.screens.launch.LaunchViewModel
+import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionViewModel
 import com.bekircaglar.wepick.utils.StatusManagerFactory
 import com.bekircaglar.wepick.utils.createStatusManagerFactory
 import dev.gitlive.firebase.Firebase
@@ -48,15 +56,20 @@ class AppModule {
             bind<RoomRepository>()
         }
 
-        singleOf(::LaunchRepositoryImp){
+        singleOf(::LaunchRepositoryImp) {
             bind<LaunchRepository>()
         }
 
-        singleOf(::JoinRepositoryImp){
+        singleOf(::JoinRepositoryImp) {
             bind<JoinRepository>()
         }
 
+        singleOf(::SelectionRepositoryImp) {
+            bind<SelectionRepository>()
+        }
+
         singleOf(::FirebaseStatusRepository)
+        singleOf(::OmdbApiService)
 
         factoryOf(::SetUserReadyStatusUseCase)
         factoryOf(::CheckUserInRoomUseCase)
@@ -67,6 +80,10 @@ class AppModule {
         factoryOf(::CreateRoomUseCase)
         factoryOf(::GetRoomUseCase)
         factoryOf(::ExitRoomUseCase)
+        factoryOf(::StartGameUseCase)
+        factoryOf(::GetMovieListUseCase)
+        factoryOf(::LikeSelectionItemUseCase)
+        factoryOf(::ObserveMatchUseCase)
 
 
 
@@ -75,6 +92,7 @@ class AppModule {
         viewModelOf(::CategoryViewModel)
         viewModelOf(::LaunchViewModel)
         viewModelOf(::JoinViewModel)
+        viewModelOf(::SelectionViewModel)
 
     }
 }

@@ -40,7 +40,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -54,17 +53,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.bekircaglar.wepick.Platform
 import com.bekircaglar.wepick.data.manager.UserSession
-import com.bekircaglar.wepick.di.AppModule
 import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.model.User
 import com.bekircaglar.wepick.getPlatform
 import com.bekircaglar.wepick.navigation.Screens
+import com.bekircaglar.wepick.navigation.Selection
 import com.bekircaglar.wepick.presentation.screens.createroom.components.InviteFriendsBottomSheet
 import com.bekircaglar.wepick.presentation.screens.createroom.components.RoomCodeHeader
 import com.bekircaglar.wepick.theme.WePickTheme
@@ -75,14 +71,11 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.context.startKoin
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_exit
-import wepick.composeapp.generated.resources.ic_king
 import wepick.composeapp.generated.resources.ic_menu
 import wepick.composeapp.generated.resources.ic_plus
 import wepick.composeapp.generated.resources.logo
-import wepick.composeapp.generated.resources.qr_code
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -113,6 +106,13 @@ fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
                 }
             }
         }
+    }
+
+    LaunchedEffect(room?.data?.gameStatus) {
+        if (room?.data?.gameStatus == true && room?.data != null && room != null) {
+            navController.navigate(Selection(roomCode = room!!.data!!.roomCode!!))
+        }
+
     }
 
     LaunchedEffect(roomCode) {
@@ -159,7 +159,11 @@ fun CreateRoomScreen(navController: NavHostController, roomCode: String) {
             }
         },
         onStartClicked = {
-            navController.navigate(Screens.SELECTION)
+            room?.data?.id?.let {
+                viewModel.startGame(
+                    roomId = it,
+                )
+            }
         },
         setUsersReadyStatus = { isReady ->
             viewModel.setUsersReadyStatus(
@@ -285,7 +289,7 @@ private fun ContentUi(
                         else -> WePickTheme.colors.primaryVariant.copy(0.4f)
                     }
                     val readyColor = when {
-                        isReady -> Color(0xFF4CAF50).copy(alpha = 0.2f) // yeşil hafif saydam
+                        isReady -> Color(0xFF4CAF50).copy(alpha = 0.2f)
                         else -> Color(0xFFF44336).copy(alpha = 0.2f)
                     }
 
