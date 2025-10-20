@@ -44,5 +44,8 @@ interface SelectionRepository {
         roomId: String
     ): Flow<QueryState<String>>
 
+    suspend fun clearRoom(
+        roomId: String
+    ): Flow<QueryState<Unit>>
 
 }

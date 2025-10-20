@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlin.collections.listOf
 
 const val DEFAULT_PAGE_SIZE = 10
 const val INITIAL_LOAD_SIZE = 10
@@ -146,6 +147,27 @@ class SelectionRepositoryImp(
                     return@collect
                 }
             }
+        } catch (e: Exception) {
+            emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
+        }
+    }
+
+    override suspend fun clearRoom(roomId: String): Flow<QueryState<Unit>> = flow {
+        emit(QueryState.Loading)
+        try {
+            val roomRef = databaseReference.child("rooms").child(roomId)
+            val members =
+                roomRef.child("members").valueEvents.first().children.map { it.value<String>() }
+
+            members.forEach { memberId ->
+                val likesRef = databaseReference.child("likes").child(roomId).child(memberId)
+                likesRef.removeValue()
+            }
+
+            roomRef.child("gameStatus").setValue(false)
+            roomRef.child("readyMembers").setValue(listOf<String>())
+
+            emit(QueryState.Success(Unit))
         } catch (e: Exception) {
             emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
         }

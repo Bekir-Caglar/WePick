@@ -23,6 +23,7 @@ import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.room.ObserveRoomMemersUseCase
 import com.bekircaglar.wepick.domain.usecase.room.SetUserReadyStatusUseCase
 import com.bekircaglar.wepick.domain.usecase.room.StartGameUseCase
+import com.bekircaglar.wepick.domain.usecase.selection.ClearRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.GetMovieListUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.LikeSelectionItemUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.ObserveMatchUseCase
@@ -85,6 +86,7 @@ class AppModule {
         factoryOf(::GetMovieListUseCase)
         factoryOf(::LikeSelectionItemUseCase)
         factoryOf(::ObserveMatchUseCase)
+        factoryOf(::ClearRoomUseCase)
 
 
 

@@ -88,7 +88,10 @@ fun SelectionScreen(navHostController: NavHostController, roomCode: String) {
                 onDismissRequest = {
                     showDialog = false
                     matchId?.let {
-                        navHostController.navigate(route = Screens.RESULT)
+                        navHostController.navigate(route = Screens.RESULT) {
+                            popUpTo(Screens.SELECTION) { inclusive = true }
+                            launchSingleTop = true
+                        }
                     }
                 }
             )
