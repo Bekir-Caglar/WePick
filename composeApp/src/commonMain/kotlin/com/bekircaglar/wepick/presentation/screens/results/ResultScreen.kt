@@ -30,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.bekircaglar.wepick.domain.model.Movie
+import com.bekircaglar.wepick.navigation.RoomCode
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionItem
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionViewModel
 import com.bekircaglar.wepick.theme.WePickTheme
@@ -60,15 +62,29 @@ import kotlin.math.min
 @Composable
 fun ResultScreen(navHostController: NavHostController) {
     val viewModel: SelectionViewModel = koinViewModel()
-    val selectionItem by viewModel.selectedItem.collectAsStateWithLifecycle()
+    val selectionItem = viewModel.selectedItem.value
+    val roomData by viewModel.roomData.collectAsStateWithLifecycle()
 
-    when(selectionItem){
+
+    LaunchedEffect(Unit){
+        viewModel.resetRoom()
+    }
+
+    when (selectionItem) {
         is SelectionItem.MovieItem -> {
-            val movie = selectionItem.let { it as SelectionItem.MovieItem }.movie
+            val movie = selectionItem.movie
             movie?.let {
-                MovieResult(it)
+                MovieResult(
+                    movie = it,
+                    onBackRoom = {
+                        roomData?.roomCode?.let { roomCode ->
+                            navHostController.navigate(RoomCode(roomCode = roomCode))
+                        }
+                    }
+                )
             }
         }
+
         else -> {
 
         }
@@ -77,7 +93,10 @@ fun ResultScreen(navHostController: NavHostController) {
 
 
 @Composable
-fun MovieResult(movie: Movie) {
+fun MovieResult(
+    movie: Movie,
+    onBackRoom: () -> Unit
+) {
     val scrollState = rememberScrollState()
     val scrollProgress = min(scrollState.value / 500f, 1f)
 
@@ -358,7 +377,7 @@ fun MovieResult(movie: Movie) {
                         verticalArrangement = Arrangement.Bottom,
                     ) {
                         Button(
-                            onClick = {},
+                            onClick = onBackRoom,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = 16.dp)
@@ -380,7 +399,7 @@ fun MovieResult(movie: Movie) {
                             )
                         ) {
                             Text(
-                                text = "Kaydırmaya devam et",
+                                text = "Odaya dön",
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.SemiBold
                                 )
@@ -428,5 +447,5 @@ fun ResultScreenPreview() {
         runtime = "2h 22min"
     )
 
-    MovieResult(movie = sampleMovie)
+    MovieResult(movie = sampleMovie,{})
 }

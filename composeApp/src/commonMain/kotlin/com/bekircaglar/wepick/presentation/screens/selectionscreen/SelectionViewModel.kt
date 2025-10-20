@@ -7,6 +7,7 @@ import com.bekircaglar.wepick.domain.model.Movie
 import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.model.categoryList
 import com.bekircaglar.wepick.domain.usecase.room.GetRoomUseCase
+import com.bekircaglar.wepick.domain.usecase.selection.ClearRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.GetMovieListUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.LikeSelectionItemUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.ObserveMatchUseCase
@@ -21,7 +22,8 @@ class SelectionViewModel(
     private val getRoomUseCase: GetRoomUseCase,
     private val getMovieListUseCase: GetMovieListUseCase,
     private val likeSelectionItemUseCase: LikeSelectionItemUseCase,
-    private val observeMatchUseCase: ObserveMatchUseCase
+    private val observeMatchUseCase: ObserveMatchUseCase,
+    private val clearRoomUseCase: ClearRoomUseCase
 ) : ViewModel() {
 
     companion object {
@@ -63,7 +65,6 @@ class SelectionViewModel(
     private val _selectedItem = MutableStateFlow<SelectionItem?>(null)
     val selectedItem = _selectedItem.asStateFlow()
 
-    // Current category data for pagination
     private var currentCategoryType: CategoryType? = null
     private var currentSubCategories: List<String> = emptyList()
 
@@ -97,6 +98,29 @@ class SelectionViewModel(
                 item is SelectionItem.MovieItem && item.movie?.imdbID == matchId
             }?.let { selectedItem ->
                 _selectedItem.value = selectedItem
+            }
+        }
+    }
+
+    fun resetRoom() = viewModelScope.launch {
+        _roomData.value?.id?.let { roomId ->
+            clearRoomUseCase(roomId = roomId).collect { queryState ->
+                when (queryState) {
+                    is QueryState.Loading -> {
+                        // Handle loading state if needed
+                    }
+
+                    is QueryState.Success -> {
+                        _matchFound.value = null
+                        _selectedItem.value = null
+                    }
+
+                    is QueryState.Error -> {
+                        _errorMessage.value = queryState.message
+                    }
+
+                    else -> {}
+                }
             }
         }
     }

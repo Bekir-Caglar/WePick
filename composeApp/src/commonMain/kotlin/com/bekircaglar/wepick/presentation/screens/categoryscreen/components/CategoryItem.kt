@@ -33,7 +33,7 @@ fun CategoryItem(
     Card(
         modifier = Modifier
             .aspectRatio(4f / 3f)
-            .height(100.dp)
+            .height(120.dp)
             .then(borderModifier),
         onClick = {
             if (!showComingSoon)
