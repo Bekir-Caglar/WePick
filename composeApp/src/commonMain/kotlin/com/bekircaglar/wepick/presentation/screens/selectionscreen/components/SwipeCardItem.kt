@@ -1,23 +1,37 @@
 package com.bekircaglar.wepick.presentation.screens.selectionscreen.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush.Companion.verticalGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImage
 import com.bekircaglar.wepick.domain.model.Movie
-import com.bekircaglar.wepick.domain.model.SelectionItem
+import com.bekircaglar.wepick.domain.model.Rating
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -46,14 +60,17 @@ fun MovieSwipeCard(movie: Movie) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .zIndex(1f)
-                    .height(120.dp)
+                    .height(160.dp)
                     .align(Alignment.BottomCenter)
                     .background(
-                        brush = androidx.compose.ui.graphics.Brush.verticalGradient(
+                        brush = verticalGradient(
                             colors = listOf(
-                                Color.Transparent,
+                                Color.Black.copy(alpha = 0f),
+                                Color.Black.copy(alpha = 0.2f),
+                                Color.Black.copy(alpha = 0.4f),
                                 Color.Black.copy(alpha = 0.6f),
-                                Color.Black.copy(alpha = 0.8f)
+                                Color.Black.copy(alpha = 0.8f),
+                                Color.Black.copy(alpha = 1f)
                             )
                         ),
                         shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
@@ -67,15 +84,74 @@ fun MovieSwipeCard(movie: Movie) {
                     .padding(20.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = movie.title,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    maxLines = 2
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = movie.title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        maxLines = 2
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "(${movie.year})",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = Color.White.copy(0.8f),
+                        fontWeight = FontWeight.Light,
+                        fontSize = 18.sp,
+                        maxLines = 1
+                    )
+                }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = movie.genre,
+                        color = Color.White.copy(0.8f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                        maxLines = 1
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        text = "|",
+                        color = Color.White,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                        maxLines = 1
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = movie.runtime,
+                        color = Color.White.copy(0.8f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                        maxLines = 1
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = movie.actors,
+                        color = Color.White.copy(0.8f),
+                        fontSize = 14.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        fontWeight = FontWeight.Light,
+                        maxLines = 1
+                    )
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -97,7 +173,7 @@ fun MovieSwipeCard(movie: Movie) {
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
-                        text = movie.imdbRating ?: "N/A",
+                        text = movie.imdbRating,
                         color = Color.White,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium
@@ -105,5 +181,48 @@ fun MovieSwipeCard(movie: Movie) {
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun MovieSwipeCardPreview() {
+    val sampleMovie = Movie(
+        actors = "Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss",
+        awards = "4 Oscar Adayı. 1 Oscar Kazandı. 37 ödül & 51 adaylık",
+        boxOffice = "$463,517,383",
+        country = "USA",
+        dVD = "21 Sep 1999",
+        director = "Lana Wachowski, Lilly Wachowski",
+        genre = "Action, Sci-Fi",
+        imdbID = "tt0133093",
+        imdbRating = "8.7",
+        imdbVotes = "1,800,000",
+        language = "English",
+        metascore = "73",
+        plot = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+        poster = "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+        production = "Warner Bros.",
+        rated = "R",
+        ratings = listOf(Rating("Internet Movie Database", "8.7/10")),
+        released = "31 Mar 1999",
+        response = "True",
+        runtime = "136 min",
+        title = "The Matrix",
+        type = "movie",
+        website = "N/A",
+        writer = "Lilly Wachowski, Lana Wachowski",
+        year = "1999"
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF121212))
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        MovieSwipeCard(movie = sampleMovie)
+
     }
 }

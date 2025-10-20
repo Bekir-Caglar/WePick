@@ -47,6 +47,7 @@ class AppModule {
 
         single<StatusManagerFactory> { createStatusManagerFactory() }
 
+        singleOf(::SelectionViewModel)
 
         singleOf(::CategoryRepositoryImp) {
             bind<CategoryRepository>()
@@ -92,7 +93,6 @@ class AppModule {
         viewModelOf(::CategoryViewModel)
         viewModelOf(::LaunchViewModel)
         viewModelOf(::JoinViewModel)
-        viewModelOf(::SelectionViewModel)
 
     }
 }

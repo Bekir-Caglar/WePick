@@ -67,7 +67,6 @@ fun SelectionScreen(navHostController: NavHostController, roomCode: String) {
     val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle()
     val matchId by viewModel.matchFound.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
-    val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     var isCountdownFinished by remember { mutableStateOf(false) }
@@ -84,20 +83,15 @@ fun SelectionScreen(navHostController: NavHostController, roomCode: String) {
         }
     }
     if (showDialog) {
-        AnimatedMatchLogoDialog(onDismissRequest = {
-            showDialog = false
-        })
-    }
-
-    LaunchedEffect(errorMessage) {
-        errorMessage?.let { message ->
-            coroutineScope.launch {
-                snackbarHostState.showSnackbar(
-                    message = message,
-                    duration = SnackbarDuration.Short
-                )
-            }
-            viewModel.clearError()
+        matchId?.let {
+            AnimatedMatchLogoDialog(
+                onDismissRequest = {
+                    showDialog = false
+                    matchId?.let {
+                        navHostController.navigate(route = Screens.RESULT)
+                    }
+                }
+            )
         }
     }
 
@@ -108,9 +102,7 @@ fun SelectionScreen(navHostController: NavHostController, roomCode: String) {
         return
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { _ ->
+    Scaffold { _ ->
         when {
             isInitialLoading -> {
                 LoadingContent()
@@ -142,10 +134,10 @@ fun SelectionScreen(navHostController: NavHostController, roomCode: String) {
                     onLike = { item ->
                         when (item) {
                             is SelectionItem.MovieItem -> {
-                                if (roomData?.id != null && item.data?.imdbID != null && roomData != null) {
+                                if (roomData?.id != null && item.movie?.imdbID != null && roomData != null) {
                                     viewModel.likeSelectionItem(
                                         roomId = roomData!!.id!!,
-                                        likedItemId = item.data.imdbID
+                                        likedItemId = item.movie.imdbID
                                     )
                                 }
                             }
@@ -154,10 +146,10 @@ fun SelectionScreen(navHostController: NavHostController, roomCode: String) {
                     onDislike = { item ->
                         when (item) {
                             is SelectionItem.MovieItem -> {
-                                if (roomData?.id != null && item.data?.imdbID != null && roomData != null) {
+                                if (roomData?.id != null && item.movie?.imdbID != null && roomData != null) {
                                     viewModel.dislikeSelectionItem(
                                         roomId = roomData!!.id!!,
-                                        likedItemId = item.data.imdbID
+                                        likedItemId = item.movie.imdbID
                                     )
                                 }
                             }
@@ -471,10 +463,10 @@ private fun ContentUI(
 }
 
 @Composable
-private fun SelectionItemCard(item: SelectionItem) {
+fun SelectionItemCard(item: SelectionItem) {
     when (item) {
         is SelectionItem.MovieItem -> {
-            item.data?.let { MovieSwipeCard(movie = it) }
+            item.movie?.let { MovieSwipeCard(movie = it) }
         }
     }
 }
