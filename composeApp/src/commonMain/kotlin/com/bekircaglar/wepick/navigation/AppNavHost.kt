@@ -6,13 +6,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
+import com.bekircaglar.wepick.domain.model.Movie
 import com.bekircaglar.wepick.presentation.screens.categoryscreen.CategoryScreen
 import com.bekircaglar.wepick.presentation.screens.createroom.CreateRoomScreen
 import com.bekircaglar.wepick.presentation.screens.innercategory.InnerCategoryScreen
 import com.bekircaglar.wepick.presentation.screens.joinroom.JoinRoomScreen
 import com.bekircaglar.wepick.presentation.screens.launch.LaunchScreen
+import com.bekircaglar.wepick.presentation.screens.results.MovieResult
+import com.bekircaglar.wepick.presentation.screens.results.ResultScreen
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionScreen
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -59,6 +63,10 @@ fun AppNavHost(navController: NavHostController) {
 
             InnerCategoryScreen(navController, categoryId.categoryId)
         }
+
+        composable(route = Screens.RESULT) {
+            ResultScreen(navController)
+        }
     }
 }
 
@@ -80,6 +88,7 @@ data class Selection(
 object Screens {
     const val LAUNCH = "launch"
     const val CATEGORY = "category"
+    const val RESULT = "result"
     const val INNER_CATEGORY = "inner_category"
     const val CREATE_ROOM = "create_room"
     const val JOIN_ROOM = "join_room"

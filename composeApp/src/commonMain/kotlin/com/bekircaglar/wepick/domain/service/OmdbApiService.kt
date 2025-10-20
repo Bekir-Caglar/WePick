@@ -32,7 +32,7 @@ class OmdbApiService() : MovieApiService {
             url {
                 parameters.append("apikey", "12864280")
                 parameters.append("i", imdbId) // 'i' IMDB ID için kullanılır
-                parameters.append("plot", "full") // İsteğe bağlı: 'full' veya 'short'
+                parameters.append("plot", "short") // İsteğe bağlı: 'full' veya 'short'
             }
         }.body() // Yanıt gövdesini DetailedMovie veri sınıfına çözümleme
 

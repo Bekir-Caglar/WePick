@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
 class SelectionViewModel(
     private val getRoomUseCase: GetRoomUseCase,
@@ -59,6 +60,9 @@ class SelectionViewModel(
     private val _matchFound = MutableStateFlow<String?>(null)
     val matchFound = _matchFound.asStateFlow()
 
+    private val _selectedItem = MutableStateFlow<SelectionItem?>(null)
+    val selectedItem = _selectedItem.asStateFlow()
+
     // Current category data for pagination
     private var currentCategoryType: CategoryType? = null
     private var currentSubCategories: List<String> = emptyList()
@@ -87,6 +91,16 @@ class SelectionViewModel(
         }
     }
 
+    private fun getSelectedItem() {
+        _matchFound.value?.let { matchId ->
+            _selectionItemList.value.firstOrNull { item ->
+                item is SelectionItem.MovieItem && item.movie?.imdbID == matchId
+            }?.let { selectedItem ->
+                _selectedItem.value = selectedItem
+            }
+        }
+    }
+
     fun observeMatches(roomId: String) = viewModelScope.launch {
         observeMatchUseCase(roomId = roomId).collect { queryState ->
             when (queryState) {
@@ -96,6 +110,7 @@ class SelectionViewModel(
 
                 is QueryState.Success -> {
                     _matchFound.value = queryState.data
+                    getSelectedItem()
                 }
 
                 is QueryState.Error -> {
@@ -150,8 +165,8 @@ class SelectionViewModel(
                             subCategoriesList = it.data.subCategories
                         )
                     }
-                    it.data.id?.let {
-                        roomId -> observeMatches(roomId = roomId)
+                    it.data.id?.let { roomId ->
+                        observeMatches(roomId = roomId)
                     }
                 }
 
@@ -207,7 +222,7 @@ class SelectionViewModel(
                     is QueryState.Success -> {
                         _isInitialLoading.value = false
                         _selectionItemList.value = queryState.data.map { movie ->
-                            SelectionItem.MovieItem(data = movie)
+                            SelectionItem.MovieItem(movie = movie)
                         }
                         _currentPage.value = 0
                         _hasMorePages.value = _totalPages.value > 1
@@ -242,7 +257,7 @@ class SelectionViewModel(
                     is QueryState.Success -> {
                         _isLoadingMore.value = false
                         val newMovies = queryState.data.map { movie ->
-                            SelectionItem.MovieItem(data = movie)
+                            SelectionItem.MovieItem(movie = movie)
                         }
 
                         // Add new movies to existing list
@@ -304,6 +319,7 @@ class SelectionViewModel(
 
 }
 
+@Serializable
 sealed class SelectionItem {
-    data class MovieItem(val data: Movie?) : SelectionItem()
+    data class MovieItem(val movie: Movie?) : SelectionItem()
 }

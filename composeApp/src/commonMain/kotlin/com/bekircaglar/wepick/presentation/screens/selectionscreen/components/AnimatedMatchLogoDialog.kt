@@ -2,11 +2,24 @@ package com.bekircaglar.wepick.presentation.screens.selectionscreen.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -14,8 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.bekircaglar.wepick.presentation.screens.selectionscreen.components.MatchLogo
-import com.bekircaglar.wepick.theme.WePickTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedMatchLogoDialog(
@@ -31,6 +43,11 @@ fun AnimatedMatchLogoDialog(
                 scale.animateTo(1.08f, tween(900))
                 scale.animateTo(1f, tween(900))
             }
+        }
+
+        LaunchedEffect(Unit) {
+            delay(2000)
+            onDismissRequest()
         }
 
         val buttonBrush = Brush.horizontalGradient(
@@ -64,7 +81,7 @@ fun AnimatedMatchLogoDialog(
                     .fillMaxWidth(0.7f)
                     .align(Alignment.CenterHorizontally),
                 shape = MaterialTheme.shapes.medium.copy(
-                    all = androidx.compose.foundation.shape.CornerSize(12.dp)
+                    all = CornerSize(12.dp)
                 ),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
@@ -75,7 +92,12 @@ fun AnimatedMatchLogoDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(buttonBrush, shape = MaterialTheme.shapes.medium.copy(all = androidx.compose.foundation.shape.CornerSize(12.dp)))
+                        .background(
+                            buttonBrush,
+                            shape = MaterialTheme.shapes.medium.copy(
+                                all = CornerSize(12.dp)
+                            )
+                        )
                         .padding(vertical = 12.dp),
                     contentAlignment = Alignment.Center
                 ) {

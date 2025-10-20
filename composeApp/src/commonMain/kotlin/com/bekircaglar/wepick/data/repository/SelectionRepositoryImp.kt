@@ -33,7 +33,7 @@ class SelectionRepositoryImp(
                 value.value<MovieDB>()
             }
         }
-        return allMoviesCache?.shuffled() ?: emptyList()
+        return allMoviesCache?.distinctBy { it.imdbId }?.shuffled() ?: emptyList()
     }
 
     override suspend fun getMovieList(

@@ -6,14 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,7 +32,6 @@ import com.bekircaglar.wepick.data.manager.UserSession
 import com.bekircaglar.wepick.navigation.RoomCode
 import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme
-import com.bekircaglar.wepick.utils.QueryState
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -64,7 +56,6 @@ fun JoinRoomScreen(navController: NavHostController) {
         if (isUserJoined == true && joinedRoomCode.isNotEmpty()) {
             navController.navigate(RoomCode(joinedRoomCode))
         }
-
     }
 
     ContentUI(
@@ -203,30 +194,15 @@ private fun ContentUI(
             ) {
                 repeat(5) { index ->
                     CodeInputField(
+                        index = index,
                         value = codeValues[index],
-                        onValueChange = { newValue ->
-                            if (newValue.length <= 1 && newValue.all { it.isLetterOrDigit() }) {
-                                val newCodeValues = codeValues.toMutableList()
-                                newCodeValues[index] = newValue.uppercase()
-                                codeValues = newCodeValues
-
-                                if (newValue.isNotEmpty() && index < 4) {
-                                    focusRequesters[index + 1].requestFocus()
-                                }
-                            }
+                        codeValues = codeValues,
+                        onValueChange = { i, newValue ->
+                            val newList = codeValues.toMutableList()
+                            newList[i] = newValue
+                            codeValues = newList
                         },
-                        onKeyEvent = { keyEvent ->
-                            if (keyEvent.key == Key.Backspace &&
-                                codeValues[index].isEmpty() &&
-                                index > 0
-                            ) {
-                                focusRequesters[index - 1].requestFocus()
-                                true
-                            } else {
-                                false
-                            }
-                        },
-                        focusRequester = focusRequesters[index],
+                        focusRequesters = focusRequesters,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -308,27 +284,55 @@ private fun ContentUI(
                 }
             }
         }
-
     }
-
-
 }
 
 @Composable
 private fun CodeInputField(
+    index: Int,
     value: String,
-    onValueChange: (String) -> Unit,
-    onKeyEvent: (KeyEvent) -> Boolean,
-    focusRequester: FocusRequester,
+    codeValues: List<String>,
+    onValueChange: (Int, String) -> Unit,
+    focusRequesters: List<FocusRequester>,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            val filteredValue = newValue.filter { it.isLetterOrDigit() }.uppercase()
+            val codeToUse = if (filteredValue.length > 5) filteredValue.take(5) else filteredValue
+            if (codeToUse.length == 5) {
+                codeToUse.forEachIndexed { i, c ->
+                    if (i < codeValues.size) {
+                        onValueChange(i, c.toString())
+                    }
+                }
+                focusRequesters.last().requestFocus()
+            } else {
+                val singleChar = codeToUse.take(1)
+                if (singleChar != value) {
+                    onValueChange(index, singleChar)
+                    if (singleChar.isNotEmpty() && index < focusRequesters.lastIndex) {
+                        focusRequesters[index + 1].requestFocus()
+                    }
+                }
+            }
+        },
         modifier = modifier
             .aspectRatio(1f)
-            .focusRequester(focusRequester)
-            .onKeyEvent(onKeyEvent),
+            .focusRequester(focusRequesters[index])
+            .onKeyEvent { keyEvent: KeyEvent ->
+                if (keyEvent.key == Key.Backspace) {
+                    if (value.isNotEmpty()) {
+                        onValueChange(index, "")
+                        true
+                    } else if (index > 0) {
+                        focusRequesters[index - 1].requestFocus()
+                        onValueChange(index - 1, "")
+                        true
+                    } else false
+                } else false
+            },
         textStyle = TextStyle(
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
@@ -351,8 +355,7 @@ private fun CodeInputField(
     )
 }
 
-
-@Preview()
+@Preview
 @Composable
 private fun JoinRoomScreenPreview() {
     ContentUI()
