@@ -47,11 +47,14 @@ import com.bekircaglar.wepick.presentation.screens.categoryscreen.components.Cat
 import com.bekircaglar.wepick.theme.WePickTheme
 import com.bekircaglar.wepick.utils.data
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.continue_text
 import wepick.composeapp.generated.resources.ic_arrow_left
 import wepick.composeapp.generated.resources.ic_menu
 import wepick.composeapp.generated.resources.logo
+import wepick.composeapp.generated.resources.select_your_category
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -118,24 +121,11 @@ private fun CategoryUI(
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_left),
-                            contentDescription = "menu",
+                            contentDescription = "Back Icon",
                             modifier = Modifier.size(20.dp),
                             tint = WePickTheme.colors.onBackground,
                         )
                     }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            painter = painterResource(Res.drawable.ic_menu),
-                            contentDescription = "menu",
-                            modifier = Modifier.size(20.dp),
-                            tint = WePickTheme.colors.onBackground,
-                        )
-                    }
-
                 }
             )
         }
@@ -149,7 +139,7 @@ private fun CategoryUI(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Karar vermek istediğiniz kategoriyi seçin ve başlayın!",
+                text = stringResource(Res.string.select_your_category),
                 style = MaterialTheme.typography.bodyLarge,
                 color = WePickTheme.colors.onBackground,
                 textAlign = TextAlign.Center,
@@ -199,7 +189,7 @@ private fun CategoryUI(
                 )
             ) {
                 Text(
-                    text = "Devam et",
+                    text = stringResource(Res.string.continue_text),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.SemiBold
                     ),

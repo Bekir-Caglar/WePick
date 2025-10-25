@@ -34,15 +34,21 @@ import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import qrscanner.CameraLens
 import qrscanner.OverlayShape
 import qrscanner.QrScanner
 import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.camera_permission_denied
 import wepick.composeapp.generated.resources.ic_arrow_left
 import wepick.composeapp.generated.resources.ic_info
 import wepick.composeapp.generated.resources.ic_qr
+import wepick.composeapp.generated.resources.join_message
+import wepick.composeapp.generated.resources.join_room
+import wepick.composeapp.generated.resources.join_room_code_info
+import wepick.composeapp.generated.resources.join_room_via_qr
 import wepick.composeapp.generated.resources.logo
 
 @Composable
@@ -92,7 +98,36 @@ private fun ContentUI(
         isButtonEnabled = codeValues.all { it.isNotEmpty() }
     }
 
-    if (qrScanClicked)
+    if (qrScanClicked) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                CenterAlignedTopAppBar(
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
+                    title = {},
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                qrScanClicked = false
+                            },
+                        ) {
+                            Icon(
+                                painter = painterResource(Res.drawable.ic_arrow_left),
+                                contentDescription = "Exit Room",
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp),
+                            )
+                        }
+                    }
+                )
+            },
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(2f)
+        ){
+
+        }
+
         QrScanner(
             flashlightOn = false,
             cameraLens = CameraLens.Back,
@@ -122,15 +157,18 @@ private fun ContentUI(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Kamera izni reddedildi",
+                        text = stringResource(Res.string.camera_permission_denied),
                         color = Color.White,
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center
                     )
                 }
             },
-            modifier = Modifier.fillMaxSize().zIndex(2f),
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(1f),
         )
+    }
 
 
     Scaffold(
@@ -138,7 +176,7 @@ private fun ContentUI(
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = WePickTheme.colors.background,
+                    containerColor = WePickTheme.colors.surface.copy(0.2f),
                     titleContentColor = WePickTheme.colors.primary,
                     navigationIconContentColor = WePickTheme.colors.primary
                 ),
@@ -167,6 +205,7 @@ private fun ContentUI(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Spacer(modifier = Modifier.height(32.dp))
 
             Image(
                 painter = painterResource(Res.drawable.logo),
@@ -179,7 +218,7 @@ private fun ContentUI(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Arkadaşından aldığın 5 haneli kodu girerek odaya katılabilirsin",
+                text = stringResource(Res.string.join_message),
                 style = MaterialTheme.typography.bodyLarge,
                 color = WePickTheme.colors.onBackground,
                 textAlign = TextAlign.Center
@@ -221,7 +260,7 @@ private fun ContentUI(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Kod büyük/küçük harf duyarlı değildir",
+                    text = stringResource(Res.string.join_room_code_info),
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -254,7 +293,7 @@ private fun ContentUI(
                 )
             ) {
                 Text(
-                    text = "Odaya katıl",
+                    text = stringResource(Res.string.join_room),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
@@ -278,7 +317,7 @@ private fun ContentUI(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "QR Kod ile Katıl",
+                        text = stringResource(Res.string.join_room_via_qr),
                         fontSize = 16.sp
                     )
                 }

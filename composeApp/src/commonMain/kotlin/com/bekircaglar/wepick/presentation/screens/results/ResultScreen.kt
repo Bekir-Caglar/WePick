@@ -54,8 +54,15 @@ import com.bekircaglar.wepick.navigation.RoomCode
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionItem
 import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionViewModel
 import com.bekircaglar.wepick.theme.WePickTheme
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.actors
+import wepick.composeapp.generated.resources.director
+import wepick.composeapp.generated.resources.plot
+import wepick.composeapp.generated.resources.results
+import wepick.composeapp.generated.resources.return_room
 import kotlin.math.min
 
 
@@ -172,7 +179,7 @@ fun MovieResult(
                     .statusBarsPadding()
             ) {
                 Text(
-                    text = "Sonuçlar",
+                    text = stringResource(Res.string.results),
                     modifier = Modifier.align(Alignment.Center),
                     color = Color.White
                 )
@@ -220,7 +227,7 @@ fun MovieResult(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "Özet",
+                            text = stringResource(Res.string.plot),
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
@@ -238,7 +245,7 @@ fun MovieResult(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "Yönetmen",
+                            text = stringResource(Res.string.director),
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
@@ -255,7 +262,7 @@ fun MovieResult(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "Oyuncular",
+                            text = stringResource(Res.string.actors),
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
@@ -273,7 +280,6 @@ fun MovieResult(
                         Spacer(modifier = Modifier.height(100.dp))
                     }
 
-                    // Poster - Fixed position with animation
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -399,7 +405,7 @@ fun MovieResult(
                             )
                         ) {
                             Text(
-                                text = "Odaya dön",
+                                text = stringResource(Res.string.return_room),
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.SemiBold
                                 )
