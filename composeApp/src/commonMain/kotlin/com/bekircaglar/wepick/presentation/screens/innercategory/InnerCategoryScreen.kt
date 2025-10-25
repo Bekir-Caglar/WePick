@@ -35,9 +35,12 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.continue_text
 import wepick.composeapp.generated.resources.ic_arrow_left
 import wepick.composeapp.generated.resources.ic_info
+import wepick.composeapp.generated.resources.inner_category_info
 import wepick.composeapp.generated.resources.logo
+import wepick.composeapp.generated.resources.no_category
 import wepick.composeapp.generated.resources.select_your_favorite_categories
 
 interface CategoryItem {
@@ -204,7 +207,7 @@ private fun ContentUI(
                     ),
                     enabled = selectedCategories.isNotEmpty() && selectedCategories.size >= 5,
                 ) {
-                    Text(text = "Continue", fontSize = 16.sp)
+                    Text(text = stringResource(Res.string.continue_text), fontSize = 16.sp)
                 }
             }
         }
@@ -240,7 +243,7 @@ private fun ContentUI(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "En az 5, en fazla 10 kategori seçebilirsiniz.",
+                        text = stringResource(Res.string.inner_category_info),
                         fontSize = 14.sp,
                         color = Color.Gray
                     )
@@ -275,7 +278,7 @@ private fun ContentUI(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No categories available",
+                    text = stringResource(Res.string.no_category),
                     color = WePickTheme.colors.onBackground
                 )
             }

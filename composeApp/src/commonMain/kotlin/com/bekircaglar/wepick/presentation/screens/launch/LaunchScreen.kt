@@ -50,10 +50,16 @@ import com.bekircaglar.wepick.navigation.Screens
 import com.bekircaglar.wepick.theme.WePickTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.create_room
+import wepick.composeapp.generated.resources.enter_nickname
 import wepick.composeapp.generated.resources.header
 import wepick.composeapp.generated.resources.ic_rotate_right
+import wepick.composeapp.generated.resources.join_room
+import wepick.composeapp.generated.resources.welcome_message
+import wepick.composeapp.generated.resources.your_nickname
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
@@ -111,8 +117,6 @@ fun LaunchScreen(navController: NavHostController) {
         "🐊",
         "🐳",
         "🐋",
-
-
         )
 
     var nickname by rememberSaveable { mutableStateOf("") }
@@ -203,7 +207,7 @@ fun LaunchScreen(navController: NavHostController) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Ne seçeceğinizi tartışmayı bırakın! WePick ile birlikte en iyi seçimi kolayca yapın!",
+                        text = stringResource(Res.string.welcome_message),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         color = WePickTheme.colors.onBackground,
@@ -246,7 +250,7 @@ fun LaunchScreen(navController: NavHostController) {
                         ) {
                             Icon(
                                 painter = painterResource(Res.drawable.ic_rotate_right),
-                                contentDescription = "Refresh Profile",
+                                contentDescription = "Change Emoji",
                                 tint = WePickTheme.colors.onPrimary,
                                 modifier = Modifier.size(12.dp)
                             )
@@ -261,10 +265,10 @@ fun LaunchScreen(navController: NavHostController) {
                             if (it.length <= 15)
                                 nickname = it
                         },
-                        label = { Text("Takma adın") },
+                        label = { Text(stringResource(Res.string.your_nickname)) },
                         placeholder = {
                             Text(
-                                text = "Takma adınızı girin...",
+                                text = stringResource(Res.string.enter_nickname),
                                 color = WePickTheme.colors.onBackground.copy(0.5f)
                             )
                         },
@@ -319,7 +323,7 @@ fun LaunchScreen(navController: NavHostController) {
                             )
                         ) {
                             Text(
-                                text = "Odaya katıl",
+                                text = stringResource(Res.string.join_room),
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.SemiBold
                                 ),
@@ -354,7 +358,7 @@ fun LaunchScreen(navController: NavHostController) {
                             )
                         ) {
                             Text(
-                                text = "Oda oluştur",
+                                text = stringResource(Res.string.create_room),
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.SemiBold
                                 ),

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import qrgenerator.qrkitpainter.PatternType
 import qrgenerator.qrkitpainter.QrBallType
@@ -38,10 +39,14 @@ import qrgenerator.qrkitpainter.getSelectedPixel
 import qrgenerator.qrkitpainter.getSelectedQrBall
 import qrgenerator.qrkitpainter.rememberQrKitPainter
 import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.copy_code
+import wepick.composeapp.generated.resources.copy_link
 import wepick.composeapp.generated.resources.ic_copy
 import wepick.composeapp.generated.resources.ic_link
 import wepick.composeapp.generated.resources.ic_qr
 import wepick.composeapp.generated.resources.ic_x
+import wepick.composeapp.generated.resources.invite_friends
+import wepick.composeapp.generated.resources.invite_info
 import wepick.composeapp.generated.resources.logo
 import wepick.composeapp.generated.resources.qr_code
 
@@ -76,7 +81,7 @@ fun InviteFriendsBottomSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Arkadaşlarını Davet Et",
+                    text = stringResource(Res.string.invite_friends),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = WePickTheme.colors.onSurface,
@@ -123,7 +128,7 @@ fun InviteFriendsBottomSheet(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Oda kodunu arkadaşına gönder veya onlara yukarıdaki QR kodu tarat.",
+                text = stringResource(Res.string.invite_info),
                 fontSize = 14.sp,
                 color = Color.Gray,
                 textAlign = TextAlign.Center,
@@ -148,7 +153,7 @@ fun InviteFriendsBottomSheet(
             ) {
                 ActionButton(
                     icon = painterResource(Res.drawable.ic_copy),
-                    text = "Kodu Kopyala",
+                    text = stringResource(Res.string.copy_code),
                     onClick = {
                         clipboardManager.setText(AnnotatedString(roomCode))
                     }
@@ -157,7 +162,7 @@ fun InviteFriendsBottomSheet(
                 // Copy Link Butonu
                 ActionButton(
                     icon = painterResource(Res.drawable.ic_link),
-                    text = "Linki Kopyala",
+                    text = stringResource(Res.string.copy_link),
                     onClick = {
                         clipboardManager.setText(AnnotatedString(shareLink))
                     }

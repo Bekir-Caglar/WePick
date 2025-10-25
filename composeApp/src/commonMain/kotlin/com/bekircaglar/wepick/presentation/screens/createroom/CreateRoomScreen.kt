@@ -69,13 +69,18 @@ import com.bekircaglar.wepick.utils.QueryState
 import com.bekircaglar.wepick.utils.data
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_exit
 import wepick.composeapp.generated.resources.ic_menu
 import wepick.composeapp.generated.resources.ic_plus
+import wepick.composeapp.generated.resources.invite
 import wepick.composeapp.generated.resources.logo
+import wepick.composeapp.generated.resources.ready
+import wepick.composeapp.generated.resources.start_vote
+import wepick.composeapp.generated.resources.un_ready
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -209,18 +214,6 @@ private fun ContentUi(
                             .size(32.dp),
                     )
                 },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            painter = painterResource(Res.drawable.ic_menu),
-                            contentDescription = "menu",
-                            modifier = Modifier.size(20.dp),
-                            tint = WePickTheme.colors.onBackground,
-                        )
-                    }
-                },
                 actions = {
                     IconButton(
                         onClick = onBackClick
@@ -232,8 +225,6 @@ private fun ContentUi(
                             tint = WePickTheme.colors.onBackground,
                         )
                     }
-
-
                 }
             )
         }
@@ -332,7 +323,7 @@ private fun ContentUi(
                                     )
                                 }
                                 Text(
-                                    text = "Davet Et",
+                                    text = stringResource(Res.string.invite),
                                     fontSize = 18.sp,
                                     color = Color.White,
                                 )
@@ -426,10 +417,12 @@ private fun ContentUi(
                 )
             ) {
                 Text(
-                    text = if (isOwner) "Oylamayı Başlat" else if (isReady) "Hazır Değil" else "Hazır",
+                    text = if (isOwner) stringResource(Res.string.start_vote)
+                    else if (isReady) stringResource(Res.string.un_ready)
+                    else stringResource(Res.string.ready),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.SemiBold
-                    ),
+                    )
                 )
             }
 

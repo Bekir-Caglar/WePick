@@ -22,7 +22,6 @@ fun CategoryItem(
     category: CategoryModel,
     isSelected: Boolean = false,
     onCategorySelected: (String) -> Unit,
-    showComingSoon: Boolean = false
 ) {
     val borderModifier = if (isSelected) {
         Modifier.border(2.dp, WePickTheme.colors.primary, CardDefaults.shape)
@@ -36,8 +35,7 @@ fun CategoryItem(
             .height(120.dp)
             .then(borderModifier),
         onClick = {
-            if (!showComingSoon)
-                category.id?.let { onCategorySelected(it) }
+            category.id?.let { onCategorySelected(it) }
         },
         colors = CardDefaults.cardColors(
             containerColor = WePickTheme.colors.primaryVariant.copy(0.4f)
@@ -73,36 +71,6 @@ fun CategoryItem(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 
-            }
-            if (showComingSoon) {
-                Column(
-                    modifier = Modifier
-                        .zIndex(1f)
-                        .background(Color.Black.copy(alpha = 0.4f))
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(36.dp)
-                            .background(WePickTheme.colors.primary.copy(alpha = 0.2f))
-
-                    ) {
-                        Text(
-                            text = "Coming Soon",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                }
             }
         }
 

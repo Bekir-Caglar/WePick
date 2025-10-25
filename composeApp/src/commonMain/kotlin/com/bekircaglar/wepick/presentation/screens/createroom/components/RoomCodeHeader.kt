@@ -28,10 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.ic_qr
 import wepick.composeapp.generated.resources.ic_secret_code
+import wepick.composeapp.generated.resources.invite_message
 
 @Composable
 fun RoomCodeHeader(
@@ -66,7 +68,7 @@ fun RoomCodeHeader(
         )
 
         Text(
-            text = "Oda kodunu paylaşarak arkadaşını davet et",
+            text = stringResource(Res.string.invite_message),
             fontWeight = Bold,
             fontSize = 15.sp,
             color = WePickTheme.colors.onBackground.copy(0.8f),

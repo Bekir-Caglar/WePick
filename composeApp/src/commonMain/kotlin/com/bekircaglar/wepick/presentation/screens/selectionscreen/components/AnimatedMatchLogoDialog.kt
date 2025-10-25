@@ -28,6 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
+import wepick.composeapp.generated.resources.Res
+import wepick.composeapp.generated.resources.go_results
 
 @Composable
 fun AnimatedMatchLogoDialog(
@@ -102,7 +105,7 @@ fun AnimatedMatchLogoDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Sonuca Geç",
+                        text = stringResource(Res.string.go_results),
                         color = Color.White
                     )
                 }

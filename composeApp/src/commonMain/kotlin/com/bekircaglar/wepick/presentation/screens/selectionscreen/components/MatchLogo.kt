@@ -1,6 +1,4 @@
-package com.bekircaglar.wepick.presentation.screens.selectionscreen.components// Compose kodu: import eklemeden, doğrudan kullanılabilir şekilde
-// Jetpack Compose için gerekli importlar
-
+package com.bekircaglar.wepick.presentation.screens.selectionscreen.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
