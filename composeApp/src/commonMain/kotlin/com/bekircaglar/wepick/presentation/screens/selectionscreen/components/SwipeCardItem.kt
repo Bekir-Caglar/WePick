@@ -108,15 +108,6 @@ fun MovieSwipeCard(movie: Movie) {
                         color = Color.White,
                         maxLines = 2
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "(${movie.year})",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = Color.White.copy(0.8f),
-                        fontWeight = FontWeight.Light,
-                        fontSize = 18.sp,
-                        maxLines = 1
-                    )
                 }
 
                 Row(
@@ -170,8 +161,7 @@ fun MovieSwipeCard(movie: Movie) {
                 }
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
+                    Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     val rating = movie.imdbRating.toDoubleOrNull() ?: 0.0
@@ -193,6 +183,17 @@ fun MovieSwipeCard(movie: Movie) {
                         color = Color.White,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        text = "(${movie.year})",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White.copy(0.8f),
+                        fontWeight = FontWeight.Light,
+                        fontSize = 14.sp,
+                        maxLines = 1
                     )
                 }
             }

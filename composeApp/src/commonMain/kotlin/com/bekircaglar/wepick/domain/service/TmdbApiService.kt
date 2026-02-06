@@ -140,22 +140,35 @@ class TmdbApiService : MovieApiService {
         // Use pipe (|) for OR logic (movies matching ANY of the genres). Comma (,) is for AND logic.
         val genreIds = subCategories.mapNotNull { genreMapping[it] }.joinToString("|")
 
-        try {
-            val response: TmdbDiscoverResponse = httpClient.get("$BASE_URL/discover/movie") {
-                parameter("api_key", API_KEY)
-                parameter("language", "tr-TR") // Turkish language preference
-                if (genreIds.isNotEmpty()) {
-                    parameter("with_genres", genreIds)
-                }
-                parameter("page", page)
-                parameter("sort_by", "popularity.desc")
-            }.body()
+        // Fetch 10 pages to get ~200 movies (TMDB returns 20 per page)
+        val pagesToFetch = 10
+        val startPage = (page - 1) * pagesToFetch + 1
 
-            // Fetch details in parallel for performance
+        try {
             return kotlinx.coroutines.coroutineScope {
-                response.results.map { result ->
+                // 1. Fetch multiple pages in parallel
+                val initialResponses = (startPage until startPage + pagesToFetch).map { currentPage ->
+                    async {
+                        try {
+                            httpClient.get("$BASE_URL/discover/movie") {
+                                parameter("api_key", API_KEY)
+                                parameter("language", "tr-TR") // Turkish language preference
+                                if (genreIds.isNotEmpty()) {
+                                    parameter("with_genres", genreIds)
+                                }
+                                parameter("page", currentPage)
+                                parameter("sort_by", "popularity.desc")
+                            }.body<TmdbDiscoverResponse>()
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                }.awaitAll().filterNotNull().flatMap { it.results }
+
+                // 2. Fetch details for all collected movies in parallel
+                initialResponses.map { result ->
                     async { fetchMovieDetails(result.id) }
-                }.awaitAll()
+                }.awaitAll().shuffled()
             }
         } catch (e: Exception) {
             e.printStackTrace()

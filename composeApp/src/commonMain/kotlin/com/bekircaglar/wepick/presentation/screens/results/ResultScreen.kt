@@ -119,8 +119,6 @@ fun MovieResult(
     movie: Movie,
     onBackRoom: () -> Unit
 ) {
-    val scrollState = rememberScrollState()
-
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -156,22 +154,10 @@ fun MovieResult(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Transparent)
-                    .statusBarsPadding()
-            ) {
-                Text(
-                    text = stringResource(Res.string.results),
-                    modifier = Modifier.align(Alignment.Center),
-                    color = Color.White
-                )
-            }
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 80.dp)
                     .weight(1f),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -227,43 +213,13 @@ fun MovieResult(
                                         .padding(horizontal = 32.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Row(
+                                    FlowRow(
                                         modifier = Modifier.fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.SpaceEvenly
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                                        verticalArrangement = Arrangement.spacedBy(8.dp)
                                     ) {
-                                        movie.genre.split(",").forEach { genre ->
+                                        movie.genre.split(",").take(4).forEach { genre ->
                                             MovieChip(text = genre.trim())
-                                        }
-                                    }
-
-                                    if (movie.platforms.isNotEmpty()) {
-                                        Spacer(modifier = Modifier.height(16.dp))
-
-                                        // Title for platforms, optional
-                                        Text(
-                                            text = "İzle:",
-                                            style = MaterialTheme.typography.titleMedium.copy(
-                                                fontWeight = FontWeight.Bold,
-                                                color = WePickTheme.colors.primary
-                                            ),
-                                            modifier = Modifier.padding(bottom = 8.dp)
-                                        )
-
-                                        FlowRow(
-                                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                                            horizontalArrangement = Arrangement.Center,
-                                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                                        ) {
-                                            movie.platforms.forEach { platform ->
-                                                // Option 1: White with Logo
-                                                PlatformChipWithLogo(platformName = platform)
-
-                                                // Option 2: Full Color (Commented out)
-                                                // PlatformChipFull(platformName = platform)
-
-                                                Spacer(modifier = Modifier.width(8.dp))
-                                            }
                                         }
                                     }
 
@@ -275,12 +231,15 @@ fun MovieResult(
                                             fontWeight = FontWeight.SemiBold
                                         ),
                                         color = WePickTheme.colors.onBackground,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Start
                                     )
 
                                     Text(
                                         text = movie.plot,
                                         style = MaterialTheme.typography.bodyMedium,
-                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Start,
                                         color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
                                     )
 
@@ -292,12 +251,15 @@ fun MovieResult(
                                             fontWeight = FontWeight.SemiBold
                                         ),
                                         color = WePickTheme.colors.onBackground,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Start
                                     )
 
                                     Text(
                                         text = movie.director,
                                         style = MaterialTheme.typography.bodyMedium,
-                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Start,
                                         color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
                                     )
 
@@ -309,14 +271,46 @@ fun MovieResult(
                                             fontWeight = FontWeight.SemiBold
                                         ),
                                         color = WePickTheme.colors.onBackground,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Start
                                     )
 
                                     Text(
                                         text = movie.actors,
                                         style = MaterialTheme.typography.bodyMedium,
-                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Start,
                                         color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
                                     )
+                                    
+                                    if (movie.platforms.isNotEmpty()) {
+                                        Spacer(modifier = Modifier.height(16.dp))
+
+                                        // Title for platforms, optional
+                                        Text(
+                                            text = "İzlencek yer",
+                                            style = MaterialTheme.typography.titleMedium.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                color = WePickTheme.colors.primary
+                                            ),
+                                            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                                            textAlign = TextAlign.Start
+                                        )
+
+                                        FlowRow(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            movie.platforms.forEach { platform ->
+                                                // Option 1: White with Logo
+                                                PlatformChipWithLogo(platformName = platform)
+
+                                                // Option 2: Full Color (Commented out)
+                                                // PlatformChipFull(platformName = platform)
+                                            }
+                                        }
+                                    }
 
                                     // Space for the sticky button
                                     Spacer(modifier = Modifier.height(100.dp))
@@ -421,6 +415,22 @@ fun MovieResult(
                                         .padding(horizontal = 8.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
+                                    if (movie.year.isNotEmpty()) {
+                                        Text(
+                                            text = movie.year,
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = WePickTheme.colors.primary
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Box(
+                                            modifier = Modifier
+                                                .size(4.dp)
+                                                .background(WePickTheme.colors.primary, RoundedCornerShape(50))
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                    }
+                                    
                                     Text(
                                         text = movie.runtime,
                                         fontSize = 14.sp,
@@ -514,58 +524,6 @@ fun PlatformChipWithLogo(
     }
 }
 
-@Composable
-fun PlatformChipFull(
-    platformName: String,
-    modifier: Modifier = Modifier,
-    showLogo: Boolean = true,
-    onClick: (() -> Unit)? = null
-) {
-    val platformInfo = getPlatformInfo(platformName)
-
-    Row(
-        modifier = modifier
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(25.dp)
-            )
-            .background(
-                color = platformInfo.backgroundColor,
-                shape = RoundedCornerShape(25.dp)
-            )
-            .then(
-                if (onClick != null) {
-                    Modifier.clickable { onClick() }
-                } else {
-                    Modifier
-                }
-            )
-            .padding(horizontal = 20.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        // Logo göster
-        if (showLogo && platformInfo.logoResource != null) {
-            Image(
-                painter = painterResource(platformInfo.logoResource),
-                contentDescription = platformName,
-                modifier = Modifier
-                    .size(28.dp)
-                    .clip(RoundedCornerShape(4.dp)),
-                contentScale = ContentScale.Fit
-            )
-        }
-
-        Text(
-            text = platformName,
-            style = MaterialTheme.typography.labelLarge.copy(
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            ),
-            color = platformInfo.textColor
-        )
-    }
-}
 
 // FlowRow implementasyonu
 @OptIn(ExperimentalLayoutApi::class)
@@ -618,9 +576,10 @@ fun ResultScreenPreview() {
         plot = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
         director = "Frank Darabont",
         actors = "Tim Robbins, Morgan Freeman, Bob Gunton",
-        genre = "Drama, Crime, Thriller, Mystery",
+        genre = "Drama, Crime, Thriller, Mystery, Sci-Fi",
         imdbRating = "9.3",
-        runtime = "2h 22min",
+        year = "1994",
+        runtime = "143m",
         platforms = listOf("Netflix", "Disney Plus","Prime")
     )
 

@@ -38,7 +38,6 @@ enum class MovieCategory(
     DRAMA(Res.string.category_drama, "drama"),
     CRIME(Res.string.category_crime, "crime"),
     MUSIC(Res.string.category_music, "music"),
-    SPORT(Res.string.category_sport, "sport"),
     FAMILY(Res.string.category_family, "family"),
     HORROR(Res.string.category_horror, "horror"),
     FANTASY(Res.string.category_fantasy, "fantasy"),
@@ -49,10 +48,9 @@ enum class MovieCategory(
     MYSTERY(Res.string.category_mystery, "mystery"),
     ADVENTURE(Res.string.category_adventure, "adventure"),
     WAR(Res.string.category_war, "war"),
-    MUSICAL(Res.string.category_musical, "musical"),
-    BIOGRAPHY(Res.string.category_biography, "biography"),
     DOCUMENTARY(Res.string.category_documentary, "documentary"),
     SCI_FI(Res.string.category_sci_fi, "sci_fi"),
+    WESTERN(Res.string.category_western, "western"),
 }
 
 fun movieCategoryFromId(name: String): MovieCategory? {

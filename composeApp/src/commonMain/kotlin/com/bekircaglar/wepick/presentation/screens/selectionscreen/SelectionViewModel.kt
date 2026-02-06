@@ -12,6 +12,8 @@ import com.bekircaglar.wepick.domain.usecase.selection.GetMovieListUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.LikeSelectionItemUseCase
 import com.bekircaglar.wepick.domain.usecase.selection.ObserveMatchUseCase
 import com.bekircaglar.wepick.utils.QueryState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -218,17 +220,19 @@ class SelectionViewModel(
             _selectionItemList.value = emptyList()
             _errorMessage.value = null
 
-            when (categoryType) {
-                CategoryType.FOOD -> {}
-                CategoryType.TRAVEL -> {}
-                CategoryType.SHOPPING -> {}
-                CategoryType.SPORTS -> {}
-                CategoryType.TECHNOLOGY -> {}
-                CategoryType.HEALTH -> {}
-                CategoryType.EDUCATION -> {}
-                CategoryType.ART -> {}
-                CategoryType.MUSIC -> {}
-                CategoryType.MOVIE -> getInitialMovies(subCategoriesList)
+            kotlinx.coroutines.withContext(Dispatchers.IO) {
+                when (categoryType) {
+                    CategoryType.FOOD -> {}
+                    CategoryType.TRAVEL -> {}
+                    CategoryType.SHOPPING -> {}
+                    CategoryType.SPORTS -> {}
+                    CategoryType.TECHNOLOGY -> {}
+                    CategoryType.HEALTH -> {}
+                    CategoryType.EDUCATION -> {}
+                    CategoryType.ART -> {}
+                    CategoryType.MUSIC -> {}
+                    CategoryType.MOVIE -> getInitialMovies(subCategoriesList)
+                }
             }
         }
 
