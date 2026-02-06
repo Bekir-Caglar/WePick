@@ -54,7 +54,9 @@ data class Movie(
     @SerialName("Writer")
     val writer: String = "",
     @SerialName("Year")
-    val year: String = ""
+    val year: String = "",
+    val source: String = "", // "TMDB" or "Firebase" for debug
+    val platforms: List<String> = emptyList(), // List of streaming platforms
 )
 
 object sampleMovie {

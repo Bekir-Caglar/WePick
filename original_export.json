@@ -1,0 +1,2290 @@
+{
+  "likes": {
+    "-OcADXJy3xJ0g8wkok-0": {
+      "1755452981440-4796": [
+        "tt0172495",
+        "tt0234215",
+        "tt2527336",
+        "tt10872600",
+        "tt0242653",
+        "tt9376612",
+        "tt15239678"
+      ]
+    },
+    "-OcQXeCzSe0x-R-s_iQf": {
+      "1755452981440-4796": [
+        "tt0364569",
+        "tt15239678",
+        "tt0167260",
+        "tt0120737",
+        "tt2527338",
+        "tt1951266",
+        "tt0800080",
+        "tt2820852",
+        "tt0468569"
+      ]
+    },
+    "-Oid3SbqBaddDdbxrbno": {
+      "1755452981440-4796": [
+        "tt1375666",
+        "tt14539740",
+        "tt0242653",
+        "tt2395427",
+        "tt0316654",
+        "tt1160419",
+        "tt15339472",
+        "tt6320628",
+        "tt4154664",
+        "tt0078748"
+      ]
+    },
+    "-OjqnulihZ_wIG6bSQfD": {
+      "1755452981440-4796": [
+        "tt0103064",
+        "tt3480822",
+        "tt1392170"
+      ]
+    }
+  },
+  "movies": [
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt0111161",
+      "title": "The Shawshank Redemption"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0068646",
+      "title": "The Godfather"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0468569",
+      "title": "The Dark Knight"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0071562",
+      "title": "The Godfather Part II"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0050083",
+      "title": "12 Angry Men"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "DRAMA",
+        "HISTORY"
+      ],
+      "imdbId": "tt0108052",
+      "title": "Schindler's List"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt0167260",
+      "title": "The Lord of the Rings: The Return of the King"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0110912",
+      "title": "Pulp Fiction"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt0120737",
+      "title": "The Lord of the Rings: The Fellowship of the Ring"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "WESTERN"
+      ],
+      "imdbId": "tt0060196",
+      "title": "The Good, the Bad and the Ugly"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0109830",
+      "title": "Forrest Gump"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt0137523",
+      "title": "Fight Club"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1375666",
+      "title": "Inception"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt0167261",
+      "title": "The Lord of the Rings: The Two Towers"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0080684",
+      "title": "Star Wars: Episode V - The Empire Strikes Back"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0133093",
+      "title": "The Matrix"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0099685",
+      "title": "Goodfellas"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt0073486",
+      "title": "One Flew Over the Cuckoo's Nest"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt0047478",
+      "title": "Seven Samurai"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "MYSTERY"
+      ],
+      "imdbId": "tt0114369",
+      "title": "Se7en"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0317248",
+      "title": "City of God"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0118799",
+      "title": "Life Is Beautiful"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt0102926",
+      "title": "The Silence of the Lambs"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "FAMILY",
+        "FANTASY"
+      ],
+      "imdbId": "tt0038650",
+      "title": "It's a Wonderful Life"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0076759",
+      "title": "Star Wars: Episode IV - A New Hope"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "WAR"
+      ],
+      "imdbId": "tt0120815",
+      "title": "Saving Private Ryan"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "FAMILY"
+      ],
+      "imdbId": "tt0245429",
+      "title": "Spirited Away"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "FANTASY"
+      ],
+      "imdbId": "tt0120689",
+      "title": "Green Mile"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt6751668",
+      "title": "Parasite"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "DRAMA",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0816692",
+      "title": "Interstellar"
+    },
+    {
+      "categories": [
+        "HORROR",
+        "MYSTERY",
+        "THRILLER"
+      ],
+      "imdbId": "tt0054215",
+      "title": "Psycho"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0110116",
+      "title": "The Piano"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt0172495",
+      "title": "Gladiator"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt0110357",
+      "title": "The Lion King"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0110413",
+      "title": "Léon: The Professional"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0120586",
+      "title": "American History X"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt0407887",
+      "title": "The Departed"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "MUSIC"
+      ],
+      "imdbId": "tt2582802",
+      "title": "Whiplash"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "MYSTERY",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0482571",
+      "title": "The Prestige"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "MYSTERY",
+        "THRILLER"
+      ],
+      "imdbId": "tt0114814",
+      "title": "The Usual Suspects"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE",
+        "WAR"
+      ],
+      "imdbId": "tt0034583",
+      "title": "Casablanca"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "DRAMA",
+        "WAR"
+      ],
+      "imdbId": "tt0095327",
+      "title": "Grave of the Fireflies"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "DRAMA",
+        "HISTORY"
+      ],
+      "imdbId": "tt0056058",
+      "title": "Harakiri"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "COMEDY",
+        "DRAMA"
+      ],
+      "imdbId": "tt1675434",
+      "title": "The Intouchables"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0027977",
+      "title": "Modern Times"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0095765",
+      "title": "Cinema Paradiso"
+    },
+    {
+      "categories": [
+        "WESTERN"
+      ],
+      "imdbId": "tt0064116",
+      "title": "Once Upon a Time in the West"
+    },
+    {
+      "categories": [
+        "MYSTERY",
+        "THRILLER"
+      ],
+      "imdbId": "tt0047396",
+      "title": "Rear Window"
+    },
+    {
+      "categories": [
+        "HORROR",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0078748",
+      "title": "Alien"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0021749",
+      "title": "City Lights"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "WESTERN"
+      ],
+      "imdbId": "tt1853728",
+      "title": "Django Unchained"
+    },
+    {
+      "categories": [
+        "MYSTERY",
+        "THRILLER"
+      ],
+      "imdbId": "tt0209144",
+      "title": "Memento"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "WAR"
+      ],
+      "imdbId": "tt0050825",
+      "title": "Paths of Glory"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0910970",
+      "title": "WALL·E"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "MYSTERY",
+        "THRILLER"
+      ],
+      "imdbId": "tt0405094",
+      "title": "The Lives of Others"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "FILM_NOIR"
+      ],
+      "imdbId": "tt0043014",
+      "title": "Sunset Blvd."
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "HORROR"
+      ],
+      "imdbId": "tt0081505",
+      "title": "The Shining"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt1345836",
+      "title": "The Dark Knight Rises"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ACTION",
+        "ADVENTURE"
+      ],
+      "imdbId": "tt0119698",
+      "title": "Princess Mononoke"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "MYSTERY"
+      ],
+      "imdbId": "tt0051201",
+      "title": "Witness for the Prosecution"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt4154796",
+      "title": "Avengers: Endgame"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt4154756",
+      "title": "Avengers: Infinity War"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ACTION",
+        "ADVENTURE"
+      ],
+      "imdbId": "tt9362722",
+      "title": "Spider-Man: Across the Spider-Verse"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "DRAMA",
+        "MYSTERY"
+      ],
+      "imdbId": "tt0364569",
+      "title": "Oldboy"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt7286456",
+      "title": "Joker"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt2380307",
+      "title": "Coco"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "DRAMA",
+        "FANTASY"
+      ],
+      "imdbId": "tt5311514",
+      "title": "Your Name."
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA"
+      ],
+      "imdbId": "tt1187043",
+      "title": "3 Idiots"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt0169547",
+      "title": "American Beauty"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt0114709",
+      "title": "Toy Story"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "DRAMA",
+        "HISTORY"
+      ],
+      "imdbId": "tt0112573",
+      "title": "Braveheart"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "DRAMA",
+        "HISTORY"
+      ],
+      "imdbId": "tt0086879",
+      "title": "Amadeus"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "DRAMA",
+        "WAR"
+      ],
+      "imdbId": "tt0361748",
+      "title": "Inglourious Basterds"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0119217",
+      "title": "Good Will Hunting"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0086190",
+      "title": "Star Wars: Episode VI - Return of the Jedi"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt0105236",
+      "title": "Reservoir Dogs"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0062622",
+      "title": "2001: A Space Odyssey"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt0180093",
+      "title": "Requiem for a Dream"
+    },
+    {
+      "categories": [
+        "MYSTERY",
+        "ROMANCE",
+        "THRILLER"
+      ],
+      "imdbId": "tt0052357",
+      "title": "Vertigo"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "MYSTERY",
+        "THRILLER"
+      ],
+      "imdbId": "tt0022100",
+      "title": "M"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0338013",
+      "title": "Eternal Sunshine of the Spotless Mind"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "MYSTERY"
+      ],
+      "imdbId": "tt0033467",
+      "title": "Citizen Kane"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "BIOGRAPHY",
+        "DRAMA"
+      ],
+      "imdbId": "tt5074352",
+      "title": "Dangal"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "WAR"
+      ],
+      "imdbId": "tt0093058",
+      "title": "Full Metal Jacket"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt2106476",
+      "title": "The Hunt"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0066921",
+      "title": "A Clockwork Orange"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "MUSICAL",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0045152",
+      "title": "Singin' in the Rain"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0086250",
+      "title": "Scarface"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "CRIME"
+      ],
+      "imdbId": "tt0208092",
+      "title": "Snatch"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0075314",
+      "title": "Taxi Driver"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "BIOGRAPHY",
+        "DRAMA"
+      ],
+      "imdbId": "tt0056172",
+      "title": "Lawrence of Arabia"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0211915",
+      "title": "Amélie"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt0435761",
+      "title": "Toy Story 3"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0070735",
+      "title": "The Sting"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt1832382",
+      "title": "A Separation"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "WAR"
+      ],
+      "imdbId": "tt8579674",
+      "title": "1917"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0017136",
+      "title": "Metropolis"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE"
+      ],
+      "imdbId": "tt0082971",
+      "title": "Indiana Jones and the Raiders of the Lost Ark"
+    },
+    {
+      "categories": [
+        "WESTERN"
+      ],
+      "imdbId": "tt0059578",
+      "title": "For a Few Dollars More"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "FAMILY"
+      ],
+      "imdbId": "tt0986264",
+      "title": "Like Stars on Earth"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "DRAMA",
+        "HISTORY"
+      ],
+      "imdbId": "tt15398776",
+      "title": "Oppenheimer"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1160419",
+      "title": "Dune"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt6710474",
+      "title": "Everything Everywhere All at Once"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "DRAMA"
+      ],
+      "imdbId": "tt1745960",
+      "title": "Top Gun: Maverick"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt1877830",
+      "title": "The Batman"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA"
+      ],
+      "imdbId": "tt11813216",
+      "title": "The Banshees of Inisherin"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "HISTORY"
+      ],
+      "imdbId": "tt5537002",
+      "title": "Killers of the Flower Moon"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "COMEDY",
+        "FANTASY"
+      ],
+      "imdbId": "tt1517268",
+      "title": "Barbie"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt14230458",
+      "title": "Poor Things"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA"
+      ],
+      "imdbId": "tt14849194",
+      "title": "The Holdovers"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "HORROR",
+        "SCI_FI"
+      ],
+      "imdbId": "tt6644200",
+      "title": "A Quiet Place"
+    },
+    {
+      "categories": [
+        "HORROR",
+        "MYSTERY",
+        "THRILLER"
+      ],
+      "imdbId": "tt5052448",
+      "title": "Get Out"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt10872600",
+      "title": "Spider-Man: No Way Home"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt2948372",
+      "title": "Soul"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt9770150",
+      "title": "Nomadland"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt2015381",
+      "title": "Guardians of the Galaxy"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "DRAMA",
+        "MUSIC"
+      ],
+      "imdbId": "tt1727824",
+      "title": "Bohemian Rhapsody"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "DRAMA"
+      ],
+      "imdbId": "tt1285016",
+      "title": "The Social Network"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt3890160",
+      "title": "Baby Driver"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt1663202",
+      "title": "The Revenant"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "MUSIC"
+      ],
+      "imdbId": "tt3783958",
+      "title": "La La Land"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "FANTASY",
+        "ROMANCE"
+      ],
+      "imdbId": "tt5580390",
+      "title": "The Shape of Water"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "DRAMA",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1856101",
+      "title": "Blade Runner 2049"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt4975722",
+      "title": "Moonlight"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "DRAMA",
+        "HISTORY"
+      ],
+      "imdbId": "tt5013056",
+      "title": "Dunkirk"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt5726616",
+      "title": "Call Me by Your Name"
+    },
+    {
+      "categories": [
+        "BIOGRAPHY",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt1302006",
+      "title": "The Irishman"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt7653254",
+      "title": "Marriage Story"
+    },
+    {
+      "categories": [
+        "DRAMA"
+      ],
+      "imdbId": "tt6155172",
+      "title": "Roma"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1825683",
+      "title": "Black Panther"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ACTION",
+        "SCI_FI"
+      ],
+      "imdbId": "tt5295894",
+      "title": "Inception: The Cobol Job"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "DRAMA",
+        "SCI_FI"
+      ],
+      "imdbId": "tt3659388",
+      "title": "The Martian"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt0102926",
+      "title": "The Silence of the Lambs"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "FANTASY",
+        "HORROR"
+      ],
+      "imdbId": "tt7984734",
+      "title": "The Lighthouse"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0234215",
+      "title": "The Matrix Reloaded"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0242653",
+      "title": "The Matrix Revolutions"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt6263850",
+      "title": "Deadpool & Wolverine"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt14539740",
+      "title": "Godzilla x Kong: The New Empire"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "COMEDY"
+      ],
+      "imdbId": "tt4227538",
+      "title": "The Fall Guy"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt15239678",
+      "title": "Dune: Part Two"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt12965802",
+      "title": "Ghostbusters: Frozen Empire"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt11389872",
+      "title": "Kingdom of the Planet of the Apes"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0316654",
+      "title": "Spider-Man 2"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt9218128",
+      "title": "Gladiator II"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "COMEDY",
+        "CRIME"
+      ],
+      "imdbId": "tt15663016",
+      "title": "Bad Boys: Ride or Die"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt1630029",
+      "title": "Avatar: The Way of Water"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt2018009",
+      "title": "Civil War"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt12037194",
+      "title": "Furiosa: A Mad Max Saga"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "HORROR",
+        "SCI_FI"
+      ],
+      "imdbId": "tt15339472",
+      "title": "A Quiet Place: Day One"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "CRIME",
+        "THRILLER"
+      ],
+      "imdbId": "tt10366206",
+      "title": "John Wick: Chapter 4"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "THRILLER"
+      ],
+      "imdbId": "tt9603212",
+      "title": "Mission: Impossible - Dead Reckoning Part One"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "FANTASY",
+        "HORROR"
+      ],
+      "imdbId": "tt2049403",
+      "title": "Beetlejuice Beetlejuice"
+    },
+    {
+      "categories": [
+        "COMEDY",
+        "DRAMA",
+        "THRILLER"
+      ],
+      "imdbId": "tt6751668",
+      "title": "Parasite"
+    },
+    {
+      "categories": [
+        "CRIME",
+        "DRAMA",
+        "MUSICAL"
+      ],
+      "imdbId": "tt11315808",
+      "title": "Joker: Folie à Deux"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0103064",
+      "title": "Terminator 2: Judgment Day"
+    },
+    {
+      "categories": [
+        "ANIMATION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt2277860",
+      "title": "Finding Dory"
+    },
+    {
+      "categories": [
+        "DRAMA",
+        "ROMANCE"
+      ],
+      "imdbId": "tt0120338",
+      "title": "Titanic"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0371746",
+      "title": "Iron Man"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "THRILLER"
+      ],
+      "imdbId": "tt1843866",
+      "title": "Captain America: The Winter Soldier"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt3501632",
+      "title": "Thor: Ragnarok"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt3480822",
+      "title": "Black Widow"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt9376612",
+      "title": "Shang-Chi and the Legend of the Ten Rings"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt9032400",
+      "title": "Eternals"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0848228",
+      "title": "The Avengers"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt2395427",
+      "title": "Avengers: Age of Ultron"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt3498820",
+      "title": "Captain America: Civil War"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt1211837",
+      "title": "Doctor Strange"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt9114286",
+      "title": "Black Panther: Wakanda Forever"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt9419884",
+      "title": "Doctor Strange in the Multiverse of Madness"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt10648342",
+      "title": "Thor: Love and Thunder"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt5095030",
+      "title": "Ant-Man and the Wasp"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt6791350",
+      "title": "Guardians of the Galaxy Vol. 3"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt10676048",
+      "title": "The Marvels"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt10954600",
+      "title": "Ant-Man and the Wasp: Quantumania"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt2250912",
+      "title": "Spider-Man: Homecoming"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt6320628",
+      "title": "Spider-Man: Far From Home"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt4154664",
+      "title": "Captain Marvel"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "COMEDY"
+      ],
+      "imdbId": "tt0478970",
+      "title": "Ant-Man"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0800080",
+      "title": "The Incredible Hulk"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "CRIME",
+        "THRILLER"
+      ],
+      "imdbId": "tt0232500",
+      "title": "The Fast and the Furious"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "THRILLER"
+      ],
+      "imdbId": "tt1905041",
+      "title": "Fast & Furious 6"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "THRILLER"
+      ],
+      "imdbId": "tt2820852",
+      "title": "Furious 7"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "CRIME"
+      ],
+      "imdbId": "tt4630562",
+      "title": "The Fate of the Furious"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "CRIME"
+      ],
+      "imdbId": "tt5433138",
+      "title": "F9: The Fast Saga"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "CRIME"
+      ],
+      "imdbId": "tt5433140",
+      "title": "Fast X"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt0369610",
+      "title": "Jurassic World"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt4881806",
+      "title": "Jurassic World: Fallen Kingdom"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt8041270",
+      "title": "Jurassic World Dominion"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt2488496",
+      "title": "Star Wars: The Force Awakens"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt2527336",
+      "title": "Star Wars: The Last Jedi"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt2527338",
+      "title": "Star Wars: The Rise of Skywalker"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt3748528",
+      "title": "Rogue One: A Star Wars Story"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt3778644",
+      "title": "Solo: A Star Wars Story"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FAMILY",
+        "FANTASY"
+      ],
+      "imdbId": "tt0241527",
+      "title": "Harry Potter and the Sorcerer's Stone"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FAMILY",
+        "FANTASY"
+      ],
+      "imdbId": "tt0295297",
+      "title": "Harry Potter and the Chamber of Secrets"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FAMILY",
+        "FANTASY"
+      ],
+      "imdbId": "tt0304141",
+      "title": "Harry Potter and the Prisoner of Azkaban"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FAMILY",
+        "FANTASY"
+      ],
+      "imdbId": "tt0330373",
+      "title": "Harry Potter and the Goblet of Fire"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0373889",
+      "title": "Harry Potter and the Order of the Phoenix"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0417741",
+      "title": "Harry Potter and the Half-Blood Prince"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FAMILY",
+        "FANTASY"
+      ],
+      "imdbId": "tt0926084",
+      "title": "Harry Potter and the Deathly Hallows: Part 1"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1392170",
+      "title": "The Hunger Games"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1951264",
+      "title": "The Hunger Games: Catching Fire"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1951265",
+      "title": "The Hunger Games: Mockingjay - Part 1"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "SCI_FI"
+      ],
+      "imdbId": "tt1951266",
+      "title": "The Hunger Games: Mockingjay - Part 2"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "DRAMA"
+      ],
+      "imdbId": "tt0167260",
+      "title": "The Lord of the Rings: The Return of the King"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0903624",
+      "title": "The Hobbit: An Unexpected Journey"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt1170358",
+      "title": "The Hobbit: The Desolation of Smaug"
+    },
+    {
+      "categories": [
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt2310332",
+      "title": "The Hobbit: The Battle of the Five Armies"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0325980",
+      "title": "Pirates of the Caribbean: The Curse of the Black Pearl"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0383574",
+      "title": "Pirates of the Caribbean: Dead Man's Chest"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt0449088",
+      "title": "Pirates of the Caribbean: At World's End"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt1298650",
+      "title": "Pirates of the Caribbean: On Stranger Tides"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "ADVENTURE",
+        "FANTASY"
+      ],
+      "imdbId": "tt1790809",
+      "title": "Pirates of the Caribbean: Dead Men Tell No Tales"
+    },
+    {
+      "categories": [
+        "ACTION",
+        "CRIME",
+        "DRAMA"
+      ],
+      "imdbId": "tt0468569",
+      "title": "The Dark Knight"
+    }
+  ],
+  "rooms": {
+    "-OcQR25tishcWAr1ax6T": {
+      "createdAt": 1761396928905,
+      "gameStatus": 0,
+      "id": "-OcQR25tishcWAr1ax6T",
+      "members": [
+        "1758698717860-8485"
+      ],
+      "name": "IOS's Room ",
+      "ownerId": "1758698717860-8485",
+      "readyMembers": [
+        "1758698717860-8485"
+      ],
+      "roomCategory": "4",
+      "roomCode": "POLYN",
+      "subCategories": [
+        "ACTION",
+        "CRIME",
+        "FAMILY",
+        "HORROR",
+        "HISTORY"
+      ]
+    },
+    "-OcQcRtlx7ip9e22Ikmv": {
+      "createdAt": 1761400180264,
+      "gameStatus": false,
+      "id": "-OcQcRtlx7ip9e22Ikmv",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "IOS's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "EKSHO",
+      "subCategories": [
+        "BIOGRAPHY",
+        "ADVENTURE",
+        "ROMANCE",
+        "DOCUMENTARY",
+        "SCI_FI"
+      ]
+    },
+    "-OcQeLbIPN_v5DlZqwFx": {
+      "createdAt": 1761400678784,
+      "gameStatus": 1,
+      "id": "-OcQeLbIPN_v5DlZqwFx",
+      "members": [
+        "1758698717860-8485"
+      ],
+      "name": "IOS's Room ",
+      "ownerId": "1758698717860-8485",
+      "readyMembers": [
+        "1758698717860-8485"
+      ],
+      "roomCategory": "4",
+      "roomCode": "KDCJL",
+      "subCategories": [
+        "ROMANCE",
+        "HISTORY",
+        "ANIMATION",
+        "THRILLER",
+        "MYSTERY"
+      ]
+    },
+    "-OcQePbnjC-BJzYWHMOw": {
+      "createdAt": 1761400695201,
+      "gameStatus": 0,
+      "id": "-OcQePbnjC-BJzYWHMOw",
+      "members": [
+        "1758698717860-8485"
+      ],
+      "name": "IOS's Room ",
+      "ownerId": "1758698717860-8485",
+      "readyMembers": [
+        "1758698717860-8485"
+      ],
+      "roomCategory": "4",
+      "roomCode": "NOGAL",
+      "subCategories": [
+        "SCI_FI",
+        "BIOGRAPHY",
+        "WAR",
+        "ADVENTURE",
+        "ROMANCE"
+      ]
+    },
+    "-OcRqAgBR8Hom0eqNcar": {
+      "createdAt": 1761420557355,
+      "gameStatus": false,
+      "id": "-OcRqAgBR8Hom0eqNcar",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Bekomastiks's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "SIFIF",
+      "subCategories": [
+        "ACTION",
+        "CRIME",
+        "FAMILY",
+        "HORROR",
+        "MUSIC",
+        "COMEDY"
+      ]
+    },
+    "-Od2yOZqp_rAmxt9356d": {
+      "createdAt": 1762077022851,
+      "gameStatus": false,
+      "id": "-Od2yOZqp_rAmxt9356d",
+      "members": [
+        "1758698717860-8485"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1758698717860-8485",
+      "readyMembers": [
+        "1758698717860-8485"
+      ],
+      "roomCategory": "4",
+      "roomCode": "OCPAF",
+      "subCategories": [
+        "MYSTERY",
+        "MUSICAL",
+        "DOCUMENTARY",
+        "ROMANCE",
+        "WAR",
+        "THRILLER"
+      ]
+    },
+    "-Od3-YlruPJXCg5VsHas": {
+      "createdAt": 1762077588933,
+      "gameStatus": false,
+      "id": "-Od3-YlruPJXCg5VsHas",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "XVSYD",
+      "subCategories": [
+        "ACTION",
+        "CRIME",
+        "FAMILY",
+        "HISTORY",
+        "ROMANCE",
+        "SCI_FI"
+      ]
+    },
+    "-Od3fTAo9Rf1rHg3OQBG": {
+      "createdAt": 1762088838223,
+      "gameStatus": false,
+      "id": "-Od3fTAo9Rf1rHg3OQBG",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "INIHU",
+      "subCategories": [
+        "COMEDY",
+        "MUSIC",
+        "HORROR",
+        "ANIMATION",
+        "THRILLER",
+        "DOCUMENTARY"
+      ]
+    },
+    "-OiboRS5w_xaLmSXQPOu": {
+      "createdAt": 1768047101774,
+      "gameStatus": false,
+      "id": "-OiboRS5w_xaLmSXQPOu",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "AAPLY",
+      "subCategories": [
+        "FAMILY",
+        "HISTORY",
+        "THRILLER",
+        "WAR",
+        "DOCUMENTARY"
+      ]
+    },
+    "-OiboRl-1PHHl2EpSkSk": {
+      "createdAt": 1768047103042,
+      "gameStatus": false,
+      "id": "-OiboRl-1PHHl2EpSkSk",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "UKAIJ",
+      "subCategories": [
+        "FAMILY",
+        "HISTORY",
+        "THRILLER",
+        "WAR",
+        "DOCUMENTARY"
+      ]
+    },
+    "-OiboS1IrbPdlzLyRksn": {
+      "createdAt": 1768047104149,
+      "gameStatus": false,
+      "id": "-OiboS1IrbPdlzLyRksn",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "ZDKSR",
+      "subCategories": [
+        "FAMILY",
+        "HISTORY",
+        "THRILLER",
+        "WAR",
+        "DOCUMENTARY"
+      ]
+    },
+    "-OiboSLbdgK5WkegP6P7": {
+      "createdAt": 1768047105449,
+      "gameStatus": false,
+      "id": "-OiboSLbdgK5WkegP6P7",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "RCGHD",
+      "subCategories": [
+        "FAMILY",
+        "HISTORY",
+        "THRILLER",
+        "WAR",
+        "DOCUMENTARY",
+        "MUSICAL"
+      ]
+    },
+    "-OiboTjxgQBuXB4mR_oV": {
+      "createdAt": 1768047111166,
+      "gameStatus": false,
+      "id": "-OiboTjxgQBuXB4mR_oV",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "QZUOY",
+      "subCategories": [
+        "ANIMATION",
+        "SCI_FI",
+        "HORROR",
+        "BIOGRAPHY",
+        "MUSIC",
+        "ADVENTURE"
+      ]
+    },
+    "-OiboTsH4-v8LNrUmXK6": {
+      "createdAt": 1768047111699,
+      "gameStatus": false,
+      "id": "-OiboTsH4-v8LNrUmXK6",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Crabbie's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "FIGUI",
+      "subCategories": [
+        "ANIMATION",
+        "SCI_FI",
+        "HORROR",
+        "BIOGRAPHY",
+        "MUSIC",
+        "ADVENTURE"
+      ]
+    },
+    "-Oid3vytXNyHwqa4yAjE": {
+      "createdAt": 1768068202454,
+      "gameStatus": false,
+      "id": "-Oid3vytXNyHwqa4yAjE",
+      "members": [
+        "1755452981440-4796"
+      ],
+      "name": "Beko's Room ",
+      "ownerId": "1755452981440-4796",
+      "readyMembers": [
+        "1755452981440-4796"
+      ],
+      "roomCategory": "4",
+      "roomCode": "SLFLY",
+      "subCategories": [
+        "MYSTERY",
+        "ANIMATION",
+        "HORROR",
+        "MUSIC",
+        "COMEDY",
+        "DRAMA",
+        "SPORT",
+        "FANTASY"
+      ]
+    }
+  },
+  "users": {
+    "1755206435362-6486": {
+      "emoji": "🐺",
+      "id": "1755206435362-6486",
+      "isActive": false,
+      "lastSeen": 1768068192741,
+      "name": "Sude",
+      "status": "OFFLINE"
+    },
+    "1755452981440-4796": {
+      "emoji": "🦊",
+      "id": "1755452981440-4796",
+      "isActive": false,
+      "lastSeen": 1769536324532,
+      "name": "Beko",
+      "status": "OFFLINE"
+    },
+    "1755634599204-781": {
+      "emoji": "🐮",
+      "id": "1755634599204-781",
+      "isActive": 1,
+      "lastSeen": 1757815436504,
+      "name": "Mööööö",
+      "status": "ONLINE"
+    },
+    "1758698717860-8485": {
+      "emoji": "🦉",
+      "id": "1758698717860-8485",
+      "isActive": 0,
+      "lastSeen": 1762432093087,
+      "name": "Ooowi",
+      "status": "OFFLINE"
+    },
+    "1758705313644-5234": {
+      "emoji": "🐨",
+      "id": "1758705313644-5234",
+      "isActive": false,
+      "lastSeen": 1758705440691,
+      "status": "OFFLINE"
+    }
+  }
+}

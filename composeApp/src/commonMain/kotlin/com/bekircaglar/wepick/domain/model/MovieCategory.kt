@@ -61,7 +61,14 @@ fun movieCategoryFromId(name: String): MovieCategory? {
 
 @Serializable
 data class MovieDB(
-    val title: String,
-    val imdbId: String,
-    val categories: List<String>
+    val title: String = "",
+    val imdbId: String = "",
+    val categories: List<String> = emptyList(),
+    val plot: String = "",
+    val actors: String = "",
+    val director: String = "",
+    val poster: String = "",
+    val year: String = "",
+    val imdbRating: String = "",
+    val language: String = ""
 )

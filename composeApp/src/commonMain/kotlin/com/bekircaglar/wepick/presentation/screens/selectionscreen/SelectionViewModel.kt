@@ -59,6 +59,9 @@ class SelectionViewModel(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
 
+    private val _currentDataSource = MutableStateFlow<String?>(null)
+    val currentDataSource = _currentDataSource.asStateFlow()
+
     private val _matchFound = MutableStateFlow<String?>(null)
     val matchFound = _matchFound.asStateFlow()
 
@@ -248,6 +251,9 @@ class SelectionViewModel(
                         _selectionItemList.value = queryState.data.map { movie ->
                             SelectionItem.MovieItem(movie = movie)
                         }
+                        if (queryState.data.isNotEmpty()) {
+                            _currentDataSource.value = queryState.data.first().source
+                        }
                         _currentPage.value = 0
                         _hasMorePages.value = _totalPages.value > 1
                     }
@@ -287,6 +293,10 @@ class SelectionViewModel(
                         // Add new movies to existing list
                         _selectionItemList.update { currentList ->
                             currentList + newMovies
+                        }
+                        
+                        if (queryState.data.isNotEmpty()) {
+                            _currentDataSource.value = queryState.data.first().source
                         }
 
                         _currentPage.value = _currentPage.value + 1

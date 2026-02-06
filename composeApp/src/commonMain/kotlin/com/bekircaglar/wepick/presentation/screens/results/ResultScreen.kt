@@ -1,7 +1,6 @@
 package com.bekircaglar.wepick.presentation.screens.results
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -28,19 +27,22 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.Text
+import androidx.compose.ui.draw.shadow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush.Companion.verticalGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -56,6 +58,20 @@ import com.bekircaglar.wepick.presentation.screens.selectionscreen.SelectionView
 import com.bekircaglar.wepick.theme.WePickTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import wepick.composeapp.generated.resources.netflix_logo
+import wepick.composeapp.generated.resources.disney_logo
+import wepick.composeapp.generated.resources.prime_logo
+import wepick.composeapp.generated.resources.apple_tv_logo
+import wepick.composeapp.generated.resources.hbo_logo
+import wepick.composeapp.generated.resources.blu_tv_logo
+import wepick.composeapp.generated.resources.gain_logo
+import wepick.composeapp.generated.resources.exxen_logo
+import wepick.composeapp.generated.resources.mubi_logo
+import wepick.composeapp.generated.resources.paramount_logo
+import wepick.composeapp.generated.resources.youtube_logo
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
+import androidx.compose.foundation.Image
 import org.koin.compose.viewmodel.koinViewModel
 import wepick.composeapp.generated.resources.Res
 import wepick.composeapp.generated.resources.actors
@@ -63,7 +79,6 @@ import wepick.composeapp.generated.resources.director
 import wepick.composeapp.generated.resources.plot
 import wepick.composeapp.generated.resources.results
 import wepick.composeapp.generated.resources.return_room
-import kotlin.math.min
 
 
 @Composable
@@ -73,7 +88,7 @@ fun ResultScreen(navHostController: NavHostController) {
     val roomData by viewModel.roomData.collectAsStateWithLifecycle()
 
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         viewModel.resetRoom()
     }
 
@@ -105,41 +120,10 @@ fun MovieResult(
     onBackRoom: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val scrollProgress = min(scrollState.value / 500f, 1f)
-
-    val posterScale by animateFloatAsState(
-        targetValue = 1f - (scrollProgress * 0.65f),
-        animationSpec = tween(durationMillis = 100)
-    )
-
-    val posterOffsetX by animateFloatAsState(
-        targetValue = scrollProgress * 280f,
-        animationSpec = tween(durationMillis = 100)
-    )
-
-    val posterOffsetY by animateFloatAsState(
-        targetValue = scrollProgress * 100f,
-        animationSpec = tween(durationMillis = 100)
-    )
-
-    val titleOffsetX by animateFloatAsState(
-        targetValue = scrollProgress * -250f,
-        animationSpec = tween(durationMillis = 100)
-    )
-
-    val titleOffsetY by animateFloatAsState(
-        targetValue = scrollProgress * -450f,
-        animationSpec = tween(durationMillis = 100)
-    )
-
-    val titleScale by animateFloatAsState(
-        targetValue = 1f - (scrollProgress * 0.4f),
-        animationSpec = tween(durationMillis = 100)
-    )
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         AsyncImage(
             model = movie.poster,
@@ -187,229 +171,263 @@ fun MovieResult(
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Bottom,
+                    .fillMaxWidth()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .fillMaxHeight(0.8f)
-                        .padding(bottom = 32.dp)
-                        .background(
-                            color = WePickTheme.colors.background,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth()
+                        .weight(1f)
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(scrollState)
-                            .offset(y = (-150).dp)
-                            .padding(top = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Spacer(modifier = Modifier.height(400.dp))
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 32.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            movie.genre.split(",").forEach { genre ->
-                                MovieChip(text = genre.trim())
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Text(
-                            text = stringResource(Res.string.plot),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.SemiBold
-                            ),
-                            color = WePickTheme.colors.onBackground,
-                        )
-
-                        Text(
-                            text = movie.plot,
-                            modifier = Modifier.padding(horizontal = 32.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center,
-                            color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
-                        )
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Text(
-                            text = stringResource(Res.string.director),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.SemiBold
-                            ),
-                            color = WePickTheme.colors.onBackground,
-                        )
-
-                        Text(
-                            text = movie.director,
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center,
-                            color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
-                        )
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Text(
-                            text = stringResource(Res.string.actors),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.SemiBold
-                            ),
-                            color = WePickTheme.colors.onBackground,
-                        )
-
-                        Text(
-                            text = movie.actors,
-                            modifier = Modifier.padding(horizontal = 32.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center,
-                            color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
-                        )
-
-                        Spacer(modifier = Modifier.height(100.dp))
-                    }
-
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .offset(y = (-150).dp)
-                            .graphicsLayer {
-                                translationY = posterOffsetY
-                                translationX = posterOffsetX
-                                scaleX = posterScale
-                                scaleY = posterScale
-                            }
+                        modifier = Modifier.fillMaxSize()
                     ) {
+                        // 1. The White Background Container (Full Height)
                         Box(
                             modifier = Modifier
-                                .align(Alignment.TopCenter)
+                                .padding(top = 140.dp)
+                                .padding(horizontal = 16.dp)
+                                .fillMaxSize() // Use fillMaxSize to occupy the rest of the screen
                                 .background(
-                                    color = Color.White,
-                                    shape = RoundedCornerShape(12.dp)
+                                    color = WePickTheme.colors.background,
+                                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
                                 )
-                                .width(200.dp)
-                                .aspectRatio(0.7f)
-                                .shadow(8.dp, RoundedCornerShape(12.dp))
                         ) {
-                            AsyncImage(
-                                model = movie.poster,
-                                contentDescription = "${movie.title} Poster",
-                                contentScale = ContentScale.Crop,
+                            // Content inside White Card
+                            Column(
                                 modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(RoundedCornerShape(12.dp))
-                            )
-
-                            Row(
-                                modifier = Modifier
-                                    .padding(all = 4.dp)
-                                    .align(Alignment.BottomStart)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(
-                                        color = Color(0xFFF5C518),
-                                        shape = RoundedCornerShape(8.dp)
-                                    )
-                                    .height(24.dp)
-                                    .padding(horizontal = 8.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                                    .fillMaxSize(), // Fill the white card
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Icon(
-                                    imageVector = Icons.Default.Star,
-                                    contentDescription = "IMDb Star",
-                                    modifier = Modifier.size(18.dp),
-                                    tint = Color.Black
-                                )
-                                Spacer(modifier = Modifier.width(6.dp))
+                                // Spacer for poster overlap (Fixed space)
+                                Spacer(modifier = Modifier.height(160.dp))
+
+                                // Title (Fixed)
                                 Text(
-                                    text = movie.imdbRating,
+                                    text = movie.title,
+                                    style = MaterialTheme.typography.headlineMedium,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.Black
+                                    textAlign = TextAlign.Center,
+                                    color = WePickTheme.colors.onBackground,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 32.dp)
                                 )
+
+                                Spacer(modifier = Modifier.height(16.dp))
+
+                                // Scrollable Area using Column with verticalScroll
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f) // Take remaining space
+                                        .verticalScroll(rememberScrollState())
+                                        .padding(horizontal = 32.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceEvenly
+                                    ) {
+                                        movie.genre.split(",").forEach { genre ->
+                                            MovieChip(text = genre.trim())
+                                        }
+                                    }
+
+                                    if (movie.platforms.isNotEmpty()) {
+                                        Spacer(modifier = Modifier.height(16.dp))
+
+                                        // Title for platforms, optional
+                                        Text(
+                                            text = "İzle:",
+                                            style = MaterialTheme.typography.titleMedium.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                color = WePickTheme.colors.primary
+                                            ),
+                                            modifier = Modifier.padding(bottom = 8.dp)
+                                        )
+
+                                        FlowRow(
+                                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                                            horizontalArrangement = Arrangement.Center,
+                                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            movie.platforms.forEach { platform ->
+                                                // Option 1: White with Logo
+                                                PlatformChipWithLogo(platformName = platform)
+
+                                                // Option 2: Full Color (Commented out)
+                                                // PlatformChipFull(platformName = platform)
+
+                                                Spacer(modifier = Modifier.width(8.dp))
+                                            }
+                                        }
+                                    }
+
+                                    Spacer(modifier = Modifier.height(16.dp))
+
+                                    Text(
+                                        text = stringResource(Res.string.plot),
+                                        style = MaterialTheme.typography.titleMedium.copy(
+                                            fontWeight = FontWeight.SemiBold
+                                        ),
+                                        color = WePickTheme.colors.onBackground,
+                                    )
+
+                                    Text(
+                                        text = movie.plot,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        textAlign = TextAlign.Center,
+                                        color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
+                                    )
+
+                                    Spacer(modifier = Modifier.height(16.dp))
+
+                                    Text(
+                                        text = stringResource(Res.string.director),
+                                        style = MaterialTheme.typography.titleMedium.copy(
+                                            fontWeight = FontWeight.SemiBold
+                                        ),
+                                        color = WePickTheme.colors.onBackground,
+                                    )
+
+                                    Text(
+                                        text = movie.director,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        textAlign = TextAlign.Center,
+                                        color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
+                                    )
+
+                                    Spacer(modifier = Modifier.height(16.dp))
+
+                                    Text(
+                                        text = stringResource(Res.string.actors),
+                                        style = MaterialTheme.typography.titleMedium.copy(
+                                            fontWeight = FontWeight.SemiBold
+                                        ),
+                                        color = WePickTheme.colors.onBackground,
+                                    )
+
+                                    Text(
+                                        text = movie.actors,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        textAlign = TextAlign.Center,
+                                        color = WePickTheme.colors.onBackground.copy(alpha = 0.8f),
+                                    )
+
+                                    // Space for the sticky button
+                                    Spacer(modifier = Modifier.height(100.dp))
+                                }
                             }
 
-                            Row(
+                            // Button pinned to bottom of White Card
+                            Button(
+                                onClick = onBackRoom,
                                 modifier = Modifier
-                                    .padding(all = 4.dp)
-                                    .align(Alignment.BottomEnd)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(
-                                        color = WePickTheme.colors.lightPrimaryVariant,
-                                        shape = RoundedCornerShape(8.dp)
+                                    .align(Alignment.BottomCenter)
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .padding(bottom = 32.dp)
+                                    .height(48.dp),
+                                shape = RoundedCornerShape(12.dp),
+                                elevation = ButtonDefaults.elevatedButtonElevation(
+                                    defaultElevation = 3.dp,
+                                    pressedElevation = 0.dp,
+                                    hoveredElevation = 0.dp,
+                                    focusedElevation = 0.dp
+                                ),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = WePickTheme.colors.primary,
+                                    contentColor = Color.White,
+                                    disabledContentColor = Color.White.copy(alpha = 0.7f),
+                                    disabledContainerColor = WePickTheme.colors.primaryVariant.copy(
+                                        alpha = 0.2f
                                     )
-                                    .height(24.dp)
-                                    .padding(horizontal = 8.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                                )
                             ) {
                                 Text(
-                                    text = movie.runtime,
-                                    fontSize = 14.sp,
-                                    color = WePickTheme.colors.primary
+                                    text = stringResource(Res.string.return_room),
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        fontWeight = FontWeight.SemiBold
+                                    )
                                 )
                             }
                         }
-                    }
 
-                    Text(
-                        text = movie.title,
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        color = WePickTheme.colors.onBackground,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 32.dp)
-                            .offset(y = 150.dp)
-                            .graphicsLayer {
-                                translationY = titleOffsetY
-                                translationX = titleOffsetX
-                                scaleX = titleScale
-                                scaleY = titleScale
-                            }
-                    )
-
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Bottom,
-                    ) {
-                        Button(
-                            onClick = onBackRoom,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(all = 16.dp)
-                                .height(48.dp),
-                            shape = RoundedCornerShape(12.dp),
-                            elevation = ButtonDefaults.elevatedButtonElevation(
-                                defaultElevation = 3.dp,
-                                pressedElevation = 0.dp,
-                                hoveredElevation = 0.dp,
-                                focusedElevation = 0.dp
-                            ),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = WePickTheme.colors.primary,
-                                contentColor = Color.White,
-                                disabledContentColor = Color.White.copy(alpha = 0.7f),
-                                disabledContainerColor = WePickTheme.colors.primaryVariant.copy(
-                                    alpha = 0.2f
-                                )
-                            )
+                        // 2. Poster (Overlapping Top)
+                        Box(
+                            contentAlignment = Alignment.TopCenter,
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(
-                                text = stringResource(Res.string.return_room),
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontWeight = FontWeight.SemiBold
+                            Box(
+                                modifier = Modifier
+                                    .background(
+                                        color = Color.White,
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                    .width(200.dp)
+                                    .aspectRatio(0.7f)
+                                    .shadow(8.dp, RoundedCornerShape(12.dp))
+                            ) {
+                                AsyncImage(
+                                    model = movie.poster,
+                                    contentDescription = "${movie.title} Poster",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(12.dp))
                                 )
-                            )
+
+                                Row(
+                                    modifier = Modifier
+                                        .padding(all = 4.dp)
+                                        .align(Alignment.BottomStart)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(
+                                            color = Color(0xFFF5C518),
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .height(24.dp)
+                                        .padding(horizontal = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Star,
+                                        contentDescription = "IMDb Star",
+                                        modifier = Modifier.size(18.dp),
+                                        tint = Color.Black
+                                    )
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(
+                                        text = movie.imdbRating,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black
+                                    )
+                                }
+
+                                Row(
+                                    modifier = Modifier
+                                        .padding(all = 4.dp)
+                                        .align(Alignment.BottomEnd)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(
+                                            color = WePickTheme.colors.lightPrimaryVariant,
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .height(24.dp)
+                                        .padding(horizontal = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = movie.runtime,
+                                        fontSize = 14.sp,
+                                        color = WePickTheme.colors.primary
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -438,6 +456,158 @@ fun MovieChip(text: String, modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun PlatformChipWithLogo(
+    platformName: String,
+    modifier: Modifier = Modifier,
+    showLogo: Boolean = true,
+    onClick: (() -> Unit)? = null
+) {
+    val platformInfo = getPlatformInfo(platformName)
+
+    Row(
+        modifier = modifier
+            .shadow(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(50.dp)
+            )
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(50.dp)
+            )
+            .border(
+                width = 1.dp,
+                color = platformInfo.backgroundColor.copy(alpha = 0.3f),
+                shape = RoundedCornerShape(50.dp)
+            )
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable { onClick() }
+                } else {
+                    Modifier
+                }
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        // Logo göster
+        if (showLogo && platformInfo.logoResource != null) {
+            Image(
+                painter = painterResource(platformInfo.logoResource),
+                contentDescription = platformName,
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(RoundedCornerShape(4.dp)),
+                contentScale = ContentScale.Fit
+            )
+        }
+
+        Text(
+            text = platformName,
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp
+            ),
+            color = Color(0xFF333333)
+        )
+    }
+}
+
+@Composable
+fun PlatformChipFull(
+    platformName: String,
+    modifier: Modifier = Modifier,
+    showLogo: Boolean = true,
+    onClick: (() -> Unit)? = null
+) {
+    val platformInfo = getPlatformInfo(platformName)
+
+    Row(
+        modifier = modifier
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(25.dp)
+            )
+            .background(
+                color = platformInfo.backgroundColor,
+                shape = RoundedCornerShape(25.dp)
+            )
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable { onClick() }
+                } else {
+                    Modifier
+                }
+            )
+            .padding(horizontal = 20.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        // Logo göster
+        if (showLogo && platformInfo.logoResource != null) {
+            Image(
+                painter = painterResource(platformInfo.logoResource),
+                contentDescription = platformName,
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(RoundedCornerShape(4.dp)),
+                contentScale = ContentScale.Fit
+            )
+        }
+
+        Text(
+            text = platformName,
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            ),
+            color = platformInfo.textColor
+        )
+    }
+}
+
+// FlowRow implementasyonu
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun FlowRow(
+    modifier: Modifier = Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    content: @Composable () -> Unit
+) {
+    androidx.compose.foundation.layout.FlowRow(
+        modifier = modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalArrangement = verticalArrangement
+    ) {
+        content()
+    }
+}
+
+data class PlatformInfo(
+    val backgroundColor: Color,
+    val textColor: Color,
+    val logoResource: DrawableResource?
+)
+
+fun getPlatformInfo(platformName: String): PlatformInfo {
+    return when {
+        platformName.contains("Netflix", ignoreCase = true) -> PlatformInfo(Color(0xFFE50914), Color.White, Res.drawable.netflix_logo)
+        platformName.contains("Disney", ignoreCase = true) -> PlatformInfo(Color(0xFF113CCF), Color.White, Res.drawable.disney_logo)
+        platformName.contains("Prime", ignoreCase = true) || platformName.contains("Amazon", ignoreCase = true) -> PlatformInfo(Color(0xFF00A8E1), Color.White, Res.drawable.prime_logo)
+        platformName.contains("Apple", ignoreCase = true) -> PlatformInfo(Color(0xFF000000), Color.White, Res.drawable.apple_tv_logo)
+        platformName.contains("HBO", ignoreCase = true) || platformName.contains("Max", ignoreCase = true) -> PlatformInfo(Color(0xFF240E3E), Color.White, Res.drawable.hbo_logo)
+        platformName.contains("BluTV", ignoreCase = true) -> PlatformInfo(Color(0xFF1E88E5), Color.White, Res.drawable.blu_tv_logo)
+        platformName.contains("Gain", ignoreCase = true) -> PlatformInfo(Color(0xFFFF6B00), Color.White, Res.drawable.gain_logo)
+        platformName.contains("Exxen", ignoreCase = true) -> PlatformInfo(Color(0xFFFFD700), Color.Black, Res.drawable.exxen_logo)
+        platformName.contains("Mubi", ignoreCase = true) -> PlatformInfo(Color(0xFF0F2646), Color.White, Res.drawable.mubi_logo)
+        platformName.contains("Paramount", ignoreCase = true) -> PlatformInfo(Color(0xFF0064FF), Color.White, Res.drawable.paramount_logo)
+        platformName.contains("YouTube", ignoreCase = true) -> PlatformInfo(Color(0xFFFF0000), Color.White, Res.drawable.youtube_logo)
+        else -> PlatformInfo(Color.Gray, Color.White, null)
+    }
+}
+
 @Preview
 @Composable
 fun ResultScreenPreview() {
@@ -450,8 +620,9 @@ fun ResultScreenPreview() {
         actors = "Tim Robbins, Morgan Freeman, Bob Gunton",
         genre = "Drama, Crime, Thriller, Mystery",
         imdbRating = "9.3",
-        runtime = "2h 22min"
+        runtime = "2h 22min",
+        platforms = listOf("Netflix", "Disney Plus","Prime")
     )
 
-    MovieResult(movie = sampleMovie,{})
+    MovieResult(movie = sampleMovie, {})
 }

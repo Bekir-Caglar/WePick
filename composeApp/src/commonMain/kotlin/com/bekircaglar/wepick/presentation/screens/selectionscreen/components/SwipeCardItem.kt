@@ -1,6 +1,9 @@
 package com.bekircaglar.wepick.presentation.screens.selectionscreen.components
 
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +21,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,12 +44,18 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MovieSwipeCard(movie: Movie) {
+    var isExpanded by remember(movie) { mutableStateOf(false) }
+
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
         modifier = Modifier
             .fillMaxWidth(0.92f)
             .aspectRatio(0.65f)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { isExpanded = !isExpanded }
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -60,16 +73,17 @@ fun MovieSwipeCard(movie: Movie) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .zIndex(1f)
-                    .height(160.dp)
+                    // .height(160.dp) // Removed fixed height to allow expansion
+                    .fillMaxSize() // Cover full size but gradient handles visibility
                     .align(Alignment.BottomCenter)
                     .background(
                         brush = verticalGradient(
                             colors = listOf(
                                 Color.Black.copy(alpha = 0f),
-                                Color.Black.copy(alpha = 0.2f),
-                                Color.Black.copy(alpha = 0.4f),
+                                Color.Black.copy(alpha = 0.4f), // Darker start
                                 Color.Black.copy(alpha = 0.6f),
                                 Color.Black.copy(alpha = 0.8f),
+                                Color.Black.copy(alpha = 0.9f), // More opacity at bottom
                                 Color.Black.copy(alpha = 1f)
                             )
                         ),
@@ -136,20 +150,22 @@ fun MovieSwipeCard(movie: Movie) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    val maxLines by animateIntAsState(targetValue = if (isExpanded) 10 else 2, label = "maxLines")
+                    
                     Text(
-                        text = movie.actors,
-                        color = Color.White.copy(0.8f),
+                        text = movie.plot,
+                        color = Color.White.copy(0.9f),
                         fontSize = 14.sp,
                         overflow = TextOverflow.Ellipsis,
-                        fontWeight = FontWeight.Light,
-                        maxLines = 1
+                        fontWeight = FontWeight.Normal,
+                        maxLines = maxLines
                     )
                 }
 

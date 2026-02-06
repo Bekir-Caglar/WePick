@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Platformları</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            border-color: #d0d0d0;
+        }
+
+        .chip:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .chip-logo {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .chip-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        /* Platform özel renkler */
+        .netflix {
+            border-color: #E50914;
+        }
+
+        .netflix:hover {
+            background: #fff5f5;
+        }
+
+        .prime {
+            border-color: #00A8E1;
+        }
+
+        .prime:hover {
+            background: #f0f9ff;
+        }
+
+        .disney {
+            border-color: #113CCF;
+        }
+
+        .disney:hover {
+            background: #f0f4ff;
+        }
+
+        .hbo {
+            border-color: #B300FF;
+        }
+
+        .hbo:hover {
+            background: #faf5ff;
+        }
+
+        .apple {
+            border-color: #000000;
+        }
+
+        .apple:hover {
+            background: #f5f5f5;
+        }
+
+        .youtube {
+            border-color: #FF0000;
+        }
+
+        .youtube:hover {
+            background: #fff5f5;
+        }
+
+        .blutv {
+            border-color: #0050B3;
+        }
+
+        .blutv:hover {
+            background: #f0f7ff;
+        }
+
+        .gain {
+            border-color: #FF6B00;
+        }
+
+        .gain:hover {
+            background: #fff8f0;
+        }
+
+        .mubi {
+            border-color: #00D1FF;
+        }
+
+        .mubi:hover {
+            background: #f0fbff;
+        }
+
+        .exxen {
+            border-color: #FFD700;
+        }
+
+        .exxen:hover {
+            background: #fffef0;
+        }
+
+        .paramount {
+            border-color: #0064FF;
+        }
+
+        .paramount:hover {
+            background: #f0f6ff;
+        }
+
+        .spotify {
+            border-color: #1DB954;
+        }
+
+        .spotify:hover {
+            background: #f0faf5;
+        }
+
+        .twitch {
+            border-color: #9146FF;
+        }
+
+        .twitch:hover {
+            background: #f7f5ff;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .chip {
+                padding: 6px 12px;
+                gap: 6px;
+            }
+
+            .chip-logo {
+                width: 20px;
+                height: 20px;
+            }
+
+            .chip-name {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>🎬 Platformlarım</h2>
+        <div class="chips-container">
+
+            <!-- Netflix -->
+            <div class="chip netflix">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix"
+                    class="chip-logo">
+                <span class="chip-name">Netflix</span>
+            </div>
+
+            <!-- Amazon Prime Video -->
+            <div class="chip prime">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg"
+                    alt="Prime Video" class="chip-logo">
+                <span class="chip-name">Prime Video</span>
+            </div>
+
+            <!-- Disney+ -->
+            <div class="chip disney">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" alt="Disney+"
+                    class="chip-logo">
+                <span class="chip-name">Disney+</span>
+            </div>
+
+            <!-- HBO Max -->
+            <div class="chip hbo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg" alt="HBO Max"
+                    class="chip-logo">
+                <span class="chip-name">HBO Max</span>
+            </div>
+
+            <!-- Apple TV+ -->
+            <div class="chip apple">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/Apple_TV_Plus_Logo.svg" alt="Apple TV+"
+                    class="chip-logo">
+                <span class="chip-name">Apple TV+</span>
+            </div>
+
+            <!-- YouTube -->
+            <div class="chip youtube">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"
+                    alt="YouTube" class="chip-logo">
+                <span class="chip-name">YouTube</span>
+            </div>
+
+            <!-- BluTV -->
+            <div class="chip blutv">
+                <img src="https://seeklogo.com/images/B/blutv-logo-BEBF91B98E-seeklogo.com.png" alt="BluTV"
+                    class="chip-logo">
+                <span class="chip-name">BluTV</span>
+            </div>
+
+            <!-- Gain -->
+            <div class="chip gain">
+                <img src="https://seeklogo.com/images/G/gain-logo-59D5FBC7EE-seeklogo.com.png" alt="Gain"
+                    class="chip-logo">
+                <span class="chip-name">Gain</span>
+            </div>
+
+            <!-- MUBI -->
+            <div class="chip mubi">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/MUBI_Logo.svg" alt="MUBI"
+                    class="chip-logo">
+                <span class="chip-name">MUBI</span>
+            </div>
+
+            <!-- Exxen -->
+            <div class="chip exxen">
+                <img src="https://seeklogo.com/images/E/exxen-logo-E0DBF20489-seeklogo.com.png" alt="Exxen"
+                    class="chip-logo">
+                <span class="chip-name">Exxen</span>
+            </div>
+
+            <!-- Paramount+ -->
+            <div class="chip paramount">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus_logo.svg" alt="Paramount+"
+                    class="chip-logo">
+                <span class="chip-name">Paramount+</span>
+            </div>
+
+            <!-- Spotify -->
+            <div class="chip spotify">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg"
+                    alt="Spotify" class="chip-logo">
+                <span class="chip-name">Spotify</span>
+            </div>
+
+            <!-- Twitch -->
+            <div class="chip twitch">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Twitch_Glitch_Logo_Purple.svg"
+                    alt="Twitch" class="chip-logo">
+                <span class="chip-name">Twitch</span>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

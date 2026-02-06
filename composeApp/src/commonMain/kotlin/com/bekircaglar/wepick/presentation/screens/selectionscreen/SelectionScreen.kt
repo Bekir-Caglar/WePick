@@ -286,6 +286,7 @@ private fun ContentUI(
 ) {
     var currentIndex by remember { mutableIntStateOf(0) }
     var triggerSwipe by remember { mutableStateOf<SwipeDirection?>(null) }
+    val viewModel: SelectionViewModel = koinViewModel() // Re-obtain ViewModel for ContentUI scope
 
     LaunchedEffect(currentIndex, items.size, hasMorePages) {
         if (currentIndex >= items.size - 5 && hasMorePages && !isLoadingMore) {
@@ -301,7 +302,16 @@ private fun ContentUI(
                     containerColor = WePickTheme.colors.surface.copy(0.2f),
                     titleContentColor = WePickTheme.colors.onBackground
                 ),
-                title = {},
+                title = {
+                    val dataSource by viewModel.currentDataSource.collectAsStateWithLifecycle()
+                    dataSource?.let { source ->
+                        Text(
+                            text = "Source: $source",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = WePickTheme.colors.onBackground.copy(alpha = 0.5f)
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = {},

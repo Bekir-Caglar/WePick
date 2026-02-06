@@ -5,7 +5,7 @@ import com.bekircaglar.wepick.domain.model.Movie
 import com.bekircaglar.wepick.domain.model.MovieDB
 import com.bekircaglar.wepick.domain.model.RoomModel
 import com.bekircaglar.wepick.domain.repository.SelectionRepository
-import com.bekircaglar.wepick.domain.service.OmdbApiService
+import com.bekircaglar.wepick.domain.service.TmdbApiService
 import com.bekircaglar.wepick.utils.QueryState
 import dev.gitlive.firebase.database.DatabaseReference
 import kotlinx.coroutines.async
@@ -22,7 +22,7 @@ const val INITIAL_LOAD_SIZE = 10
 
 class SelectionRepositoryImp(
     private val databaseReference: DatabaseReference,
-    private val omdbApiService: OmdbApiService
+    private val tmdbApiService: TmdbApiService
 ) : SelectionRepository {
 
     private var allMoviesCache: List<MovieDB>? = null
@@ -37,6 +37,51 @@ class SelectionRepositoryImp(
         return allMoviesCache?.distinctBy { it.imdbId }?.shuffled() ?: emptyList()
     }
 
+    private fun MovieDB.toMovie(source: String): Movie {
+        return Movie(
+            title = this.title,
+            imdbID = this.imdbId,
+            plot = this.plot,
+            poster = this.poster,
+            actors = this.actors,
+            director = this.director,
+            year = this.year,
+            imdbRating = this.imdbRating,
+            language = this.language,
+            genre = this.categories.joinToString(", "),
+            response = "True",
+            runtime = "",
+            source = source
+        )
+    }
+
+    private suspend fun getMoviesFromFirebase(
+        subCategoriesList: List<String>,
+        page: Int,
+        pageSize: Int
+    ): List<Movie> {
+        val moviesDB = mutableListOf<MovieDB>()
+        val allMovies = getAllMovies()
+
+        subCategoriesList.forEach { subCategory ->
+            val filteredMovies = allMovies.filter { movie ->
+                movie.categories.contains(subCategory)
+            }
+            moviesDB.addAll(filteredMovies)
+        }
+
+        val distinctMovies = moviesDB.distinctBy { it.imdbId }
+        val startIndex = page * pageSize
+        val endIndex = minOf(startIndex + pageSize, distinctMovies.size)
+
+        if (startIndex >= distinctMovies.size) {
+            return emptyList()
+        }
+
+        val paginatedMovies = distinctMovies.subList(startIndex, endIndex)
+        return paginatedMovies.map { it.toMovie("Firebase") }
+    }
+
     override suspend fun getMovieList(
         subCategoriesList: List<String>,
         roomId: String,
@@ -45,32 +90,26 @@ class SelectionRepositoryImp(
     ): Flow<QueryState<List<Movie>>> = flow {
         emit(QueryState.Loading)
         try {
-            val moviesDB = mutableListOf<MovieDB>()
-            val allMovies = getAllMovies()
-
-            subCategoriesList.forEach { subCategory ->
-                val filteredMovies = allMovies.filter { movie ->
-                    movie.categories.contains(subCategory)
-                }
-                moviesDB.addAll(filteredMovies)
+            val movies = tmdbApiService.discoverMovies(subCategoriesList, page + 1).map { it.copy(source = "TMDB") }
+            if (movies.isEmpty()) {
+                 // Fallback to Firebase on empty result (DISABLED)
+                 // val fallbackMovies = getMoviesFromFirebase(subCategoriesList, page, pageSize)
+                 // emit(QueryState.Success(fallbackMovies))
+                 emit(QueryState.Error("No movies found"))
+            } else {
+                 emit(QueryState.Success(movies))
             }
-
-            val distinctMovies = moviesDB.distinctBy { it.imdbId }
-            val startIndex = page * pageSize
-            val endIndex = minOf(startIndex + pageSize, distinctMovies.size)
-
-            if (startIndex >= distinctMovies.size) {
-                emit(QueryState.Success(emptyList()))
-                return@flow
-            }
-
-            val paginatedMovies = distinctMovies.subList(startIndex, endIndex)
-
-            val movies = fetchMoviesInParallel(paginatedMovies)
-
-            emit(QueryState.Success(movies.shuffled()))
         } catch (e: Exception) {
-            emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
+            // Fallback to Firebase on error (DISABLED)
+            /*
+            try {
+                val fallbackMovies = getMoviesFromFirebase(subCategoriesList, page, pageSize)
+                emit(QueryState.Success(fallbackMovies))
+            } catch (firebaseError: Exception) {
+                emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
+            }
+            */
+             emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
         }
     }
 
@@ -80,42 +119,31 @@ class SelectionRepositoryImp(
     ): Flow<QueryState<List<Movie>>> = flow {
         emit(QueryState.Loading)
         try {
-            val moviesDB = mutableListOf<MovieDB>()
-            val allMovies = getAllMovies()
-
-            subCategoriesList.forEach { subCategory ->
-                val filteredMovies = allMovies.filter { movie ->
-                    movie.categories.contains(subCategory)
-                }
-                moviesDB.addAll(filteredMovies)
-            }
-
-            val initialMovies = moviesDB.distinctBy { it.imdbId }.take(INITIAL_LOAD_SIZE)
-
-            val movies = fetchMoviesInParallel(initialMovies)
-
-            emit(QueryState.Success(movies.shuffled()))
+            // Try TMDB first
+             val movies = tmdbApiService.discoverMovies(subCategoriesList, 1).map { it.copy(source = "TMDB") }
+             if (movies.isEmpty()) {
+                 // Fallback (DISABLED)
+                 // val fallbackMovies = getMoviesFromFirebase(subCategoriesList, 0, INITIAL_LOAD_SIZE)
+                 // emit(QueryState.Success(fallbackMovies))
+                 emit(QueryState.Error("No movies found"))
+             } else {
+                 emit(QueryState.Success(movies))
+             }
         } catch (e: Exception) {
-            emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
+             // Fallback on error (DISABLED)
+             /*
+             try {
+                val fallbackMovies = getMoviesFromFirebase(subCategoriesList, 0, INITIAL_LOAD_SIZE)
+                emit(QueryState.Success(fallbackMovies))
+             } catch (firebaseError: Exception) {
+                emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
+             }
+             */
+             emit(QueryState.Error(e.message ?: "Bilinmeyen hata"))
         }
     }
 
-    private suspend fun fetchMoviesInParallel(movieDBList: List<MovieDB>): List<Movie> =
-        coroutineScope {
-            val deferredMovies = movieDBList.map { movieDB ->
-                async {
-                    try {
-                        omdbApiService.getMovieDetails(movieDB.imdbId)
-                    } catch (e: Exception) {
-                        null
-                    }
-                }
-            }
 
-            val results = deferredMovies.awaitAll()
-
-            return@coroutineScope results.filterNotNull().distinctBy { it.imdbID }
-        }
 
 
     override suspend fun observeMatches(roomId: String): Flow<QueryState<String>> = flow {
@@ -185,22 +213,9 @@ class SelectionRepositoryImp(
         subCategoriesList: List<String>,
         pageSize: Int
     ): Int {
-        return try {
-            val allMovies = getAllMovies()
-
-            val moviesDB = mutableListOf<MovieDB>()
-            subCategoriesList.forEach { subCategory ->
-                val filteredMovies = allMovies.filter { movie ->
-                    movie.categories.contains(subCategory)
-                }
-                moviesDB.addAll(filteredMovies)
-            }
-
-            val totalMovies = moviesDB.distinctBy { it.imdbId }.size
-            (totalMovies + pageSize - 1) / pageSize // Ceiling division
-        } catch (e: Exception) {
-            0
-        }
+         // Return a high number to allow infinite scrolling experience with TMDB
+         // TMDB usually supports up to 500 pages.
+         return 100 
     }
 
     override suspend fun likeSelectionItem(

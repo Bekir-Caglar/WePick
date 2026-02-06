@@ -113,7 +113,7 @@ fun InnerCategoryScreen(navHostController: NavHostController, categoryId: String
             selectedCategories = if (selectedCategories.contains(categoryItem.id)) {
                 selectedCategories - categoryItem.id
             } else {
-                if (selectedCategories.size < 10) {
+                if (selectedCategories.size < 5) { // Updated max to 5
                     selectedCategories + categoryItem.id
                 } else {
                     selectedCategories
@@ -205,7 +205,7 @@ private fun ContentUI(
                         disabledContentColor = Color.White.copy(alpha = 0.7f),
                         disabledContainerColor = WePickTheme.colors.primary.copy(alpha = 0.2f)
                     ),
-                    enabled = selectedCategories.isNotEmpty() && selectedCategories.size >= 5,
+                    enabled = selectedCategories.isNotEmpty(), // Min 1 selected
                 ) {
                     Text(text = stringResource(Res.string.continue_text), fontSize = 16.sp)
                 }

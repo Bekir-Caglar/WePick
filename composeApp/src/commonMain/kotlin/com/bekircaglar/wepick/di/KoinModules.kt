@@ -12,7 +12,7 @@ import com.bekircaglar.wepick.domain.repository.JoinRepository
 import com.bekircaglar.wepick.domain.repository.LaunchRepository
 import com.bekircaglar.wepick.domain.repository.RoomRepository
 import com.bekircaglar.wepick.domain.repository.SelectionRepository
-import com.bekircaglar.wepick.domain.service.OmdbApiService
+import com.bekircaglar.wepick.domain.service.TmdbApiService
 import com.bekircaglar.wepick.domain.usecase.category.CreateRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.join.JoinRoomUseCase
 import com.bekircaglar.wepick.domain.usecase.launch.GetUsersByIdListUseCase
@@ -71,7 +71,7 @@ class AppModule {
         }
 
         singleOf(::FirebaseStatusRepository)
-        singleOf(::OmdbApiService)
+        singleOf(::TmdbApiService)
 
         factoryOf(::SetUserReadyStatusUseCase)
         factoryOf(::CheckUserInRoomUseCase)

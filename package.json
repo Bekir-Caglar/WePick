@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^1.13.4",
+    "freekeys": "^0.0.4"
+  }
+}
